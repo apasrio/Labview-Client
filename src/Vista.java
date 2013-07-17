@@ -29,7 +29,7 @@ import com.jgoodies.forms.factories.DefaultComponentFactory;
 import javax.swing.JTextPane;
 
 
-public class core extends JApplet {
+public class Vista extends JApplet {
 	
 	static String SocketIp = "127.0.0.1";
 	static int SocketPort = 5020;
@@ -54,7 +54,7 @@ public class core extends JApplet {
 	/**
 	 * Create the applet.
 	 */
-	public core() {
+	public Vista() {
 		this.setSize(1280,960);
 		getContentPane().setLayout(new GridLayout(2, 0, 0, 0));
 		

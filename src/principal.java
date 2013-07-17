@@ -59,6 +59,12 @@ public class principal extends JFrame{
 			}
 		});
 	}
+	/**
+	 * Devices Instantiation, method called for any initialization.
+	 */
+	public void init(){
+		WaveformGenerator AG33220A = new WaveformGenerator();
+	}
 
 	/**
 	 * Create the frame.
