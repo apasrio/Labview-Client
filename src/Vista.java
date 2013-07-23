@@ -1,60 +1,43 @@
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JApplet;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
 
+import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
-import java.awt.Color;
-import com.jgoodies.forms.factories.FormFactory;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import javax.swing.JList;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.Font;
-import javax.swing.JSlider;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
-import javax.swing.JTextPane;
 
 
-public class Vista extends JApplet {
+public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	
 	static String SocketIp = "127.0.0.1";
 	static int SocketPort = 5020;
-	static TCPClient socketClient;
-	private JTextField msgToSend;
-	private JTextField frequency;
-	private JTextField amplitude;
+	private JTextField msgToSend, frequency, amplitude, rampSymmetry, dutyCycleSquare, dutyCyclePulse, modulatingFreq;
 	private JTextField textField;
-	private JTextField rampSymmetry;
-	private JTextField dutyCycleSquare;
-	private JTextField dutyCyclePulse;
-	private JTextField modulatingFreq;
-	private JTextField amDepth;
-	private JTextField fmDeviation;
-	private JTextField hopFrequency;
-	private JTextField intDeviationPWM;
-	private JTextField phaseDeviationPM;
-	private JTextField burstRate;
-	private JTextField burstCount;
-	private JTextField burstPhase;
+	private JTextField amDepth, fmDeviation, hopFrequency, intDeviationPWM, phaseDeviationPM, burstRate, burstCount, burstPhase;
+	private JButton connectButton, disconnectButton, sendButton;
+	private JButton btnWfmConf;
+	private JComboBox typeOfSignal, modType, modWfmShape;
+	private JPanel modConfiguration;
+	private JComboBox wvfShape;
 
 	/**
 	 * Create the applet.
 	 */
-	public Vista() {
+	public Vista(final TCPClient socketClient) {
 		this.setSize(1280,960);
 		getContentPane().setLayout(new GridLayout(2, 0, 0, 0));
 		
@@ -109,22 +92,37 @@ public class Vista extends JApplet {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblSignalConfiguration = new JLabel("Signal Configuration: ");
 		lblSignalConfiguration.setFont(new Font("Dialog", Font.BOLD, 14));
 		panel_2.add(lblSignalConfiguration, "2, 2");
 		
-		JComboBox typeOfSignal = new JComboBox();
-		typeOfSignal.setModel(new DefaultComboBoxModel(new String[] {"Simple Signal", "Modulation"}));
+		typeOfSignal = new JComboBox();
+		typeOfSignal.setModel(new DefaultComboBoxModel(new String[] {SIGNAL, MODULATION}));
+		typeOfSignal.setActionCommand(TYPE_OF_SIGNAL);
 		panel_2.add(typeOfSignal, "4, 4, fill, center");
 		
 		JLabel wvfShapeLabel = new JLabel("Waveform Shape:");
 		panel_2.add(wvfShapeLabel, "2, 6, right, default");
 		
-		JComboBox wvfShape_1 = new JComboBox();
-		wvfShape_1.setModel(new DefaultComboBoxModel(new String[] {"DC", "Sine", "Square", "Triangle", "Ramp", "Pulse", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
-		panel_2.add(wvfShape_1, "4, 6, fill, default");
+		wvfShape = new JComboBox();
+		wvfShape.setModel(new DefaultComboBoxModel(new String[] {"DC", "Sine", "Square", "Triangle", "Ramp", "Pulse", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
+		panel_2.add(wvfShape, "4, 6, fill, default");
 		
 		JLabel lblNewLabel_1 = new JLabel("Frequency (Hz): ");
 		panel_2.add(lblNewLabel_1, "2, 8, right, center");
@@ -168,7 +166,11 @@ public class Vista extends JApplet {
 		panel_2.add(dutyCyclePulse, "4, 18, fill, default");
 		dutyCyclePulse.setColumns(10);
 		
-		JPanel modConfiguration = new JPanel();
+		btnWfmConf = new JButton("Do it!");
+		btnWfmConf.setActionCommand(CONFIG);
+		panel_2.add(btnWfmConf, "4, 30");
+		
+		modConfiguration = new JPanel();
 		modConfiguration.setBorder(new EtchedBorder(EtchedBorder.RAISED, null, null));
 		agilent_33220a.add(modConfiguration);
 		FormLayout fl_modConfiguration = new FormLayout(new ColumnSpec[] {
@@ -207,7 +209,8 @@ public class Vista extends JApplet {
 		lblModulationConfig.setFont(new Font("Dialog", Font.BOLD, 14));
 		modConfiguration.add(lblModulationConfig, "2, 2");
 		
-		JComboBox modType = new JComboBox();
+		modType = new JComboBox();
+		modType.setEnabled(false);
 		modType.setMaximumRowCount(4);
 		modType.setModel(new DefaultComboBoxModel(new String[] {"AM", "FM", "PWM", "PM", "FSK", "Burst Mode"}));
 		modConfiguration.add(modType, "4, 4, fill, default");
@@ -215,14 +218,16 @@ public class Vista extends JApplet {
 		JLabel lblNewLabel_6 = new JLabel("Modulating wfm Shape:");
 		modConfiguration.add(lblNewLabel_6, "2, 6, right, default");
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Sine", "Square", "Triangle", "Up Ramp", "Down  Ramp", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
-		modConfiguration.add(comboBox_1, "4, 6, fill, default");
+		modWfmShape = new JComboBox();
+		modWfmShape.setEnabled(false);
+		modWfmShape.setModel(new DefaultComboBoxModel(new String[] {"Sine", "Square", "Triangle", "Up Ramp", "Down  Ramp", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
+		modConfiguration.add(modWfmShape, "4, 6, fill, default");
 		
 		JLabel lblNewLabel_7 = new JLabel("Modulating Frequency (Hz):");
 		modConfiguration.add(lblNewLabel_7, "2, 8, right, default");
 		
 		modulatingFreq = new JTextField();
+		modulatingFreq.setEnabled(false);
 		modConfiguration.add(modulatingFreq, "4, 8, fill, default");
 		modulatingFreq.setColumns(10);
 		
@@ -230,6 +235,7 @@ public class Vista extends JApplet {
 		modConfiguration.add(lblNewLabel_8, "2, 10, right, default");
 		
 		amDepth = new JTextField();
+		amDepth.setEnabled(false);
 		modConfiguration.add(amDepth, "4, 10, fill, default");
 		amDepth.setColumns(10);
 		
@@ -237,6 +243,7 @@ public class Vista extends JApplet {
 		modConfiguration.add(lblNewLabel_9, "2, 12, right, default");
 		
 		fmDeviation = new JTextField();
+		fmDeviation.setEnabled(false);
 		modConfiguration.add(fmDeviation, "4, 12, fill, default");
 		fmDeviation.setColumns(10);
 		
@@ -244,6 +251,7 @@ public class Vista extends JApplet {
 		modConfiguration.add(lblNewLabel_10, "2, 14, right, default");
 		
 		hopFrequency = new JTextField();
+		hopFrequency.setEnabled(false);
 		modConfiguration.add(hopFrequency, "4, 14, fill, default");
 		hopFrequency.setColumns(10);
 		
@@ -251,6 +259,7 @@ public class Vista extends JApplet {
 		modConfiguration.add(lblNewLabel_11, "2, 16, right, default");
 		
 		intDeviationPWM = new JTextField();
+		intDeviationPWM.setEnabled(false);
 		modConfiguration.add(intDeviationPWM, "4, 16, fill, default");
 		intDeviationPWM.setColumns(10);
 		
@@ -258,6 +267,7 @@ public class Vista extends JApplet {
 		modConfiguration.add(lblNewLabel_12, "2, 18, right, default");
 		
 		phaseDeviationPM = new JTextField();
+		phaseDeviationPM.setEnabled(false);
 		modConfiguration.add(phaseDeviationPM, "4, 18, fill, default");
 		phaseDeviationPM.setColumns(10);
 		
@@ -265,6 +275,7 @@ public class Vista extends JApplet {
 		modConfiguration.add(lblNewLabel_13, "2, 20, right, default");
 		
 		burstRate = new JTextField();
+		burstRate.setEnabled(false);
 		modConfiguration.add(burstRate, "4, 20, fill, default");
 		burstRate.setColumns(10);
 		
@@ -272,6 +283,7 @@ public class Vista extends JApplet {
 		modConfiguration.add(lblNewLabel_14, "2, 22, right, default");
 		
 		burstCount = new JTextField();
+		burstCount.setEnabled(false);
 		modConfiguration.add(burstCount, "4, 22, fill, default");
 		burstCount.setColumns(10);
 		
@@ -279,6 +291,7 @@ public class Vista extends JApplet {
 		modConfiguration.add(lblNewLabel_15, "2, 24, right, default");
 		
 		burstPhase = new JTextField();
+		burstPhase.setEnabled(false);
 		modConfiguration.add(burstPhase, "4, 24, fill, default");
 		burstPhase.setColumns(10);
 		
@@ -302,61 +315,16 @@ public class Vista extends JApplet {
 		tabbedPane.addTab("HP 54602B", null, hp_54602b, null);
 		hp_54602b.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JButton connectButton = new JButton("Connect");
-		connectButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				/**
-				 * Snippet of code to open a new connection
-				 */
-				try {
-					socketClient = new TCPClient(SocketIp, SocketPort);
-					// We should just execute a method to stablishComm();
-					socketClient.establishComm(SocketIp);					
-					
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
+		connectButton = new JButton("Connect");
+		connectButton.setActionCommand(CONNECT);
 		hp_54602b.add(connectButton);
 		
-		JButton btnNewButton_1 = new JButton("Disconnect");
-		btnNewButton_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				/**
-				 *  Executed when Disconnect button is pressed
-				 */
-				try{
-					socketClient.bidirectComm("Closing socket!", 1);
-					socketClient.close();
-				} catch (Exception e){
-					e.printStackTrace();
-				}
-			}
-		});
-		hp_54602b.add(btnNewButton_1);
+		disconnectButton = new JButton("Disconnect");
+		disconnectButton.setActionCommand(DISCONNECT);
+		hp_54602b.add(disconnectButton);
 		
-		JButton sendButton = new JButton("Send");
-		sendButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				/** 
-				 * Executed when Send button is pressed
-				 */
-				String message = msgToSend.getText();
-				System.out.println(message);
-				try {
-					//socketClient = new TCPClient(SocketIp, SocketPort);
-					socketClient.bidirectComm(message, 0);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
+		sendButton = new JButton("Send");
+		sendButton.setActionCommand(SEND);
 		hp_54602b.add(sendButton);
 		
 		JLabel lblNewLabel = new JLabel("To Send: ");
@@ -369,5 +337,133 @@ public class Vista extends JApplet {
 		
 		this.setVisible(true);
 
+	}
+
+	@Override
+	public void start() {		
+	}
+
+	@Override
+	public void setConfControl(ConfControl c) {
+		// Adding conf control
+		connectButton.addActionListener(c);
+		disconnectButton.addActionListener(c);
+		sendButton.addActionListener(c);
+	}
+
+	public String getMsgToSend() {
+		return msgToSend.getText();
+	}
+
+	@Override
+	public void setWfmControl(WaveformControl wfmc) {
+		typeOfSignal.addActionListener(wfmc);
+		btnWfmConf.addActionListener(wfmc);
+	}
+
+	public JComboBox getTypeOfSignal() {
+		return typeOfSignal;
+	}
+
+	@Override
+	public void enableModulationButtons() {	
+		modType.setEnabled(true);
+		modWfmShape.setEnabled(true);
+		modulatingFreq.setEnabled(true);
+		amDepth.setEnabled(true);
+		fmDeviation.setEnabled(true);
+		hopFrequency.setEnabled(true);
+		intDeviationPWM.setEnabled(true);
+		phaseDeviationPM.setEnabled(true);
+		burstRate.setEnabled(true);
+		burstCount.setEnabled(true);
+		burstPhase.setEnabled(true);
+	}
+
+	@Override
+	public void disableModulationbuttons() {
+		modType.setEnabled(false);
+		modWfmShape.setEnabled(false);
+		modulatingFreq.setEnabled(false);
+		amDepth.setEnabled(false);
+		fmDeviation.setEnabled(false);
+		hopFrequency.setEnabled(false);
+		intDeviationPWM.setEnabled(false);
+		phaseDeviationPM.setEnabled(false);
+		burstRate.setEnabled(false);
+		burstCount.setEnabled(false);
+		burstPhase.setEnabled(false);
+	}
+
+	public JTextField getFrequency() {
+		return frequency;
+	}
+
+	public JTextField getAmplitude() {
+		return amplitude;
+	}
+
+	public JTextField getRampSymmetry() {
+		return rampSymmetry;
+	}
+
+	public JTextField getDutyCycleSquare() {
+		return dutyCycleSquare;
+	}
+
+	public JTextField getDutyCyclePulse() {
+		return dutyCyclePulse;
+	}
+
+	public JTextField getModulatingFreq() {
+		return modulatingFreq;
+	}
+
+	public JTextField getAmDepth() {
+		return amDepth;
+	}
+
+	public JTextField getFmDeviation() {
+		return fmDeviation;
+	}
+
+	public JTextField getHopFrequency() {
+		return hopFrequency;
+	}
+
+	public JTextField getIntDeviationPWM() {
+		return intDeviationPWM;
+	}
+
+	public JTextField getPhaseDeviationPM() {
+		return phaseDeviationPM;
+	}
+
+	public JTextField getBurstRate() {
+		return burstRate;
+	}
+
+	public JTextField getBurstCount() {
+		return burstCount;
+	}
+
+	public JTextField getBurstPhase() {
+		return burstPhase;
+	}
+
+	public JButton getConnectButton() {
+		return connectButton;
+	}
+
+	public JComboBox getModType() {
+		return modType;
+	}
+
+	public JComboBox getModWfmShape() {
+		return modWfmShape;
+	}
+
+	public JPanel getModConfiguration() {
+		return modConfiguration;
 	}
 }

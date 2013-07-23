@@ -11,13 +11,13 @@ class TCPClient	{
 	private static Socket clientSocket;
 	static int receivedMessageLength, receivedMessageType;
 	// Handling the DataStreams
-	DataOutputStream outToServer; 
-	BufferedReader inFromServer; 
+	static DataOutputStream outToServer; 
+	static BufferedReader inFromServer; 
 	
 	
 	public TCPClient(String IP, int port) throws UnknownHostException, IOException{
-		this.setClientSocket(new Socket(IP, port));
 		// Handling the DataStreams
+		TCPClient.clientSocket = new Socket(IP, port);
 		this.outToServer = new DataOutputStream(getClientSocket().getOutputStream());
 		this.inFromServer = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
 		// Constants about Header and Message
@@ -26,7 +26,7 @@ class TCPClient	{
 	/*
 	 * Method to send a message to the server and wait for an answer
 	 */
-	public void bidirectComm(String message, Integer messageType) throws Exception{
+	public static void bidirectComm(String message, Integer messageType) throws Exception{
 		// Building the Header with the lenght of the message to send
 		// Needed Variables
 		String headerToSend, receivedHeader, receivedMessage ,headerToPad = "";
@@ -53,7 +53,7 @@ class TCPClient	{
 	/*
 	 * Method to establish communication with the server side. (Changing port system)
 	 */
-	public void establishComm(String IP) throws IOException{	
+	public static void establishComm(String IP) throws IOException{	
 		int newPort;
 		String receivedHeader, receivedMessage;
 		receivedHeader = readHeader(inFromServer);
@@ -65,7 +65,7 @@ class TCPClient	{
 			newPort = Integer.parseInt(receivedMessage);
 			System.out.println("New port at: "+newPort);
 			// Open a new socket with an assigned port
-			setClientSocket(new Socket(IP, newPort));
+			TCPClient.clientSocket = new Socket(IP, newPort);
 
 			outToServer = new DataOutputStream(getClientSocket().getOutputStream());
 			inFromServer = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));			
@@ -91,7 +91,7 @@ class TCPClient	{
 	/*
 	 * Method to padding with 0's at the beginning of the header in order to send a 9 bytes header
 	 */	
-	private String paddingHeaderMessage(String headerToPad){
+	private static String paddingHeaderMessage(String headerToPad){
 		while(headerToPad.length()<9){
 			headerToPad = "0" + headerToPad;
 			}
@@ -103,7 +103,7 @@ class TCPClient	{
 	/*
 	 *  Method to read the header of a response from the socket
 	 */
-	private String readHeader(BufferedReader inFromServer) throws IOException{
+	private static String readHeader(BufferedReader inFromServer) throws IOException{
 		int i = 0, read;
 		String receivedHeader = "";
 		while(i<9){
@@ -117,7 +117,7 @@ class TCPClient	{
 		return receivedHeader;
 	}
 	
-	private String readMessage(Integer messageLength, BufferedReader inFromServer) throws IOException{
+	private static String readMessage(Integer messageLength, BufferedReader inFromServer) throws IOException{
 		int i = 0, read;
 		String receivedMessage = "";
 		while(i<messageLength){
@@ -132,7 +132,7 @@ class TCPClient	{
 	/*
 	 *  Method to split the two parts of a header "Length of Message" + "Type of Message" and parse them to Integers
 	 */
-	private void decodeHeader(String header){
+	private static void decodeHeader(String header){
 		int separator;
 		String length, type;
 		separator = header.indexOf(",");
@@ -147,7 +147,7 @@ class TCPClient	{
 	}
 
 
-	public void close() throws IOException {
+	public static void close() throws IOException {
 		// TODO Auto-generated method stub
 		getClientSocket().close();
 	}
@@ -157,6 +157,6 @@ class TCPClient	{
 	}
 
 	public void setClientSocket(Socket clientSocket) {
-		TCPClient.clientSocket = clientSocket;
+		this.clientSocket = clientSocket;
 	}
 }
