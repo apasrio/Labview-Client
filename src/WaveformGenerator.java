@@ -64,4 +64,40 @@ public class WaveformGenerator {
 		this.typeOfSignal = typeOfSignal;
 	}
 
+	public int getSignalType() {
+		return signalType;
+	}
+
+	public int getSignalShape() {
+		return signalShape;
+	}
+
+	public int getTypeOfSignal() {
+		return typeOfSignal;
+	}
+
+	public float getSignalFreq() {
+		return signalFreq;
+	}
+
+	public float getSignalAmp() {
+		return signalAmp;
+	}
+
+	public float getSignalOff() {
+		return signalOff;
+	}
+
+	public int getRampSymm() {
+		return rampSymm;
+	}
+
+	public int getDutyCycleSq() {
+		return dutyCycleSq;
+	}
+
+	public int getDutyCyclePuls() {
+		return dutyCyclePuls;
+	}
+
 }

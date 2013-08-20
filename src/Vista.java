@@ -26,7 +26,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	static String SocketIp = "127.0.0.1";
 	static int SocketPort = 5020;
 	private JTextField msgToSend, frequency, amplitude, rampSymmetry, dutyCycleSquare, dutyCyclePulse, modulatingFreq;
-	private JTextField textField;
+	private JTextField offset;
 	private JTextField amDepth, fmDeviation, hopFrequency, intDeviationPWM, phaseDeviationPM, burstRate, burstCount, burstPhase;
 	private JButton connectButton, disconnectButton, sendButton;
 	private JButton btnWfmConf;
@@ -141,9 +141,9 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		JLabel offsetLabel = new JLabel("Offset (Vdc): ");
 		panel_2.add(offsetLabel, "2, 12, right, default");
 		
-		textField = new JTextField();
-		panel_2.add(textField, "4, 12, fill, default");
-		textField.setColumns(10);
+		offset = new JTextField();
+		panel_2.add(offset, "4, 12, fill, default");
+		offset.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Ramp Symmetry(%):");
 		panel_2.add(lblNewLabel_3, "2, 14, right, default");
@@ -395,24 +395,24 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		burstPhase.setEnabled(false);
 	}
 
-	public JTextField getFrequency() {
-		return frequency;
+	public String getFrequency() {
+		return frequency.getText();
 	}
 
-	public JTextField getAmplitude() {
-		return amplitude;
+	public String getAmplitude() {
+		return amplitude.getText();
 	}
 
-	public JTextField getRampSymmetry() {
-		return rampSymmetry;
+	public String getRampSymmetry() {
+		return rampSymmetry.getText();
 	}
 
-	public JTextField getDutyCycleSquare() {
-		return dutyCycleSquare;
+	public String getDutyCycleSquare() {
+		return dutyCycleSquare.getText();
 	}
 
-	public JTextField getDutyCyclePulse() {
-		return dutyCyclePulse;
+	public String getDutyCyclePulse() {
+		return dutyCyclePulse.getText();
 	}
 
 	public JTextField getModulatingFreq() {
@@ -465,5 +465,13 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 
 	public JPanel getModConfiguration() {
 		return modConfiguration;
+	}
+	
+	public JComboBox getSignalShape() {
+		return wvfShape;
+	}
+	
+	public String getOffset() {
+		return offset.getText();
 	}
 }

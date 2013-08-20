@@ -11,9 +11,10 @@ public interface WaveFormInterface {
 	
 	// Needed getters and setters
 	public JComboBox getTypeOfSignal();
-	public JPanel getModConfiguration();
+	public JComboBox getSignalShape();
 	public JComboBox getModWfmShape();
 	public JComboBox getModType();
+	public JPanel getModConfiguration();
 	public JButton getConnectButton();
 	public JTextField getBurstPhase();
 	public JTextField getBurstCount();
@@ -24,11 +25,12 @@ public interface WaveFormInterface {
 	public JTextField getFmDeviation();
 	public JTextField getAmDepth();
 	public JTextField getModulatingFreq();
-	public JTextField getDutyCyclePulse();
-	public JTextField getDutyCycleSquare();
-	public JTextField getRampSymmetry();
-	public JTextField getAmplitude();
-	public JTextField getFrequency();
+	public String getDutyCyclePulse();
+	public String getDutyCycleSquare();
+	public String getRampSymmetry();
+	public String getAmplitude();
+	public String getFrequency();
+	public String getOffset();
 		
 	static final String TYPE_OF_SIGNAL = "Type of Signal";
 	static final String MODULATION = "Modulation";
