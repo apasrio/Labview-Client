@@ -53,6 +53,16 @@ public class WaveformControl implements ActionListener{
 		
 		if(combo.getSelectedItem().equals(WaveFormInterface.MODULATION)){
 			// We also read the modulation fields
+			wfmGen.setModType(((WaveFormInterface) vista).getModType().getSelectedIndex());
+			wfmGen.setModWfmShape(((WaveFormInterface) vista).getModWfmShape().getSelectedIndex());
+			wfmGen.setAmDepth(Integer.parseInt(((WaveFormInterface) vista).getAmDepth()));
+			wfmGen.setDeviationFM(Float.parseFloat(((WaveFormInterface) vista).getFmDeviation()));
+			wfmGen.setHopFrequency(Float.parseFloat(((WaveFormInterface) vista).getHopFrequency()));
+			wfmGen.setInternalDeviation(Float.parseFloat(((WaveFormInterface) vista).getIntDeviationPWM()));
+			wfmGen.setPhaseDeviation(Float.parseFloat(((WaveFormInterface) vista).getPhaseDeviationPM()));
+			wfmGen.setBurstRate(Float.parseFloat(((WaveFormInterface) vista).getBurstRate()));
+			wfmGen.setBurstCount(Integer.parseInt(((WaveFormInterface) vista).getBurstCount()));
+			wfmGen.setBurstPhase(Integer.parseInt(((WaveFormInterface) vista).getBurstPhase()));
 		}
 	}
 }

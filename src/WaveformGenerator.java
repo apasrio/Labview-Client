@@ -1,8 +1,8 @@
 
 public class WaveformGenerator {
 	
-	private int signalType, signalShape, typeOfSignal;
-	private float signalFreq, signalAmp, signalOff;
+	private int signalType, signalShape, typeOfSignal, modType, modWfmShape, amDepth, burstCount, burstPhase;
+	private float signalFreq, signalAmp, signalOff, deviationFM, hopFrequency, internalDeviation, phaseDeviation, burstRate, modFreq;
 	private int rampSymm, dutyCycleSq, dutyCyclePuls;
 	
 	public WaveformGenerator(){
@@ -100,4 +100,91 @@ public class WaveformGenerator {
 		return dutyCyclePuls;
 	}
 
+	public int getModType() {
+		return modType;
+	}
+
+	public void setModType(int modType) {
+		this.modType = modType;
+	}
+
+	public int getModWfmShape() {
+		return modWfmShape;
+	}
+
+	public void setModWfmShape(int modWfmShape) {
+		this.modWfmShape = modWfmShape;
+	}
+
+	public int getAmDepth() {
+		return amDepth;
+	}
+
+	public void setAmDepth(int amDepth) {
+		this.amDepth = amDepth;
+	}
+
+	public int getBurstCount() {
+		return burstCount;
+	}
+
+	public void setBurstCount(int burstCount) {
+		this.burstCount = burstCount;
+	}
+
+	public int getBurstPhase() {
+		return burstPhase;
+	}
+
+	public void setBurstPhase(int burstPhase) {
+		this.burstPhase = burstPhase;
+	}
+
+	public float getDeviationFM() {
+		return deviationFM;
+	}
+
+	public void setDeviationFM(float deviationFM) {
+		this.deviationFM = deviationFM;
+	}
+
+	public float getHopFrequency() {
+		return hopFrequency;
+	}
+
+	public void setHopFrequency(float hopFrequency) {
+		this.hopFrequency = hopFrequency;
+	}
+
+	public float getInternalDeviation() {
+		return internalDeviation;
+	}
+
+	public void setInternalDeviation(float internalDeviation) {
+		this.internalDeviation = internalDeviation;
+	}
+
+	public float getPhaseDeviation() {
+		return phaseDeviation;
+	}
+
+	public void setPhaseDeviation(float phaseDeviation) {
+		this.phaseDeviation = phaseDeviation;
+	}
+
+	public float getBurstRate() {
+		return burstRate;
+	}
+
+	public void setBurstRate(float burstRate) {
+		this.burstRate = burstRate;
+	}
+
+	public float getModFreq() {
+		return modFreq;
+	}
+
+	public void setModFreq(float modFreq) {
+		this.modFreq = modFreq;
+	}
 }

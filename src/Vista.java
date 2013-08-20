@@ -209,6 +209,9 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		lblModulationConfig.setFont(new Font("Dialog", Font.BOLD, 14));
 		modConfiguration.add(lblModulationConfig, "2, 2");
 		
+		JLabel lblModulationType = new JLabel("Modulation Type:");
+		modConfiguration.add(lblModulationType, "2, 4, right, default");
+		
 		modType = new JComboBox();
 		modType.setEnabled(false);
 		modType.setMaximumRowCount(4);
@@ -415,40 +418,40 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		return dutyCyclePulse.getText();
 	}
 
-	public JTextField getModulatingFreq() {
-		return modulatingFreq;
+	public String getModulatingFreq() {
+		return modulatingFreq.getText();
 	}
 
-	public JTextField getAmDepth() {
-		return amDepth;
+	public String getAmDepth() {
+		return amDepth.getText();
 	}
 
-	public JTextField getFmDeviation() {
-		return fmDeviation;
+	public String getFmDeviation() {
+		return fmDeviation.getText();
 	}
 
-	public JTextField getHopFrequency() {
-		return hopFrequency;
+	public String getHopFrequency() {
+		return hopFrequency.getText();
 	}
 
-	public JTextField getIntDeviationPWM() {
-		return intDeviationPWM;
+	public String getIntDeviationPWM() {
+		return intDeviationPWM.getText();
 	}
 
-	public JTextField getPhaseDeviationPM() {
-		return phaseDeviationPM;
+	public String getPhaseDeviationPM() {
+		return phaseDeviationPM.getText();
 	}
 
-	public JTextField getBurstRate() {
-		return burstRate;
+	public String getBurstRate() {
+		return burstRate.getText();
 	}
 
-	public JTextField getBurstCount() {
-		return burstCount;
+	public String getBurstCount() {
+		return burstCount.getText();
 	}
 
-	public JTextField getBurstPhase() {
-		return burstPhase;
+	public String getBurstPhase() {
+		return burstPhase.getText();
 	}
 
 	public JButton getConnectButton() {
