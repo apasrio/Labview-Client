@@ -1,7 +1,7 @@
 
 public class WaveformGenerator {
 	
-	private int signalType, signalShape, typeOfSignal, modType, modWfmShape, amDepth, burstCount, burstPhase;
+	private int signalShape, typeOfSignal, modType, modWfmShape, amDepth, burstCount, burstPhase;
 	private float signalFreq, signalAmp, signalOff, deviationFM, hopFrequency, internalDeviation, phaseDeviation, burstRate, modFreq;
 	private int rampSymm, dutyCycleSq, dutyCyclePuls;
 	private String frame;
@@ -13,7 +13,6 @@ public class WaveformGenerator {
 		 */
 		this.typeOfSignal = 0; // Type of signal
 		
-		this.signalType = 0; //Signal Type
 		this.signalShape = 1; //Sine Signal
 		this.signalFreq = 1000f; //1000Hz
 		this.signalAmp = 2f; // 2Vpp
@@ -35,7 +34,6 @@ public class WaveformGenerator {
 	// Method to create the Frame that is going to be sent to LabVIEW Server. Based on CSV format
 	public void setFrame() {
 		this.frame = String.valueOf(this.typeOfSignal) 
-				+ "," + String.valueOf(this.signalType)
 				+ "," + String.valueOf(this.signalShape)
 				+ "," + String.valueOf(this.signalFreq)
 				+ "," + String.valueOf(this.signalAmp)
@@ -54,10 +52,6 @@ public class WaveformGenerator {
 				+ "," + String.valueOf(this.burstRate)
 				+ "," + String.valueOf(this.burstCount)
 				+ "," + String.valueOf(this.burstPhase);
-	}
-
-	public void setSignalType(int signalType) {
-		this.signalType = signalType;
 	}
 
 	public void setSignalShape(int signalShape) {
@@ -90,10 +84,6 @@ public class WaveformGenerator {
 
 	public void setTypeOfSignal(int typeOfSignal) {
 		this.typeOfSignal = typeOfSignal;
-	}
-
-	public int getSignalType() {
-		return signalType;
 	}
 
 	public int getSignalShape() {
