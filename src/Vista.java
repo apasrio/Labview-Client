@@ -128,6 +128,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		panel_2.add(lblNewLabel_1, "2, 8, right, center");
 		
 		frequency = new JTextField();
+		frequency.setText("1000");
 		panel_2.add(frequency, "4, 8, fill, default");
 		frequency.setColumns(10);
 		
@@ -135,6 +136,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		panel_2.add(lblNewLabel_2, "2, 10, right, center");
 		
 		amplitude = new JTextField();
+		amplitude.setText("1");
 		panel_2.add(amplitude, "4, 10, fill, default");
 		amplitude.setColumns(10);
 		
@@ -142,6 +144,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		panel_2.add(offsetLabel, "2, 12, right, default");
 		
 		offset = new JTextField();
+		offset.setText("0");
 		panel_2.add(offset, "4, 12, fill, default");
 		offset.setColumns(10);
 		
@@ -149,6 +152,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		panel_2.add(lblNewLabel_3, "2, 14, right, default");
 		
 		rampSymmetry = new JTextField();
+		rampSymmetry.setText("50");
 		panel_2.add(rampSymmetry, "4, 14, fill, default");
 		rampSymmetry.setColumns(10);
 		
@@ -156,6 +160,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		panel_2.add(lblNewLabel_4, "2, 16, right, default");
 		
 		dutyCycleSquare = new JTextField();
+		dutyCycleSquare.setText("50");
 		panel_2.add(dutyCycleSquare, "4, 16, fill, default");
 		dutyCycleSquare.setColumns(10);
 		
@@ -163,6 +168,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		panel_2.add(lblNewLabel_5, "2, 18, right, default");
 		
 		dutyCyclePulse = new JTextField();
+		dutyCyclePulse.setText("50");
 		panel_2.add(dutyCyclePulse, "4, 18, fill, default");
 		dutyCyclePulse.setColumns(10);
 		
@@ -230,6 +236,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		modConfiguration.add(lblNewLabel_7, "2, 8, right, default");
 		
 		modulatingFreq = new JTextField();
+		modulatingFreq.setText("1000");
 		modulatingFreq.setEnabled(false);
 		modConfiguration.add(modulatingFreq, "4, 8, fill, default");
 		modulatingFreq.setColumns(10);
@@ -238,6 +245,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		modConfiguration.add(lblNewLabel_8, "2, 10, right, default");
 		
 		amDepth = new JTextField();
+		amDepth.setText("50");
 		amDepth.setEnabled(false);
 		modConfiguration.add(amDepth, "4, 10, fill, default");
 		amDepth.setColumns(10);
@@ -246,6 +254,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		modConfiguration.add(lblNewLabel_9, "2, 12, right, default");
 		
 		fmDeviation = new JTextField();
+		fmDeviation.setText("50");
 		fmDeviation.setEnabled(false);
 		modConfiguration.add(fmDeviation, "4, 12, fill, default");
 		fmDeviation.setColumns(10);
@@ -254,6 +263,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		modConfiguration.add(lblNewLabel_10, "2, 14, right, default");
 		
 		hopFrequency = new JTextField();
+		hopFrequency.setText("500");
 		hopFrequency.setEnabled(false);
 		modConfiguration.add(hopFrequency, "4, 14, fill, default");
 		hopFrequency.setColumns(10);
@@ -262,6 +272,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		modConfiguration.add(lblNewLabel_11, "2, 16, right, default");
 		
 		intDeviationPWM = new JTextField();
+		intDeviationPWM.setText("0");
 		intDeviationPWM.setEnabled(false);
 		modConfiguration.add(intDeviationPWM, "4, 16, fill, default");
 		intDeviationPWM.setColumns(10);
@@ -270,6 +281,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		modConfiguration.add(lblNewLabel_12, "2, 18, right, default");
 		
 		phaseDeviationPM = new JTextField();
+		phaseDeviationPM.setText("0");
 		phaseDeviationPM.setEnabled(false);
 		modConfiguration.add(phaseDeviationPM, "4, 18, fill, default");
 		phaseDeviationPM.setColumns(10);
@@ -278,6 +290,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		modConfiguration.add(lblNewLabel_13, "2, 20, right, default");
 		
 		burstRate = new JTextField();
+		burstRate.setText("100");
 		burstRate.setEnabled(false);
 		modConfiguration.add(burstRate, "4, 20, fill, default");
 		burstRate.setColumns(10);
@@ -286,6 +299,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		modConfiguration.add(lblNewLabel_14, "2, 22, right, default");
 		
 		burstCount = new JTextField();
+		burstCount.setText("1");
 		burstCount.setEnabled(false);
 		modConfiguration.add(burstCount, "4, 22, fill, default");
 		burstCount.setColumns(10);
@@ -294,6 +308,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		modConfiguration.add(lblNewLabel_15, "2, 24, right, default");
 		
 		burstPhase = new JTextField();
+		burstPhase.setText("0");
 		burstPhase.setEnabled(false);
 		modConfiguration.add(burstPhase, "4, 24, fill, default");
 		burstPhase.setColumns(10);
