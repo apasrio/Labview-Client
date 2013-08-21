@@ -31,9 +31,13 @@ public class WaveformControl implements ActionListener{
 		}
 		if(event.getActionCommand().equals(WaveFormInterface.CONFIG)){
 			// Configuration Button has been pressed, we have to read all the fields
+			// create a request and send it to the server. We are going to use the CSV format
 			System.out.println("Do it!! Button has been presed");	
 			readFields();
-		}
+			wfmGen.setFrame();
+			// Test print for WaveformGen
+			System.out.println(wfmGen.getFrame());
+			}
 	}
 	
 	public void readFields(){
