@@ -1,2 +1,4 @@
 /bin
 forms*
+.classpath
+.project
