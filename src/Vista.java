@@ -19,6 +19,8 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 
 public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
@@ -129,6 +131,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		
 		frequency = new JTextField();
 		frequency.setText("1000");
+		frequency.setName(FREQUENCY);
 		panel_2.add(frequency, "4, 8, fill, default");
 		frequency.setColumns(10);
 		
@@ -137,6 +140,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		
 		amplitude = new JTextField();
 		amplitude.setText("1");
+		amplitude.setName(AMPLITUDE);
 		panel_2.add(amplitude, "4, 10, fill, default");
 		amplitude.setColumns(10);
 		
@@ -145,6 +149,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		
 		offset = new JTextField();
 		offset.setText("0");
+		offset.setName(OFFSET);
 		panel_2.add(offset, "4, 12, fill, default");
 		offset.setColumns(10);
 		
@@ -153,6 +158,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		
 		rampSymmetry = new JTextField();
 		rampSymmetry.setText("50");
+		rampSymmetry.setName(RAMP_SYMMETRY);
 		panel_2.add(rampSymmetry, "4, 14, fill, default");
 		rampSymmetry.setColumns(10);
 		
@@ -377,6 +383,8 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	public void setWfmControl(WaveformControl wfmc) {
 		typeOfSignal.addActionListener(wfmc);
 		btnWfmConf.addActionListener(wfmc);
+		frequency.addFocusListener(wfmc);
+		amplitude.addFocusListener(wfmc);
 	}
 
 	public JComboBox getTypeOfSignal() {

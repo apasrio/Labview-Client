@@ -1,10 +1,13 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JComboBox;
+import javax.swing.text.JTextComponent;
 
 
-public class WaveformControl implements ActionListener{
+public class WaveformControl implements ActionListener, FocusListener{
 	private ViewInterface vista;
 	private TCPClient tcpClient;
 	private JComboBox combo;
@@ -38,6 +41,9 @@ public class WaveformControl implements ActionListener{
 			// Test print for WaveformGen
 			System.out.println(wfmGen.getFrame());
 			}
+		if(event.getActionCommand().equals(WaveFormInterface.FREQUENCY)){
+			System.out.println("A system has lost its focus! ");
+		}
 	}
 	
 	public void readFields(){
@@ -68,5 +74,26 @@ public class WaveformControl implements ActionListener{
 			wfmGen.setBurstCount(Integer.parseInt(((WaveFormInterface) vista).getBurstCount()));
 			wfmGen.setBurstPhase(Integer.parseInt(((WaveFormInterface) vista).getBurstPhase()));
 		}
+	}
+
+	@Override
+	public void focusGained(FocusEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void focusLost(FocusEvent event) {
+		// TODO Auto-generated method stub
+		System.out.println("A system has lost its focus! ");
+		final JTextComponent c = (JTextComponent) event.getSource();
+		String name = c.getName();
+		String text = c.getText();
+		if (name.equals(WaveFormInterface.AMPLITUDE)){
+			System.out.println("There has been a focus lost on Amplitude field");
+		}else if (name.equals(WaveFormInterface.FREQUENCY)){
+			System.out.println("There has been a focus lost on Frequency field");
+		}
+		System.out.println("Text : " +text);
 	}
 }

@@ -36,4 +36,8 @@ public interface WaveFormInterface {
 	static final String MODULATION = "Modulation";
 	static final String SIGNAL = "Simple Signal";
 	static final String CONFIG = "Config";
+	static final String FREQUENCY = "Frequency";
+	static final String AMPLITUDE ="Amplitude";
+	static final String OFFSET = "Offset";
+	static final String RAMP_SYMMETRY = "Ramp_Symmetry";	
 }
