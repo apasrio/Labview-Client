@@ -78,21 +78,47 @@ public class WaveformControl implements ActionListener, FocusListener{
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		// Just maintained for debugging reasons 
+		System.out.println("A Field has gained the main focus");		
 	}
 
 	@Override
 	public void focusLost(FocusEvent event) {
-		// TODO Auto-generated method stub
+		// TODO Change the if... for a case structure
 		System.out.println("A system has lost its focus! ");
 		final JTextComponent c = (JTextComponent) event.getSource();
 		String name = c.getName();
 		String text = c.getText();
 		if (name.equals(WaveFormInterface.AMPLITUDE)){
-			System.out.println("There has been a focus lost on Amplitude field");
+			System.out.println("Here should be called the data-validation method for Amplitude");
 		}else if (name.equals(WaveFormInterface.FREQUENCY)){
-			System.out.println("There has been a focus lost on Frequency field");
+			System.out.println("Here should be called the data-validation method for Frequency");
+		} else if (name.equals(WaveFormInterface.OFFSET)){
+			System.out.println("Here should be called the data-validation method for Offset");
+		}else if (name.equals(WaveFormInterface.RAMP_SYMMETRY)){
+			System.out.println("Here should be called the data-validation method for Ramp Symmetry");
+		}else if (name.equals(WaveFormInterface.DUTY_CYCLE_SQUARE)){
+			System.out.println("Here should be called the data-validation method for Duty Cycle Square");
+		}else if (name.equals(WaveFormInterface.DUTY_CYCLE_PULSE)){
+			System.out.println("Here should be called the data-validation method for Duty Cycle Pulse");
+		}else if (name.equals(WaveFormInterface.MODULATING_FREQUENCY)){
+			System.out.println("Here should be called the data-validation method for Modulating Frequency");
+		}else if (name.equals(WaveFormInterface.AM_DEPTH)){
+			System.out.println("Here should be called the data-validation method for AM Depth");
+		}else if (name.equals(WaveFormInterface.FM_DEVIATION)){
+			System.out.println("Here should be called the data-validation method for FM Deviation");
+		}else if (name.equals(WaveFormInterface.HOP_FREQUENCY)){
+			System.out.println("Here should be called the data-validation method for Hop Frequency");
+		}else if (name.equals(WaveFormInterface.DEVIATION_PWM)){
+			System.out.println("Here should be called the data-validation method for Int Deviation PWM");
+		}else if (name.equals(WaveFormInterface.PHASE_DEVIATION_PM)){
+			System.out.println("Here should be called the data-validation method for Phase Deviation");
+		}else if (name.equals(WaveFormInterface.BURST_RATE)){
+			System.out.println("Here should be called the data-validation method for Burst Rate");
+		}else if (name.equals(WaveFormInterface.BURST_COUNT)){
+			System.out.println("Here should be called the data-validation method for Burst Count");
+		}else if (name.equals(WaveFormInterface.BURST_PHASE)){
+			System.out.println("Here should be called the data-validation method for Burst Phase");
 		}
 		System.out.println("Text : " +text);
 	}

@@ -39,5 +39,16 @@ public interface WaveFormInterface {
 	static final String FREQUENCY = "Frequency";
 	static final String AMPLITUDE ="Amplitude";
 	static final String OFFSET = "Offset";
-	static final String RAMP_SYMMETRY = "Ramp_Symmetry";	
+	static final String RAMP_SYMMETRY = "Ramp_Symmetry";
+	static final String DUTY_CYCLE_SQUARE = "Duty_Cycle_Square";
+	static final String DUTY_CYCLE_PULSE = "Duty_Cycle_Pulse";
+	static final String MODULATING_FREQUENCY = "Modulating_Frequency";
+	static final String AM_DEPTH = "AM_Depth";
+	static final String FM_DEVIATION = "FM_Deviation";
+	static final String HOP_FREQUENCY = "Hop_Frequency";
+	static final String DEVIATION_PWM = "Deviation_PWM";
+	static final String PHASE_DEVIATION_PM = "Phase_Deviation";
+	static final String BURST_RATE = "Burst_Rate";
+	static final String BURST_COUNT = "Burst_Count";
+	static final String BURST_PHASE = "Burst_Phase";
 }

@@ -167,6 +167,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		
 		dutyCycleSquare = new JTextField();
 		dutyCycleSquare.setText("50");
+		dutyCycleSquare.setName(DUTY_CYCLE_SQUARE);
 		panel_2.add(dutyCycleSquare, "4, 16, fill, default");
 		dutyCycleSquare.setColumns(10);
 		
@@ -175,6 +176,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		
 		dutyCyclePulse = new JTextField();
 		dutyCyclePulse.setText("50");
+		dutyCyclePulse.setName(DUTY_CYCLE_PULSE);
 		panel_2.add(dutyCyclePulse, "4, 18, fill, default");
 		dutyCyclePulse.setColumns(10);
 		
@@ -243,6 +245,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		
 		modulatingFreq = new JTextField();
 		modulatingFreq.setText("1000");
+		modulatingFreq.setName(MODULATING_FREQUENCY);
 		modulatingFreq.setEnabled(false);
 		modConfiguration.add(modulatingFreq, "4, 8, fill, default");
 		modulatingFreq.setColumns(10);
@@ -253,6 +256,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		amDepth = new JTextField();
 		amDepth.setText("50");
 		amDepth.setEnabled(false);
+		amDepth.setName(AM_DEPTH);
 		modConfiguration.add(amDepth, "4, 10, fill, default");
 		amDepth.setColumns(10);
 		
@@ -262,6 +266,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		fmDeviation = new JTextField();
 		fmDeviation.setText("50");
 		fmDeviation.setEnabled(false);
+		fmDeviation.setName(FM_DEVIATION);
 		modConfiguration.add(fmDeviation, "4, 12, fill, default");
 		fmDeviation.setColumns(10);
 		
@@ -271,6 +276,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		hopFrequency = new JTextField();
 		hopFrequency.setText("500");
 		hopFrequency.setEnabled(false);
+		hopFrequency.setName(HOP_FREQUENCY);
 		modConfiguration.add(hopFrequency, "4, 14, fill, default");
 		hopFrequency.setColumns(10);
 		
@@ -280,6 +286,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		intDeviationPWM = new JTextField();
 		intDeviationPWM.setText("0");
 		intDeviationPWM.setEnabled(false);
+		intDeviationPWM.setName(DEVIATION_PWM);
 		modConfiguration.add(intDeviationPWM, "4, 16, fill, default");
 		intDeviationPWM.setColumns(10);
 		
@@ -289,6 +296,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		phaseDeviationPM = new JTextField();
 		phaseDeviationPM.setText("0");
 		phaseDeviationPM.setEnabled(false);
+		phaseDeviationPM.setText(PHASE_DEVIATION_PM);
 		modConfiguration.add(phaseDeviationPM, "4, 18, fill, default");
 		phaseDeviationPM.setColumns(10);
 		
@@ -298,6 +306,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		burstRate = new JTextField();
 		burstRate.setText("100");
 		burstRate.setEnabled(false);
+		burstRate.setName(BURST_RATE);
 		modConfiguration.add(burstRate, "4, 20, fill, default");
 		burstRate.setColumns(10);
 		
@@ -307,6 +316,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		burstCount = new JTextField();
 		burstCount.setText("1");
 		burstCount.setEnabled(false);
+		burstCount.setName(BURST_COUNT);
 		modConfiguration.add(burstCount, "4, 22, fill, default");
 		burstCount.setColumns(10);
 		
@@ -316,6 +326,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		burstPhase = new JTextField();
 		burstPhase.setText("0");
 		burstPhase.setEnabled(false);
+		burstPhase.setName(BURST_PHASE);
 		modConfiguration.add(burstPhase, "4, 24, fill, default");
 		burstPhase.setColumns(10);
 		
@@ -385,6 +396,19 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		btnWfmConf.addActionListener(wfmc);
 		frequency.addFocusListener(wfmc);
 		amplitude.addFocusListener(wfmc);
+		offset.addFocusListener(wfmc);
+		rampSymmetry.addFocusListener(wfmc);
+		dutyCycleSquare.addFocusListener(wfmc);
+		dutyCyclePulse.addFocusListener(wfmc);
+		modulatingFreq.addFocusListener(wfmc);
+		amDepth.addFocusListener(wfmc);
+		fmDeviation.addFocusListener(wfmc);
+		hopFrequency.addFocusListener(wfmc);
+		intDeviationPWM.addFocusListener(wfmc);
+		phaseDeviationPM.addFocusListener(wfmc);
+		burstRate.addFocusListener(wfmc);
+		burstCount.addFocusListener(wfmc);
+		burstPhase.addFocusListener(wfmc);
 	}
 
 	public JComboBox getTypeOfSignal() {
