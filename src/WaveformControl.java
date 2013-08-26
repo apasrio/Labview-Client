@@ -13,6 +13,8 @@ public class WaveformControl implements ActionListener, FocusListener{
 	private JComboBox combo;
 	private WaveformGenerator wfmGen;
 	
+	private boolean VALIDATION_FLAG = false;
+	
 	public WaveformControl(ViewInterface vista, TCPClient socketClient, WaveformGenerator wfmGen){
 		this.tcpClient = socketClient;
 		this.vista = vista;
@@ -93,6 +95,17 @@ public class WaveformControl implements ActionListener, FocusListener{
 			System.out.println("Here should be called the data-validation method for Amplitude");
 		}else if (name.equals(WaveFormInterface.FREQUENCY)){
 			System.out.println("Here should be called the data-validation method for Frequency");
+			VALIDATION_FLAG = wfmGen.frequencyValidation(text);
+			if(VALIDATION_FLAG){
+				// There is some error in the frequency
+				System.out.println("Frequency is higher than expected");
+				((WaveFormInterface) vista).disableExecutionButton();
+				((WaveFormInterface) vista).setDataValidationMessage(wfmGen.getDataValidationMessage());
+			}
+			else{
+				((WaveFormInterface) vista).enableExecutionButton();
+				((WaveFormInterface) vista).disableDataValidationLabel();
+			}				
 		} else if (name.equals(WaveFormInterface.OFFSET)){
 			System.out.println("Here should be called the data-validation method for Offset");
 		}else if (name.equals(WaveFormInterface.RAMP_SYMMETRY)){

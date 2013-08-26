@@ -5,6 +5,7 @@ public class WaveformGenerator {
 	private float signalFreq, signalAmp, signalOff, deviationFM, hopFrequency, internalDeviation, phaseDeviation, burstRate, modFreq;
 	private int rampSymm, dutyCycleSq, dutyCyclePuls;
 	private String frame;
+	private String dataValidationMessage;
 	
 	public WaveformGenerator(){
 		/*
@@ -52,6 +53,17 @@ public class WaveformGenerator {
 				+ "," + String.valueOf(this.burstRate)
 				+ "," + String.valueOf(this.burstCount)
 				+ "," + String.valueOf(this.burstPhase);
+	}
+	
+	public boolean frequencyValidation(String freq){
+		float frequency;
+		frequency = Float.parseFloat(freq);
+		if (frequency > 1000){
+			this.dataValidationMessage = "Frequency must be between 1Hz and 2000Hz";
+			return true;
+		}
+		else
+			return false;
 	}
 
 	public void setSignalShape(int signalShape) {
@@ -208,5 +220,9 @@ public class WaveformGenerator {
 	// Method to retrieve the Frame that is going to be sent to LabVIEW Server. Based on CSV format
 	public String getFrame() {		
 		return frame;
+	}
+
+	public String getDataValidationMessage() {
+		return dataValidationMessage;
 	}
 }

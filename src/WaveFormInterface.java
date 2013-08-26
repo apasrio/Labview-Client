@@ -7,6 +7,8 @@ import javax.swing.JTextField;
 public interface WaveFormInterface {
 	void enableModulationButtons(); // Method to enable buttons if normal signal is selected	
 	void disableModulationbuttons(); // Method to disable buttons if normal signal is selected
+	void disableExecutionButton();	// Method to disable the Execution Button if there is any problem with data validation
+	void enableExecutionButton();	// Method to enable the Execution Button
 	void setWfmControl(WaveformControl wfmc);
 	
 	// Needed getters and setters
@@ -31,6 +33,9 @@ public interface WaveFormInterface {
 	public String getAmplitude();
 	public String getFrequency();
 	public String getOffset();
+	
+	public void setDataValidationMessage(String validationMessage);
+	public void disableDataValidationLabel();
 		
 	static final String TYPE_OF_SIGNAL = "Type of Signal";
 	static final String MODULATION = "Modulation";

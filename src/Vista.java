@@ -1,10 +1,10 @@
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,12 +19,11 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 
 public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	
+		
 	static String SocketIp = "127.0.0.1";
 	static int SocketPort = 5020;
 	private JTextField msgToSend, frequency, amplitude, rampSymmetry, dutyCycleSquare, dutyCyclePulse, modulatingFreq;
@@ -35,6 +34,9 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	private JComboBox typeOfSignal, modType, modWfmShape;
 	private JPanel modConfiguration;
 	private JComboBox wvfShape;
+	private JLabel dataValidationMsg;
+	
+	private ImageIcon warning_icon;
 
 	/**
 	 * Create the applet.
@@ -42,6 +44,8 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	public Vista(final TCPClient socketClient) {
 		this.setSize(1280,960);
 		getContentPane().setLayout(new GridLayout(2, 0, 0, 0));
+		
+		loadIcons();
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
@@ -184,6 +188,10 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		btnWfmConf.setActionCommand(CONFIG);
 		panel_2.add(btnWfmConf, "4, 30");
 		
+		dataValidationMsg = new JLabel("", warning_icon, JLabel.HORIZONTAL);
+		dataValidationMsg.setForeground(Color.RED);
+		panel_2.add(dataValidationMsg, "2, 32, 5, 1, right, default");
+		
 		modConfiguration = new JPanel();
 		modConfiguration.setBorder(new EtchedBorder(EtchedBorder.RAISED, null, null));
 		agilent_33220a.add(modConfiguration);
@@ -296,7 +304,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		phaseDeviationPM = new JTextField();
 		phaseDeviationPM.setText("0");
 		phaseDeviationPM.setEnabled(false);
-		phaseDeviationPM.setText(PHASE_DEVIATION_PM);
+		phaseDeviationPM.setName(PHASE_DEVIATION_PM);
 		modConfiguration.add(phaseDeviationPM, "4, 18, fill, default");
 		phaseDeviationPM.setColumns(10);
 		
@@ -372,6 +380,16 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		
 		this.setVisible(true);
 
+	}
+	
+	private void loadIcons(){
+		java.net.URL imageURL = getClass().getResource("../images/images.jpg");
+		System.out.println("Trying to load an Image");
+		if(imageURL != null){
+			// TODO: The system does not load the Icon
+			System.out.println("Loaded Image");
+			this.warning_icon = new ImageIcon(imageURL, "Warning Icon");
+		}
 	}
 
 	@Override
@@ -524,4 +542,26 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	public String getOffset() {
 		return offset.getText();
 	}
+
+	@Override
+	public void disableExecutionButton() {
+		btnWfmConf.setEnabled(false);
+	}
+	
+	@Override
+	public void enableExecutionButton() {
+		btnWfmConf.setEnabled(true);
+	}
+
+	@Override
+	public void setDataValidationMessage(String validationMessage) {
+		dataValidationMsg.setText(validationMessage);
+		dataValidationMsg.setVisible(true);
+	}
+
+	@Override
+	public void disableDataValidationLabel() {
+		dataValidationMsg.setVisible(false);		
+	}
+	
 }
