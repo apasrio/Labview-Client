@@ -1,7 +1,6 @@
 
 public interface ViewInterface {
 	// Aquí colocaremos métodos para la vista
-	void start(); //Initialize Visualization
 	void setConfControl(ConfControl c); // Set the Configuration Controller (general issues)
 	
 	// Getters and Setters needed

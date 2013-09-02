@@ -48,7 +48,7 @@ public class WaveformControl implements ActionListener, FocusListener{
 		}
 	}
 	
-	public void readFields(){
+	private void readFields(){
 		combo = ((WaveFormInterface) vista).getTypeOfSignal();
 		// Start reading signal fields
 		System.out.println(((WaveFormInterface) vista).getTypeOfSignal().getSelectedItem());
