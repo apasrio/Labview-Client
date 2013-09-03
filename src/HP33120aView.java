@@ -398,4 +398,104 @@ public class HP33120aView implements HP33120aInterface{
 	public String getAmplitude() {		
 		return amplitude.getText();
 	}
+
+	@Override
+	public JComboBox getSignalShape() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public JComboBox getModWfmShape() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public JComboBox getModType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public JPanel getModConfiguration() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public JButton getConnectButton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getBurstPhase() {
+		return burstPhase.getText();
+	}
+
+	@Override
+	public String getBurstCount() {
+		return burstCount.getText();
+	}
+
+	@Override
+	public String getBurstRate() {
+		return burstRate.getText();
+	}
+
+	@Override
+	public String getPhaseDeviationPM() {
+		return phaseDeviationPM.getText();
+	}
+
+	@Override
+	public String getIntDeviationPWM() {
+		return intDeviationPWM.getText();
+	}
+
+	@Override
+	public String getHopFrequency() {
+		return hopFrequency.getText();
+	}
+
+	@Override
+	public String getFmDeviation() {
+		return fmDeviation.getText();
+	}
+
+	@Override
+	public String getAmDepth() {
+		return amDepth.getText();
+	}
+
+	@Override
+	public String getModulatingFreq() {
+		return modulatingFreq.getText();
+	}
+
+	@Override
+	public String getDutyCyclePulse() {		
+		return dutyCyclePulse.getText();
+	}
+
+	@Override
+	public String getDutyCycleSquare() {
+		return dutyCycleSquare.getText();
+	}
+
+	@Override
+	public String getRampSymmetry() {
+		return rampSymmetry.getText();
+	}
+
+	@Override
+	public String getFrequency() {
+		return frequency.getText();
+	}
+
+	@Override
+	public String getOffset() {
+		return offset.getText();
+	}
 }

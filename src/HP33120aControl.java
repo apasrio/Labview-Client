@@ -18,10 +18,6 @@ public class HP33120aControl implements ActionListener, FocusListener{
 		this.view = view;
 		this.hp33120a = hp33120a;
 	}
-	
-	public void readFields(){
-		
-	}
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
@@ -61,5 +57,35 @@ public class HP33120aControl implements ActionListener, FocusListener{
 		if(event.getActionCommand().equals(WaveFormInterface.FREQUENCY)){
 			System.out.println("A system has lost its focus! ");
 		}		
+	}
+	
+	private void readFields(){
+		combo = view.getTypeOfSignal();
+		// Start reading signal fields
+		System.out.println(view.getTypeOfSignal().getSelectedItem());
+		hp33120a.setTypeOfSignal(view.getTypeOfSignal().getSelectedIndex());
+		
+		// TODO: We need a catalog to know what each number means
+		hp33120a.setSignalShape(view.getSignalShape().getSelectedIndex());
+		hp33120a.setSignalFreq(Float.parseFloat(view.getFrequency()));
+		hp33120a.setSignalAmp(Float.parseFloat(view.getAmplitude()));
+		hp33120a.setSignalOff(Float.parseFloat(view.getOffset()));
+		hp33120a.setRampSymm(Integer.parseInt(view.getRampSymmetry()));
+		hp33120a.setDutyCycleSq(Integer.parseInt(view.getDutyCycleSquare()));
+		hp33120a.setDutyCyclePuls(Integer.parseInt(view.getDutyCyclePulse()));
+		
+		if(combo.getSelectedItem().equals(WaveFormInterface.MODULATION)){
+			// We also read the modulation fields
+			hp33120a.setModType(view.getModType().getSelectedIndex());
+			hp33120a.setModWfmShape(view.getModWfmShape().getSelectedIndex());
+			hp33120a.setAmDepth(Integer.parseInt(view.getAmDepth()));
+			hp33120a.setDeviationFM(Float.parseFloat(view.getFmDeviation()));
+			hp33120a.setHopFrequency(Float.parseFloat(view.getHopFrequency()));
+			hp33120a.setInternalDeviation(Float.parseFloat(view.getIntDeviationPWM()));
+			hp33120a.setPhaseDeviation(Float.parseFloat(view.getPhaseDeviationPM()));
+			hp33120a.setBurstRate(Float.parseFloat(view.getBurstRate()));
+			hp33120a.setBurstCount(Integer.parseInt(view.getBurstCount()));
+			hp33120a.setBurstPhase(Integer.parseInt(view.getBurstPhase()));
+		}
 	}
 }

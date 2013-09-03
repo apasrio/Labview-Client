@@ -1,5 +1,7 @@
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 
 public interface HP33120aInterface {
@@ -11,10 +13,27 @@ public interface HP33120aInterface {
 	void setHP33120aControl(HP33120aControl wfmc); //Enable the ActionListeners
 	
 	public JComboBox getTypeOfSignal();	
-	public JComponent getHP33120aPanel();
-	
+	public JComponent getHP33120aPanel();	
+	public JComboBox getSignalShape();
+	public JComboBox getModWfmShape();
+	public JComboBox getModType();
+	public JPanel getModConfiguration();
+	public JButton getConnectButton();
+	public String getBurstPhase();
+	public String getBurstCount();
+	public String getBurstRate();
+	public String getPhaseDeviationPM();
+	public String getIntDeviationPWM();
+	public String getHopFrequency();
+	public String getFmDeviation();
+	public String getAmDepth();
+	public String getModulatingFreq();
+	public String getDutyCyclePulse();
+	public String getDutyCycleSquare();
+	public String getRampSymmetry();
 	public String getAmplitude();
-	
+	public String getFrequency();
+	public String getOffset();
 	
 	public void setDataValidationMessage(String validationMessage);
 	public void disableDataValidationLabel();

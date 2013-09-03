@@ -55,6 +55,17 @@ public class HP33120a {
 				+ "," + String.valueOf(this.burstPhase);
 	}
 	
+	public boolean frequencyValidation(String freq){
+		float frequency;
+		frequency = Float.parseFloat(freq);
+		if (frequency > 2000){
+			this.dataValidationMessage = "Frequency must be between 1Hz and 2000Hz";
+			return true;
+		}
+		else
+			return false;
+	}
+	
 	public String getFrame() {		
 		return frame;
 	}
