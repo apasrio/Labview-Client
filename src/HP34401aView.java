@@ -30,7 +30,9 @@ public class HP34401aView implements HP34401aInterface{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(104dlu;default):grow"),},
+				ColumnSpec.decode("center:max(79dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(75dlu;default)"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -109,10 +111,13 @@ public class HP34401aView implements HP34401aInterface{
 		measure.setColumns(10);
 		
 		JButton btnAutozero = new JButton("Auto-Zero");
-		dmmPanel.add(btnAutozero, "2, 22, center, top");
+		dmmPanel.add(btnAutozero, "2, 22, fill, top");
 		
 		JButton btnNewButton = new JButton("Auto-Range");
-		dmmPanel.add(btnNewButton, "4, 22, left, default");
+		dmmPanel.add(btnNewButton, "4, 22, fill, default");
+		
+		JButton configButton = new JButton("Do it! ");
+		dmmPanel.add(configButton, "6, 22");
 		
 	
 	}

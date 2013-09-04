@@ -2,6 +2,8 @@
 public interface HP34401aInterface {
 	
 	
+	
+	
 	// Elements for the TriggerSource JComboBox
 	static final String IMMEDIATE = "Immediate";
 	static final String SOFTWARE = "Software (Bus)";
