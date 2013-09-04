@@ -17,7 +17,6 @@ public interface HP33120aInterface {
 	public JComboBox getSignalShape();
 	public JComboBox getModWfmShape();
 	public JComboBox getModType();
-	public JPanel getModConfiguration();
 	public JButton getConnectButton();
 	public String getBurstPhase();
 	public String getBurstCount();

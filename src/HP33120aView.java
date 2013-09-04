@@ -23,7 +23,7 @@ public class HP33120aView implements HP33120aInterface{
 	private JPanel wfmGenPanel = new JPanel();	// Holds the HP34401 GUI and its components, it is raised in the main View
 	private JTextField frequency, amplitude, rampSymmetry, dutyCycleSquare, dutyCyclePulse, modulatingFreq, offset;
 	private JTextField amDepth, fmDeviation, hopFrequency, intDeviationPWM, phaseDeviationPM, burstRate, burstCount, burstPhase;
-	private JComboBox typeOfSignal, modType, modWfmShape, wvfShape;
+	private JComboBox typeOfSignal, modType, modWfmShape, wfmShape;
 	private JButton btnWfmConf;
 	private JLabel dataValidationMsg;
 	
@@ -98,9 +98,9 @@ public class HP33120aView implements HP33120aInterface{
 		JLabel wvfShapeLabel = new JLabel("Waveform Shape:");
 		signalConf.add(wvfShapeLabel, "2, 6, right, default");
 		
-		wvfShape = new JComboBox();
-		wvfShape.setModel(new DefaultComboBoxModel(new String[] {"DC", "Sine", "Square", "Triangle", "Ramp", "Pulse", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
-		signalConf.add(wvfShape, "4, 6, fill, default");
+		wfmShape = new JComboBox();
+		wfmShape.setModel(new DefaultComboBoxModel(new String[] {"DC", "Sine", "Square", "Triangle", "Ramp", "Pulse", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
+		signalConf.add(wfmShape, "4, 6, fill, default");
 		
 		JLabel lblFrequency = new JLabel("Frequency (Hz): ");
 		signalConf.add(lblFrequency, "2, 8, right, center");
@@ -401,32 +401,22 @@ public class HP33120aView implements HP33120aInterface{
 
 	@Override
 	public JComboBox getSignalShape() {
-		// TODO Auto-generated method stub
-		return null;
+		return wfmShape;
 	}
 
 	@Override
 	public JComboBox getModWfmShape() {
-		// TODO Auto-generated method stub
-		return null;
+		return modWfmShape;
 	}
 
 	@Override
 	public JComboBox getModType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JPanel getModConfiguration() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		return modType;
+	}	
 
 	@Override
 	public JButton getConnectButton() {
-		// TODO Auto-generated method stub
-		return null;
+		return btnWfmConf;
 	}
 
 	@Override
