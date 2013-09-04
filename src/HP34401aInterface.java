@@ -1,7 +1,13 @@
+import javax.swing.JComboBox;
+
 
 public interface HP34401aInterface {
 	
-	
+	public JComboBox getFunction();
+	public JComboBox getResolution();
+	public JComboBox getTriggerSource();
+	public String getRange();
+	public void setMeasure(String measure);
 	
 	
 	// Elements for the TriggerSource JComboBox

@@ -26,7 +26,7 @@ public class HP33120a {
 		// Modulation fields 
 		// TODO: Initialize modulation fields
 		
-		// Frame Initialization to null
+		// Frame Initialization to an empty value
 		this.frame = "";		
 	}
 
