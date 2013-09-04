@@ -1,10 +1,10 @@
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -23,6 +23,7 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	
+		
 	static String SocketIp = "127.0.0.1";
 	static int SocketPort = 5020;
 	private JTextField msgToSend, frequency, amplitude, rampSymmetry, dutyCycleSquare, dutyCyclePulse, modulatingFreq;
@@ -33,13 +34,18 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	private JComboBox typeOfSignal, modType, modWfmShape;
 	private JPanel modConfiguration;
 	private JComboBox wvfShape;
+	private JLabel dataValidationMsg;
+	
+	private ImageIcon warning_icon;
 
 	/**
 	 * Create the applet.
 	 */
-	public Vista(final TCPClient socketClient) {
+	public Vista(final TCPClient socketClient, HP33120a hp33120a) {
 		this.setSize(1280,960);
 		getContentPane().setLayout(new GridLayout(2, 0, 0, 0));
+		
+		loadIcons();
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
@@ -52,10 +58,10 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		tabbedPane_1.addTab("Agilent 33220A", null, agilent_33220a, null);
 		agilent_33220a.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		agilent_33220a.add(panel_2);
-		panel_2.setLayout(new FormLayout(new ColumnSpec[] {
+		JPanel signalConfiguration = new JPanel();
+		signalConfiguration.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		agilent_33220a.add(signalConfiguration);
+		signalConfiguration.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -110,71 +116,81 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		
 		JLabel lblSignalConfiguration = new JLabel("Signal Configuration: ");
 		lblSignalConfiguration.setFont(new Font("Dialog", Font.BOLD, 14));
-		panel_2.add(lblSignalConfiguration, "2, 2");
+		signalConfiguration.add(lblSignalConfiguration, "2, 2");
 		
 		typeOfSignal = new JComboBox();
 		typeOfSignal.setModel(new DefaultComboBoxModel(new String[] {SIGNAL, MODULATION}));
 		typeOfSignal.setActionCommand(TYPE_OF_SIGNAL);
-		panel_2.add(typeOfSignal, "4, 4, fill, center");
+		signalConfiguration.add(typeOfSignal, "4, 4, fill, center");
 		
 		JLabel wvfShapeLabel = new JLabel("Waveform Shape:");
-		panel_2.add(wvfShapeLabel, "2, 6, right, default");
+		signalConfiguration.add(wvfShapeLabel, "2, 6, right, default");
 		
 		wvfShape = new JComboBox();
 		wvfShape.setModel(new DefaultComboBoxModel(new String[] {"DC", "Sine", "Square", "Triangle", "Ramp", "Pulse", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
-		panel_2.add(wvfShape, "4, 6, fill, default");
+		signalConfiguration.add(wvfShape, "4, 6, fill, default");
 		
 		JLabel lblNewLabel_1 = new JLabel("Frequency (Hz): ");
-		panel_2.add(lblNewLabel_1, "2, 8, right, center");
+		signalConfiguration.add(lblNewLabel_1, "2, 8, right, center");
 		
 		frequency = new JTextField();
 		frequency.setText("1000");
-		panel_2.add(frequency, "4, 8, fill, default");
+		frequency.setName(FREQUENCY);
+		signalConfiguration.add(frequency, "4, 8, fill, default");
 		frequency.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Amplitude (Vpp): ");
-		panel_2.add(lblNewLabel_2, "2, 10, right, center");
+		signalConfiguration.add(lblNewLabel_2, "2, 10, right, center");
 		
 		amplitude = new JTextField();
 		amplitude.setText("1");
-		panel_2.add(amplitude, "4, 10, fill, default");
+		amplitude.setName(AMPLITUDE);
+		signalConfiguration.add(amplitude, "4, 10, fill, default");
 		amplitude.setColumns(10);
 		
 		JLabel offsetLabel = new JLabel("Offset (Vdc): ");
-		panel_2.add(offsetLabel, "2, 12, right, default");
+		signalConfiguration.add(offsetLabel, "2, 12, right, default");
 		
 		offset = new JTextField();
 		offset.setText("0");
-		panel_2.add(offset, "4, 12, fill, default");
+		offset.setName(OFFSET);
+		signalConfiguration.add(offset, "4, 12, fill, default");
 		offset.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Ramp Symmetry(%):");
-		panel_2.add(lblNewLabel_3, "2, 14, right, default");
+		signalConfiguration.add(lblNewLabel_3, "2, 14, right, default");
 		
 		rampSymmetry = new JTextField();
 		rampSymmetry.setText("50");
-		panel_2.add(rampSymmetry, "4, 14, fill, default");
+		rampSymmetry.setName(RAMP_SYMMETRY);
+		signalConfiguration.add(rampSymmetry, "4, 14, fill, default");
 		rampSymmetry.setColumns(10);
 		
 		JLabel lblNewLabel_4 = new JLabel("Duty Cycle (%) Square:");
-		panel_2.add(lblNewLabel_4, "2, 16, right, default");
+		signalConfiguration.add(lblNewLabel_4, "2, 16, right, default");
 		
 		dutyCycleSquare = new JTextField();
 		dutyCycleSquare.setText("50");
-		panel_2.add(dutyCycleSquare, "4, 16, fill, default");
+		dutyCycleSquare.setName(DUTY_CYCLE_SQUARE);
+		signalConfiguration.add(dutyCycleSquare, "4, 16, fill, default");
 		dutyCycleSquare.setColumns(10);
 		
 		JLabel lblNewLabel_5 = new JLabel("Duty Cycle (%) Pulse:");
-		panel_2.add(lblNewLabel_5, "2, 18, right, default");
+		signalConfiguration.add(lblNewLabel_5, "2, 18, right, default");
 		
 		dutyCyclePulse = new JTextField();
 		dutyCyclePulse.setText("50");
-		panel_2.add(dutyCyclePulse, "4, 18, fill, default");
+		dutyCyclePulse.setName(DUTY_CYCLE_PULSE);
+		signalConfiguration.add(dutyCyclePulse, "4, 18, fill, default");
 		dutyCyclePulse.setColumns(10);
 		
 		btnWfmConf = new JButton("Do it!");
 		btnWfmConf.setActionCommand(CONFIG);
-		panel_2.add(btnWfmConf, "4, 30");
+		signalConfiguration.add(btnWfmConf, "4, 30");
+		
+		dataValidationMsg = new JLabel("", warning_icon, JLabel.HORIZONTAL);
+		dataValidationMsg.setForeground(Color.RED);
+		signalConfiguration.add(dataValidationMsg, "2, 32, 5, 1, right, default");
 		
 		modConfiguration = new JPanel();
 		modConfiguration.setBorder(new EtchedBorder(EtchedBorder.RAISED, null, null));
@@ -237,6 +253,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		
 		modulatingFreq = new JTextField();
 		modulatingFreq.setText("1000");
+		modulatingFreq.setName(MODULATING_FREQUENCY);
 		modulatingFreq.setEnabled(false);
 		modConfiguration.add(modulatingFreq, "4, 8, fill, default");
 		modulatingFreq.setColumns(10);
@@ -247,6 +264,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		amDepth = new JTextField();
 		amDepth.setText("50");
 		amDepth.setEnabled(false);
+		amDepth.setName(AM_DEPTH);
 		modConfiguration.add(amDepth, "4, 10, fill, default");
 		amDepth.setColumns(10);
 		
@@ -256,6 +274,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		fmDeviation = new JTextField();
 		fmDeviation.setText("50");
 		fmDeviation.setEnabled(false);
+		fmDeviation.setName(FM_DEVIATION);
 		modConfiguration.add(fmDeviation, "4, 12, fill, default");
 		fmDeviation.setColumns(10);
 		
@@ -265,6 +284,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		hopFrequency = new JTextField();
 		hopFrequency.setText("500");
 		hopFrequency.setEnabled(false);
+		hopFrequency.setName(HOP_FREQUENCY);
 		modConfiguration.add(hopFrequency, "4, 14, fill, default");
 		hopFrequency.setColumns(10);
 		
@@ -274,6 +294,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		intDeviationPWM = new JTextField();
 		intDeviationPWM.setText("0");
 		intDeviationPWM.setEnabled(false);
+		intDeviationPWM.setName(DEVIATION_PWM);
 		modConfiguration.add(intDeviationPWM, "4, 16, fill, default");
 		intDeviationPWM.setColumns(10);
 		
@@ -283,6 +304,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		phaseDeviationPM = new JTextField();
 		phaseDeviationPM.setText("0");
 		phaseDeviationPM.setEnabled(false);
+		phaseDeviationPM.setName(PHASE_DEVIATION_PM);
 		modConfiguration.add(phaseDeviationPM, "4, 18, fill, default");
 		phaseDeviationPM.setColumns(10);
 		
@@ -292,6 +314,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		burstRate = new JTextField();
 		burstRate.setText("100");
 		burstRate.setEnabled(false);
+		burstRate.setName(BURST_RATE);
 		modConfiguration.add(burstRate, "4, 20, fill, default");
 		burstRate.setColumns(10);
 		
@@ -301,6 +324,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		burstCount = new JTextField();
 		burstCount.setText("1");
 		burstCount.setEnabled(false);
+		burstCount.setName(BURST_COUNT);
 		modConfiguration.add(burstCount, "4, 22, fill, default");
 		burstCount.setColumns(10);
 		
@@ -310,17 +334,21 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		burstPhase = new JTextField();
 		burstPhase.setText("0");
 		burstPhase.setEnabled(false);
+		burstPhase.setName(BURST_PHASE);
 		modConfiguration.add(burstPhase, "4, 24, fill, default");
 		burstPhase.setColumns(10);
 		
-		JPanel hp_33120a = new JPanel();
-		tabbedPane_1.addTab("HP 33120A", null, hp_33120a, null);
+		// Start defining HP33120a Components		
+		HP33120aInterface hp33120aView = new HP33120aView();
+		tabbedPane_1.addTab("HP 33120A", null, hp33120aView.getHP33120aPanel(), null);
+		HP33120aControl hp33120aControl = new HP33120aControl(hp33120aView, socketClient, hp33120a);
+		hp33120aView.setHP33120aControl(hp33120aControl);
 		
 		JTabbedPane tabbedPane_2 = new JTabbedPane(JTabbedPane.TOP);
 		panel.add(tabbedPane_2);
 		
-		JPanel dmm = new JPanel();
-		tabbedPane_2.addTab("DMM", null, dmm, null);
+		HP34401aView hp34401a = new HP34401aView();
+		tabbedPane_2.addTab("HP34401A", null, hp34401a.getHP34401aPanel(), null);
 		
 		JPanel panel_1 = new JPanel();
 		getContentPane().add(panel_1);
@@ -356,9 +384,15 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		this.setVisible(true);
 
 	}
-
-	@Override
-	public void start() {		
+	
+	private void loadIcons(){
+		java.net.URL imageURL = getClass().getResource("../images/images.jpg");
+		System.out.println("Trying to load an Image");
+		if(imageURL != null){
+			// TODO: The system does not load the Icon
+			System.out.println("Loaded Image");
+			this.warning_icon = new ImageIcon(imageURL, "Warning Icon");
+		}
 	}
 
 	@Override
@@ -377,6 +411,21 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	public void setWfmControl(WaveformControl wfmc) {
 		typeOfSignal.addActionListener(wfmc);
 		btnWfmConf.addActionListener(wfmc);
+		frequency.addFocusListener(wfmc);
+		amplitude.addFocusListener(wfmc);
+		offset.addFocusListener(wfmc);
+		rampSymmetry.addFocusListener(wfmc);
+		dutyCycleSquare.addFocusListener(wfmc);
+		dutyCyclePulse.addFocusListener(wfmc);
+		modulatingFreq.addFocusListener(wfmc);
+		amDepth.addFocusListener(wfmc);
+		fmDeviation.addFocusListener(wfmc);
+		hopFrequency.addFocusListener(wfmc);
+		intDeviationPWM.addFocusListener(wfmc);
+		phaseDeviationPM.addFocusListener(wfmc);
+		burstRate.addFocusListener(wfmc);
+		burstCount.addFocusListener(wfmc);
+		burstPhase.addFocusListener(wfmc);
 	}
 
 	public JComboBox getTypeOfSignal() {
@@ -492,4 +541,26 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	public String getOffset() {
 		return offset.getText();
 	}
+
+	@Override
+	public void disableExecutionButton() {
+		btnWfmConf.setEnabled(false);
+	}
+	
+	@Override
+	public void enableExecutionButton() {
+		btnWfmConf.setEnabled(true);
+	}
+
+	@Override
+	public void setDataValidationMessage(String validationMessage) {
+		dataValidationMsg.setText(validationMessage);
+		dataValidationMsg.setVisible(true);
+	}
+
+	@Override
+	public void disableDataValidationLabel() {
+		dataValidationMsg.setVisible(false);		
+	}
+	
 }

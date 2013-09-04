@@ -1,7 +1,6 @@
 
 public interface ViewInterface {
 	// Aquí colocaremos métodos para la vista
-	void start(); //Initialize Visualization
 	void setConfControl(ConfControl c); // Set the Configuration Controller (general issues)
 	
 	// Getters and Setters needed
@@ -11,5 +10,5 @@ public interface ViewInterface {
 	// Constantes que definen las posibles operaciones
 	static final String CONNECT = "Stablishing connection";
 	static final String DISCONNECT = "Disconnecting from server";	
-	static final String SEND = "Sending message";	
+	static final String SEND = "Sending message";
 }
