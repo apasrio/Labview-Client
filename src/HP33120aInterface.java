@@ -1,22 +1,22 @@
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 
-public interface WaveFormInterface {
+public interface HP33120aInterface {
+	
 	void enableModulationButtons(); // Method to enable buttons if normal signal is selected	
 	void disableModulationbuttons(); // Method to disable buttons if normal signal is selected
 	void disableExecutionButton();	// Method to disable the Execution Button if there is any problem with data validation
 	void enableExecutionButton();	// Method to enable the Execution Button
-	void setWfmControl(WaveformControl wfmc);
+	void setHP33120aControl(HP33120aControl wfmc); //Enable the ActionListeners
 	
-	// Needed getters and setters
-	public JComboBox getTypeOfSignal();
+	public JComboBox getTypeOfSignal();	
+	public JComponent getHP33120aPanel();	
 	public JComboBox getSignalShape();
 	public JComboBox getModWfmShape();
 	public JComboBox getModType();
-	public JPanel getModConfiguration();
 	public JButton getConnectButton();
 	public String getBurstPhase();
 	public String getBurstCount();
@@ -36,11 +36,11 @@ public interface WaveFormInterface {
 	
 	public void setDataValidationMessage(String validationMessage);
 	public void disableDataValidationLabel();
-		
-	static final String TYPE_OF_SIGNAL = "Type of Signal";
+
+	static final String TYPE_OF_SIGNAL = "HP33120a_Type_of_Signal";
 	static final String MODULATION = "Modulation";
 	static final String SIGNAL = "Simple Signal";
-	static final String CONFIG = "Config";
+	static final String CONFIG = "HP33120a_Config";
 	static final String FREQUENCY = "Frequency";
 	static final String AMPLITUDE ="Amplitude";
 	static final String OFFSET = "Offset";

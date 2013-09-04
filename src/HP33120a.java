@@ -1,26 +1,24 @@
 
-public class WaveformGenerator {
-	
+public class HP33120a {
+	private String frame;
 	private int signalShape, typeOfSignal, modType, modWfmShape, amDepth, burstCount, burstPhase;
 	private float signalFreq, signalAmp, signalOff, deviationFM, hopFrequency, internalDeviation, phaseDeviation, burstRate, modFreq;
 	private int rampSymm, dutyCycleSq, dutyCyclePuls;
-	private String frame;
 	private String dataValidationMessage;
 	
-	public WaveformGenerator(){
+	public HP33120a(){
 		/*
-		 *  Constructor to build a default instance of WaveformGenerator
+		 *  Constructor to build a default instance of HP33120A Waveform Generator
 		 *  Signal Mode, generating a 1000Hz Sine, without offset and 2 Vpp
 		 */
-		this.typeOfSignal = 0; // Type of signal
-		
-		this.signalShape = 1; //Sine Signal
-		this.signalFreq = 1000f; //1000Hz
-		this.signalAmp = 2f; // 2Vpp
-		this.signalOff = 0f; // Offset
+		this.typeOfSignal = 0;		// Signal instead of modulation
+		this.signalShape = 1;		// Sine Waveform
+		this.signalFreq = 1000f;	// 1000Hz
+		this.signalAmp = 2f;		// 2Vpp
+		this.signalOff = 0f;		// 0V
 		
 		// Initialization of rampSymme, dutyCycleSq and dutyCyclePuls to 50% although
-		// it is no necessary because we are generating a Sine 
+		// it is no necessary because we are generating a Sine
 		this.dutyCyclePuls = 50;
 		this.dutyCycleSq = 50;
 		this.rampSymm = 50;
@@ -29,10 +27,12 @@ public class WaveformGenerator {
 		// TODO: Initialize modulation fields
 		
 		// Frame Initialization to null
-		this.frame = "";
+		this.frame = "";		
 	}
-	
-	// Method to create the Frame that is going to be sent to LabVIEW Server. Based on CSV format
+
+	/*
+	 * Method to compose the frame that is going to be sent to the LabView Server. Based on CSV format
+	 */	
 	public void setFrame() {
 		this.frame = String.valueOf(this.typeOfSignal) 
 				+ "," + String.valueOf(this.signalShape)
@@ -58,76 +58,36 @@ public class WaveformGenerator {
 	public boolean frequencyValidation(String freq){
 		float frequency;
 		frequency = Float.parseFloat(freq);
-		if (frequency > 1000){
+		if (frequency > 2000){
 			this.dataValidationMessage = "Frequency must be between 1Hz and 2000Hz";
 			return true;
 		}
 		else
 			return false;
 	}
-
-	public void setSignalShape(int signalShape) {
-		this.signalShape = signalShape;
+	
+	public String getFrame() {		
+		return frame;
 	}
-
-	public void setSignalFreq(float signalFreq) {
-		this.signalFreq = signalFreq;
-	}
-
-	public void setSignalAmp(float signalAmp) {
-		this.signalAmp = signalAmp;
-	}
-
-	public void setSignalOff(float signalOff) {
-		this.signalOff = signalOff;
-	}
-
-	public void setRampSymm(int rampSymm) {
-		this.rampSymm = rampSymm;
-	}
-
-	public void setDutyCycleSq(int dutyCycleSq) {
-		this.dutyCycleSq = dutyCycleSq;
-	}
-
-	public void setDutyCyclePuls(int dutyCyclePuls) {
-		this.dutyCyclePuls = dutyCyclePuls;
-	}
-
-	public void setTypeOfSignal(int typeOfSignal) {
-		this.typeOfSignal = typeOfSignal;
+	
+	public String getDataValidationMessage() {
+		return dataValidationMessage;
 	}
 
 	public int getSignalShape() {
 		return signalShape;
 	}
 
+	public void setSignalShape(int signalShape) {
+		this.signalShape = signalShape;
+	}
+
 	public int getTypeOfSignal() {
 		return typeOfSignal;
 	}
 
-	public float getSignalFreq() {
-		return signalFreq;
-	}
-
-	public float getSignalAmp() {
-		return signalAmp;
-	}
-
-	public float getSignalOff() {
-		return signalOff;
-	}
-
-	public int getRampSymm() {
-		return rampSymm;
-	}
-
-	public int getDutyCycleSq() {
-		return dutyCycleSq;
-	}
-
-	public int getDutyCyclePuls() {
-		return dutyCyclePuls;
+	public void setTypeOfSignal(int typeOfSignal) {
+		this.typeOfSignal = typeOfSignal;
 	}
 
 	public int getModType() {
@@ -168,6 +128,30 @@ public class WaveformGenerator {
 
 	public void setBurstPhase(int burstPhase) {
 		this.burstPhase = burstPhase;
+	}
+
+	public float getSignalFreq() {
+		return signalFreq;
+	}
+
+	public void setSignalFreq(float signalFreq) {
+		this.signalFreq = signalFreq;
+	}
+
+	public float getSignalAmp() {
+		return signalAmp;
+	}
+
+	public void setSignalAmp(float signalAmp) {
+		this.signalAmp = signalAmp;
+	}
+
+	public float getSignalOff() {
+		return signalOff;
+	}
+
+	public void setSignalOff(float signalOff) {
+		this.signalOff = signalOff;
 	}
 
 	public float getDeviationFM() {
@@ -217,12 +201,28 @@ public class WaveformGenerator {
 	public void setModFreq(float modFreq) {
 		this.modFreq = modFreq;
 	}
-	// Method to retrieve the Frame that is going to be sent to LabVIEW Server. Based on CSV format
-	public String getFrame() {		
-		return frame;
+
+	public int getRampSymm() {
+		return rampSymm;
 	}
 
-	public String getDataValidationMessage() {
-		return dataValidationMessage;
+	public void setRampSymm(int rampSymm) {
+		this.rampSymm = rampSymm;
+	}
+
+	public int getDutyCycleSq() {
+		return dutyCycleSq;
+	}
+
+	public void setDutyCycleSq(int dutyCycleSq) {
+		this.dutyCycleSq = dutyCycleSq;
+	}
+
+	public int getDutyCyclePuls() {
+		return dutyCyclePuls;
+	}
+
+	public void setDutyCyclePuls(int dutyCyclePuls) {
+		this.dutyCyclePuls = dutyCyclePuls;
 	}
 }
