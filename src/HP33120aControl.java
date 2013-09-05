@@ -35,9 +35,9 @@ public class HP33120aControl implements ActionListener, FocusListener{
 				final JTextComponent c = (JTextComponent) event.getSource();
 				String name = c.getName();
 				String text = c.getText();
-				if (name.equals(WaveFormInterface.AMPLITUDE)){
+				if (name.equals(HP33120aInterface.AMPLITUDE)){
 					System.out.println("Here should be called the data-validation method for Amplitude");
-				}else if (name.equals(WaveFormInterface.FREQUENCY)){
+				}else if (name.equals(HP33120aInterface.FREQUENCY)){
 					System.out.println("Here should be called the data-validation method for Frequency");
 					VALIDATION_FLAG = hp33120a.frequencyValidation(text);
 					if(VALIDATION_FLAG){

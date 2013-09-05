@@ -41,7 +41,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	/**
 	 * Create the applet.
 	 */
-	public Vista(final TCPClient socketClient, HP33120a hp33120a) {
+	public Vista(final TCPClient socketClient, HP33120a hp33120a, HP34401a hp34401a) {
 		this.setSize(1280,960);
 		getContentPane().setLayout(new GridLayout(2, 0, 0, 0));
 		
@@ -342,13 +342,17 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		HP33120aInterface hp33120aView = new HP33120aView();
 		tabbedPane_1.addTab("HP 33120A", null, hp33120aView.getHP33120aPanel(), null);
 		HP33120aControl hp33120aControl = new HP33120aControl(hp33120aView, socketClient, hp33120a);
-		hp33120aView.setHP33120aControl(hp33120aControl);
+		hp33120aView.setHP33120aControl(hp33120aControl);		
 		
 		JTabbedPane tabbedPane_2 = new JTabbedPane(JTabbedPane.TOP);
-		panel.add(tabbedPane_2);
+		panel.add(tabbedPane_2);		
 		
-		HP34401aView hp34401a = new HP34401aView();
-		tabbedPane_2.addTab("HP34401A", null, hp34401a.getHP34401aPanel(), null);
+		// Start defining HP34401a Components 
+		HP34401aView hp34401aView = new HP34401aView();
+		tabbedPane_2.addTab("HP34401A", null, hp34401aView.getHP34401aPanel(), null);
+		HP34401aControl hp34401aControl = new HP34401aControl(hp34401aView,socketClient, hp34401a);
+		hp34401aView.setHP34401aControl(hp34401aControl);
+		
 		
 		JPanel panel_1 = new JPanel();
 		getContentPane().add(panel_1);

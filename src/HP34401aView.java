@@ -28,6 +28,9 @@ public class HP34401aView implements HP34401aInterface{
 	private JComboBox triggerSource;
 	private JTextField manualRange;
 	private JTextField measure;
+	private JToggleButton btnAutozero;
+	private JToggleButton btnAutoRange;
+	private JButton configButton;
 	
 	public HP34401aView(){
 		dmmPanel.setLayout(new FormLayout(new ColumnSpec[] {
@@ -114,13 +117,16 @@ public class HP34401aView implements HP34401aInterface{
 		dmmPanel.add(measure, "4, 16, fill, default");
 		measure.setColumns(10);
 		
-		JToggleButton btnAutozero = new JToggleButton("Auto-Zero");
+		btnAutozero = new JToggleButton("Auto-Zero");
+		btnAutozero.setActionCommand(AUTOZERO);
 		dmmPanel.add(btnAutozero, "2, 22, fill, top");
 		
-		JToggleButton btnNewButton = new JToggleButton("Auto-Range");
-		dmmPanel.add(btnNewButton, "4, 22, fill, default");
+		btnAutoRange = new JToggleButton("Auto-Range");
+		btnAutoRange.setActionCommand(AUTORANGE);
+		dmmPanel.add(btnAutoRange, "4, 22, fill, default");
 		
-		JButton configButton = new JButton("Do it! ");
+		configButton = new JButton("Do it! ");
+		configButton.setActionCommand(CONFIG);
 		dmmPanel.add(configButton, "6, 22");
 		
 	
@@ -154,5 +160,28 @@ public class HP34401aView implements HP34401aInterface{
 	@Override
 	public void setMeasure(String measure) {
 		this.measure.setText(measure);
+	}
+
+	@Override
+	public void setHP34401aControl(HP34401aControl control) {
+		manualRange.addFocusListener(control);
+		btnAutozero.addActionListener(control);
+		btnAutoRange.addActionListener(control);
+		configButton.addActionListener(control);
+	}
+
+	@Override
+	public JToggleButton getAutoRange() {
+		return btnAutoRange;
+	}
+
+	@Override
+	public JToggleButton getAutoZero() {
+		return btnAutozero;
+	}
+
+	@Override
+	public void configManualRange(boolean value) {
+		manualRange.setEditable(value);
 	}
 }

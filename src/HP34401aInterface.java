@@ -1,4 +1,5 @@
 import javax.swing.JComboBox;
+import javax.swing.JToggleButton;
 
 
 public interface HP34401aInterface {
@@ -6,9 +7,18 @@ public interface HP34401aInterface {
 	public JComboBox getFunction();
 	public JComboBox getResolution();
 	public JComboBox getTriggerSource();
+	public JToggleButton getAutoRange();
+	public JToggleButton getAutoZero();
 	public String getRange();
-	public void setMeasure(String measure);
 	
+	public void configManualRange(boolean value);
+	public void setMeasure(String measure);
+	public void setHP34401aControl(HP34401aControl control); 	// Enable the ActionListeners
+	
+	// Definitions for ActionCommands
+	static final String AUTOZERO = "HP34401a_Autozero";
+	static final String AUTORANGE = "HP34401a_Autorange";
+	static final String CONFIG = "HP34401a_Config";
 	
 	// Elements for the TriggerSource JComboBox
 	static final String IMMEDIATE = "Immediate";
