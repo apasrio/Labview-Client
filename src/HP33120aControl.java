@@ -93,7 +93,7 @@ public class HP33120aControl implements ActionListener, FocusListener{
 				System.out.println("Enabling Buttons");
 			}
 		}
-		if(event.getActionCommand().equals(WaveFormInterface.CONFIG)){
+		if(event.getActionCommand().equals(HP33120aInterface.CONFIG)){
 			// Configuration Button has been pressed, we have to read all the fields
 			// create a request and send it to the server. We are going to use the CSV format
 			System.out.println("Do it!! Button has been presed");	
