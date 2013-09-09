@@ -36,6 +36,8 @@ public interface HP33120aInterface {
 	
 	public void setDataValidationMessage(String validationMessage);
 	public void disableDataValidationLabel();
+	
+	static final int QUERY_MESSAGE_TYPE = 10;
 
 	static final String TYPE_OF_SIGNAL = "HP33120a_Type_of_Signal";
 	static final String MODULATION = "Modulation";

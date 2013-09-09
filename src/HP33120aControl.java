@@ -100,10 +100,16 @@ public class HP33120aControl implements ActionListener, FocusListener{
 			readFields();
 			// TODO: Fix the next three lines:
 			hp33120a.setFrame();
-			// Test print for WaveformGen
+			// Test print for HP33120A
 			System.out.println(hp33120a.getFrame());
+			try {
+				TCPClient.bidirectComm(hp33120a.getFrame(), HP33120aInterface.QUERY_MESSAGE_TYPE);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		if(event.getActionCommand().equals(WaveFormInterface.FREQUENCY)){
+			}
+		if(event.getActionCommand().equals(HP33120aInterface.FREQUENCY)){
 			System.out.println("A system has lost its focus! ");
 		}		
 	}
