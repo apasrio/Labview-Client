@@ -75,7 +75,7 @@ class TCPClient	{
 			receivedMessage = readMessage(receivedMessageLength, inFromServer);
 			if(receivedMessageType==4){
 				// Connection in good health
-				System.out.println("Connection stablished succesfully");
+				System.out.println("Connection established succesfully");
 				System.out.println(receivedMessage);
 			} else if (receivedMessageType==5){
 				// There has been a problem with the server side

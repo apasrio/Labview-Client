@@ -35,9 +35,9 @@ public class HP33120aControl implements ActionListener, FocusListener{
 				final JTextComponent c = (JTextComponent) event.getSource();
 				String name = c.getName();
 				String text = c.getText();
-				if (name.equals(WaveFormInterface.AMPLITUDE)){
+				if (name.equals(HP33120aInterface.AMPLITUDE)){
 					System.out.println("Here should be called the data-validation method for Amplitude");
-				}else if (name.equals(WaveFormInterface.FREQUENCY)){
+				}else if (name.equals(HP33120aInterface.FREQUENCY)){
 					System.out.println("Here should be called the data-validation method for Frequency");
 					VALIDATION_FLAG = hp33120a.frequencyValidation(text);
 					if(VALIDATION_FLAG){
@@ -52,12 +52,8 @@ public class HP33120aControl implements ActionListener, FocusListener{
 					}				
 				} else if (name.equals(HP33120aInterface.OFFSET)){
 					System.out.println("Here should be called the data-validation method for Offset");
-				}else if (name.equals(HP33120aInterface.RAMP_SYMMETRY)){
-					System.out.println("Here should be called the data-validation method for Ramp Symmetry");
 				}else if (name.equals(HP33120aInterface.DUTY_CYCLE_SQUARE)){
 					System.out.println("Here should be called the data-validation method for Duty Cycle Square");
-				}else if (name.equals(HP33120aInterface.DUTY_CYCLE_PULSE)){
-					System.out.println("Here should be called the data-validation method for Duty Cycle Pulse");
 				}else if (name.equals(HP33120aInterface.MODULATING_FREQUENCY)){
 					System.out.println("Here should be called the data-validation method for Modulating Frequency");
 				}else if (name.equals(HP33120aInterface.AM_DEPTH)){
@@ -66,10 +62,6 @@ public class HP33120aControl implements ActionListener, FocusListener{
 					System.out.println("Here should be called the data-validation method for FM Deviation");
 				}else if (name.equals(HP33120aInterface.HOP_FREQUENCY)){
 					System.out.println("Here should be called the data-validation method for Hop Frequency");
-				}else if (name.equals(HP33120aInterface.DEVIATION_PWM)){
-					System.out.println("Here should be called the data-validation method for Int Deviation PWM");
-				}else if (name.equals(HP33120aInterface.PHASE_DEVIATION_PM)){
-					System.out.println("Here should be called the data-validation method for Phase Deviation");
 				}else if (name.equals(HP33120aInterface.BURST_RATE)){
 					System.out.println("Here should be called the data-validation method for Burst Rate");
 				}else if (name.equals(HP33120aInterface.BURST_COUNT)){
@@ -93,17 +85,22 @@ public class HP33120aControl implements ActionListener, FocusListener{
 				System.out.println("Enabling Buttons");
 			}
 		}
-		if(event.getActionCommand().equals(WaveFormInterface.CONFIG)){
+		if(event.getActionCommand().equals(HP33120aInterface.CONFIG)){
 			// Configuration Button has been pressed, we have to read all the fields
 			// create a request and send it to the server. We are going to use the CSV format
 			System.out.println("Do it!! Button has been presed");	
 			readFields();
-			// TODO: Fix the next three lines:
 			hp33120a.setFrame();
-			// Test print for WaveformGen
+			// Test print for HP33120A
 			System.out.println(hp33120a.getFrame());
+			try {
+				TCPClient.bidirectComm(hp33120a.getFrame(), HP33120aInterface.QUERY_MESSAGE_TYPE);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		if(event.getActionCommand().equals(WaveFormInterface.FREQUENCY)){
+			}
+		if(event.getActionCommand().equals(HP33120aInterface.FREQUENCY)){
 			System.out.println("A system has lost its focus! ");
 		}		
 	}
@@ -116,12 +113,11 @@ public class HP33120aControl implements ActionListener, FocusListener{
 		
 		// TODO: We need a catalog to know what each number means
 		hp33120a.setSignalShape(view.getSignalShape().getSelectedIndex());
+		hp33120a.setUnit(view.getUnit().getSelectedIndex());
 		hp33120a.setSignalFreq(Float.parseFloat(view.getFrequency()));
 		hp33120a.setSignalAmp(Float.parseFloat(view.getAmplitude()));
 		hp33120a.setSignalOff(Float.parseFloat(view.getOffset()));
-		hp33120a.setRampSymm(Integer.parseInt(view.getRampSymmetry()));
 		hp33120a.setDutyCycleSq(Integer.parseInt(view.getDutyCycleSquare()));
-		hp33120a.setDutyCyclePuls(Integer.parseInt(view.getDutyCyclePulse()));
 		
 		if(combo.getSelectedItem().equals(WaveFormInterface.MODULATION)){
 			// We also read the modulation fields
@@ -130,8 +126,6 @@ public class HP33120aControl implements ActionListener, FocusListener{
 			hp33120a.setAmDepth(Integer.parseInt(view.getAmDepth()));
 			hp33120a.setDeviationFM(Float.parseFloat(view.getFmDeviation()));
 			hp33120a.setHopFrequency(Float.parseFloat(view.getHopFrequency()));
-			hp33120a.setInternalDeviation(Float.parseFloat(view.getIntDeviationPWM()));
-			hp33120a.setPhaseDeviation(Float.parseFloat(view.getPhaseDeviationPM()));
 			hp33120a.setBurstRate(Float.parseFloat(view.getBurstRate()));
 			hp33120a.setBurstCount(Integer.parseInt(view.getBurstCount()));
 			hp33120a.setBurstPhase(Integer.parseInt(view.getBurstPhase()));
