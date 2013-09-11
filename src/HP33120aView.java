@@ -286,7 +286,7 @@ public class HP33120aView implements HP33120aInterface{
 		burstPhase.setColumns(10);
 		
 	}
-	
+	// Hola que tal
 	// get the HP34401 GUI and its components for display
 	public JComponent getHP33120aPanel(){
 		return wfmGenPanel;
