@@ -1,9 +1,9 @@
 
 public class HP33120a {
 	private String frame;
-	private int signalShape, typeOfSignal, modType, modWfmShape, amDepth, burstCount, burstPhase;
-	private float signalFreq, signalAmp, signalOff, deviationFM, hopFrequency, internalDeviation, phaseDeviation, burstRate, modFreq;
-	private int rampSymm, dutyCycleSq, dutyCyclePuls;
+	private int signalShape, typeOfSignal, unit, modType, modWfmShape, amDepth, burstCount, burstPhase;
+	private float signalFreq, signalAmp, signalOff, deviationFM, hopFrequency, burstRate, modFreq;
+	private int dutyCycleSq;
 	private String dataValidationMessage;
 	
 	public HP33120a(){
@@ -12,21 +12,20 @@ public class HP33120a {
 		 *  Signal Mode, generating a 1000Hz Sine, without offset and 2 Vpp
 		 */
 		this.typeOfSignal = 0;		// Signal instead of modulation
+		this.unit = 0;
 		this.signalShape = 1;		// Sine Waveform
 		this.signalFreq = 1000f;	// 1000Hz
 		this.signalAmp = 2f;		// 2Vpp
 		this.signalOff = 0f;		// 0V
 		
-		// Initialization of rampSymme, dutyCycleSq and dutyCyclePuls to 50% although
+		// Initialization of dutyCycleSq to 50% although
 		// it is no necessary because we are generating a Sine
-		this.dutyCyclePuls = 50;
 		this.dutyCycleSq = 50;
-		this.rampSymm = 50;
 		
 		// Modulation fields 
 		// TODO: Initialize modulation fields
 		
-		// Frame Initialization to null
+		// Frame Initialization to an empty value
 		this.frame = "";		
 	}
 
@@ -36,20 +35,17 @@ public class HP33120a {
 	public void setFrame() {
 		this.frame = String.valueOf(this.typeOfSignal) 
 				+ "," + String.valueOf(this.signalShape)
+				+ "," + String.valueOf(this.unit)
 				+ "," + String.valueOf(this.signalFreq)
 				+ "," + String.valueOf(this.signalAmp)
 				+ "," + String.valueOf(this.signalOff)
-				+ "," + String.valueOf(this.rampSymm)
 				+ "," + String.valueOf(this.dutyCycleSq)
-				+ "," + String.valueOf(this.dutyCyclePuls)
 				+ "," + String.valueOf(this.modType)
 				+ "," + String.valueOf(this.modWfmShape)
 				+ "," + String.valueOf(this.modFreq)
 				+ "," + String.valueOf(this.amDepth)
 				+ "," + String.valueOf(this.deviationFM)
 				+ "," + String.valueOf(this.hopFrequency)
-				+ "," + String.valueOf(this.internalDeviation)
-				+ "," + String.valueOf(this.phaseDeviation)
 				+ "," + String.valueOf(this.burstRate)
 				+ "," + String.valueOf(this.burstCount)
 				+ "," + String.valueOf(this.burstPhase);
@@ -170,22 +166,6 @@ public class HP33120a {
 		this.hopFrequency = hopFrequency;
 	}
 
-	public float getInternalDeviation() {
-		return internalDeviation;
-	}
-
-	public void setInternalDeviation(float internalDeviation) {
-		this.internalDeviation = internalDeviation;
-	}
-
-	public float getPhaseDeviation() {
-		return phaseDeviation;
-	}
-
-	public void setPhaseDeviation(float phaseDeviation) {
-		this.phaseDeviation = phaseDeviation;
-	}
-
 	public float getBurstRate() {
 		return burstRate;
 	}
@@ -202,14 +182,6 @@ public class HP33120a {
 		this.modFreq = modFreq;
 	}
 
-	public int getRampSymm() {
-		return rampSymm;
-	}
-
-	public void setRampSymm(int rampSymm) {
-		this.rampSymm = rampSymm;
-	}
-
 	public int getDutyCycleSq() {
 		return dutyCycleSq;
 	}
@@ -218,11 +190,11 @@ public class HP33120a {
 		this.dutyCycleSq = dutyCycleSq;
 	}
 
-	public int getDutyCyclePuls() {
-		return dutyCyclePuls;
+	public int getUnit() {
+		return unit;
 	}
 
-	public void setDutyCyclePuls(int dutyCyclePuls) {
-		this.dutyCyclePuls = dutyCyclePuls;
+	public void setUnit(int unit) {
+		this.unit = unit;
 	}
 }

@@ -13,6 +13,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.border.EtchedBorder;
+import javax.swing.JToggleButton;
 
 
 public class HP34401aView implements HP34401aInterface{
@@ -22,15 +23,23 @@ public class HP34401aView implements HP34401aInterface{
 	 */
 	
 	private JPanel dmmPanel = new JPanel();	// Holds the HP34401 GUI and its components, it is raised in the main View
-	private JTextField textField;
+	private JComboBox function;
+	private JComboBox resolution;
+	private JComboBox triggerSource;
+	private JTextField manualRange;
 	private JTextField measure;
+	private JToggleButton btnAutozero;
+	private JToggleButton btnAutoRange;
+	private JButton configButton;
 	
 	public HP34401aView(){
 		dmmPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(104dlu;default):grow"),},
+				ColumnSpec.decode("center:max(79dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(75dlu;default)"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -62,7 +71,7 @@ public class HP34401aView implements HP34401aInterface{
 		JLabel functionLabel = new JLabel("Function:");
 		dmmPanel.add(functionLabel, "2, 4, right, default");
 		
-		JComboBox function = new JComboBox();
+		function = new JComboBox();
 		function.setModel(new DefaultComboBoxModel(new String[] {DC_VOLTAGE,
 				AC_VOLTAGE,
 				WIRE_2_RESISTANCE,
@@ -81,23 +90,23 @@ public class HP34401aView implements HP34401aInterface{
 		JLabel resolutionLabel = new JLabel("Resolution:");
 		dmmPanel.add(resolutionLabel, "2, 6, right, default");
 		
-		JComboBox resolution = new JComboBox();
+		resolution = new JComboBox();
 		resolution.setModel(new DefaultComboBoxModel(new String[] {FOUR_DIGITS, FIVE_DIGITS, SIX_DIGITS }));
 		dmmPanel.add(resolution, "4, 6, fill, default");
 		
 		JLabel triggerLabel = new JLabel("Trigger Source:");
 		dmmPanel.add(triggerLabel, "2, 8, right, top");
 		
-		JComboBox triggerSource = new JComboBox();
+		triggerSource = new JComboBox();
 		triggerSource.setModel(new DefaultComboBoxModel(new String[] {IMMEDIATE, SOFTWARE, EXTERNAL, INTERNAL}));
 		dmmPanel.add(triggerSource, "4, 8, fill, default");
 		
 		JLabel lblNewLabel_1 = new JLabel("Manual Range:");
 		dmmPanel.add(lblNewLabel_1, "2, 10, right, default");
 		
-		textField = new JTextField();
-		dmmPanel.add(textField, "4, 10, fill, default");
-		textField.setColumns(10);
+		manualRange = new JTextField();
+		dmmPanel.add(manualRange, "4, 10, fill, default");
+		manualRange.setColumns(10);
 		
 		JLabel resultLabel = new JLabel("Measure: ");
 		dmmPanel.add(resultLabel, "2, 16, right, default");
@@ -108,11 +117,17 @@ public class HP34401aView implements HP34401aInterface{
 		dmmPanel.add(measure, "4, 16, fill, default");
 		measure.setColumns(10);
 		
-		JButton btnAutozero = new JButton("Auto-Zero");
-		dmmPanel.add(btnAutozero, "2, 22, center, top");
+		btnAutozero = new JToggleButton("Auto-Zero");
+		btnAutozero.setActionCommand(AUTOZERO);
+		dmmPanel.add(btnAutozero, "2, 22, fill, top");
 		
-		JButton btnNewButton = new JButton("Auto-Range");
-		dmmPanel.add(btnNewButton, "4, 22, left, default");
+		btnAutoRange = new JToggleButton("Auto-Range");
+		btnAutoRange.setActionCommand(AUTORANGE);
+		dmmPanel.add(btnAutoRange, "4, 22, fill, default");
+		
+		configButton = new JButton("Do it! ");
+		configButton.setActionCommand(CONFIG);
+		dmmPanel.add(configButton, "6, 22");
 		
 	
 	}
@@ -120,5 +135,53 @@ public class HP34401aView implements HP34401aInterface{
 	// get the HP34401 GUI and its components for display
 	public JComponent getHP34401aPanel(){
 		return dmmPanel;
+	}
+
+	@Override
+	public JComboBox getFunction() {		
+		return function;
+	}
+
+	@Override
+	public JComboBox getResolution() {
+		return resolution;
+	}
+
+	@Override
+	public JComboBox getTriggerSource() {
+		return triggerSource;
+	}
+
+	@Override
+	public String getRange() {
+		return manualRange.getText();
+	}
+
+	@Override
+	public void setMeasure(String measure) {
+		this.measure.setText(measure);
+	}
+
+	@Override
+	public void setHP34401aControl(HP34401aControl control) {
+		manualRange.addFocusListener(control);
+		btnAutozero.addActionListener(control);
+		btnAutoRange.addActionListener(control);
+		configButton.addActionListener(control);
+	}
+
+	@Override
+	public JToggleButton getAutoRange() {
+		return btnAutoRange;
+	}
+
+	@Override
+	public JToggleButton getAutoZero() {
+		return btnAutozero;
+	}
+
+	@Override
+	public void configManualRange(boolean value) {
+		manualRange.setEditable(value);
 	}
 }

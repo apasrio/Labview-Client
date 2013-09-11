@@ -16,6 +16,7 @@ public interface WaveFormInterface {
 	public JComboBox getSignalShape();
 	public JComboBox getModWfmShape();
 	public JComboBox getModType();
+	public JComboBox getUnit();
 	public JPanel getModConfiguration();
 	public JButton getConnectButton();
 	public String getBurstPhase();
@@ -36,7 +37,12 @@ public interface WaveFormInterface {
 	
 	public void setDataValidationMessage(String validationMessage);
 	public void disableDataValidationLabel();
-		
+	
+	static final int QUERY_MESSAGE_TYPE = 20;
+	
+	static final String VPP = "Vpp";
+	static final String VRMS = "Vrms";
+	static final String DB = "dB";		
 	static final String TYPE_OF_SIGNAL = "Type of Signal";
 	static final String MODULATION = "Modulation";
 	static final String SIGNAL = "Simple Signal";

@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -7,8 +8,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 
@@ -21,9 +24,9 @@ import com.jgoodies.forms.layout.RowSpec;
 public class HP33120aView implements HP33120aInterface{
 
 	private JPanel wfmGenPanel = new JPanel();	// Holds the HP34401 GUI and its components, it is raised in the main View
-	private JTextField frequency, amplitude, rampSymmetry, dutyCycleSquare, dutyCyclePulse, modulatingFreq, offset;
-	private JTextField amDepth, fmDeviation, hopFrequency, intDeviationPWM, phaseDeviationPM, burstRate, burstCount, burstPhase;
-	private JComboBox typeOfSignal, modType, modWfmShape, wfmShape;
+	private JTextField frequency, amplitude, dutyCycleSquare, modulatingFreq, offset;
+	private JTextField amDepth, fmDeviation, hopFrequency, burstRate, burstCount, burstPhase;
+	private JComboBox typeOfSignal, modType, modWfmShape, wfmShape, unit;
 	private JButton btnWfmConf;
 	private JLabel dataValidationMsg;
 	
@@ -102,41 +105,40 @@ public class HP33120aView implements HP33120aInterface{
 		wfmShape.setModel(new DefaultComboBoxModel(new String[] {"DC", "Sine", "Square", "Triangle", "Ramp", "Pulse", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
 		signalConf.add(wfmShape, "4, 6, fill, default");
 		
+		JLabel lblUnit = new JLabel("Unit:");
+		signalConf.add(lblUnit, "2, 8, right, default");
+		
+		unit = new JComboBox();
+		signalConf.add(unit, "4, 8, fill, default");
+		unit.setModel(new DefaultComboBoxModel(new String[] {VPP, VRMS, DB}));
+		
+		
 		JLabel lblFrequency = new JLabel("Frequency (Hz): ");
-		signalConf.add(lblFrequency, "2, 8, right, center");
+		signalConf.add(lblFrequency, "2, 10, right, center");
 		
 		frequency = new JTextField();
 		frequency.setText("1000");
 		frequency.setName(FREQUENCY);
-		signalConf.add(frequency, "4, 8, fill, default");
+		signalConf.add(frequency, "4, 10, fill, default");
 		frequency.setColumns(10);
 		
 		JLabel lblAmplitude = new JLabel("Amplitude (Vpp): ");
-		signalConf.add(lblAmplitude, "2, 10, right, center");
+		signalConf.add(lblAmplitude, "2, 12, right, center");
 		
 		amplitude = new JTextField();
 		amplitude.setText("1");
 		amplitude.setName(AMPLITUDE);
-		signalConf.add(amplitude, "4, 10, fill, default");
+		signalConf.add(amplitude, "4, 12, fill, default");
 		amplitude.setColumns(10);
 		
 		JLabel lblOffset = new JLabel("Offset (Vdc): ");
-		signalConf.add(lblOffset, "2, 12, right, default");
+		signalConf.add(lblOffset, "2, 14, right, default");
 		
 		offset = new JTextField();
 		offset.setText("0");
 		offset.setName(OFFSET);
-		signalConf.add(offset, "4, 12, fill, default");
+		signalConf.add(offset, "4, 14, fill, default");
 		offset.setColumns(10);
-		
-		JLabel lblRampSymmetry = new JLabel("Ramp Symmetry(%):");
-		signalConf.add(lblRampSymmetry, "2, 14, right, default");
-		
-		rampSymmetry = new JTextField();
-		rampSymmetry.setText("50");
-		rampSymmetry.setName(RAMP_SYMMETRY);
-		signalConf.add(rampSymmetry, "4, 14, fill, default");
-		rampSymmetry.setColumns(10);
 		
 		JLabel lblDutyCycleSqr = new JLabel("Duty Cycle (%) Square:");
 		signalConf.add(lblDutyCycleSqr, "2, 16, right, default");
@@ -146,15 +148,6 @@ public class HP33120aView implements HP33120aInterface{
 		dutyCycleSquare.setName(DUTY_CYCLE_SQUARE);
 		signalConf.add(dutyCycleSquare, "4, 16, fill, default");
 		dutyCycleSquare.setColumns(10);
-		
-		JLabel lblDutyCyclePuls = new JLabel("Duty Cycle (%) Pulse:");
-		signalConf.add(lblDutyCyclePuls, "2, 18, right, default");
-		
-		dutyCyclePulse = new JTextField();
-		dutyCyclePulse.setText("50");
-		dutyCyclePulse.setName(DUTY_CYCLE_PULSE);
-		signalConf.add(dutyCyclePulse, "4, 18, fill, default");
-		dutyCyclePulse.setColumns(10);
 		
 		btnWfmConf = new JButton("Do it!");
 		btnWfmConf.setActionCommand(CONFIG);
@@ -211,6 +204,8 @@ public class HP33120aView implements HP33120aInterface{
 		modType.setMaximumRowCount(4);
 		modType.setModel(new DefaultComboBoxModel(new String[] {"AM", "FM", "PWM", "PM", "FSK", "Burst Mode"}));
 		modConf.add(modType, "4, 4, fill, default");
+		// TODO: fix the next line
+		// modType.setRenderer(new CustomListCellRenderer());
 		
 		JLabel lblModWfmShape = new JLabel("Modulating wfm Shape:");
 		modConf.add(lblModWfmShape, "2, 6, right, default");
@@ -260,58 +255,37 @@ public class HP33120aView implements HP33120aInterface{
 		modConf.add(hopFrequency, "4, 14, fill, default");
 		hopFrequency.setColumns(10);
 		
-		JLabel lblIntDeviationPWM = new JLabel("Int. Deviation PWM (%):");
-		modConf.add(lblIntDeviationPWM, "2, 16, right, default");
-		
-		intDeviationPWM = new JTextField();
-		intDeviationPWM.setText("0");
-		intDeviationPWM.setEnabled(false);
-		intDeviationPWM.setName(DEVIATION_PWM);
-		modConf.add(intDeviationPWM, "4, 16, fill, default");
-		intDeviationPWM.setColumns(10);
-		
-		JLabel lblPhaseDeviationPM = new JLabel("Phase Deviation PM (deg):");
-		modConf.add(lblPhaseDeviationPM, "2, 18, right, default");
-		
-		phaseDeviationPM = new JTextField();
-		phaseDeviationPM.setText("0");
-		phaseDeviationPM.setEnabled(false);
-		phaseDeviationPM.setName(PHASE_DEVIATION_PM);
-		modConf.add(phaseDeviationPM, "4, 18, fill, default");
-		phaseDeviationPM.setColumns(10);
-		
 		JLabel lblBurstRate = new JLabel("Burst Rate (Hz):");
-		modConf.add(lblBurstRate, "2, 20, right, default");
+		modConf.add(lblBurstRate, "2, 16, right, default");
 		
 		burstRate = new JTextField();
 		burstRate.setText("100");
 		burstRate.setEnabled(false);
 		burstRate.setName(BURST_RATE);
-		modConf.add(burstRate, "4, 20, fill, default");
+		modConf.add(burstRate, "4, 16, fill, default");
 		burstRate.setColumns(10);
 		
 		JLabel lblBurstCount = new JLabel("Burst Count:");
-		modConf.add(lblBurstCount, "2, 22, right, default");
+		modConf.add(lblBurstCount, "2, 18, right, default");
 		
 		burstCount = new JTextField();
 		burstCount.setText("1");
 		burstCount.setEnabled(false);
 		burstCount.setName(BURST_COUNT);
-		modConf.add(burstCount, "4, 22, fill, default");
+		modConf.add(burstCount, "4, 18, fill, default");
 		burstCount.setColumns(10);
 		
 		JLabel lblBurstPhase = new JLabel("Burst Phase (deg):");
-		modConf.add(lblBurstPhase, "2, 24, right, default");
+		modConf.add(lblBurstPhase, "2, 20, right, default");
 		
 		burstPhase = new JTextField();
 		burstPhase.setText("0");
 		burstPhase.setEnabled(false);
 		burstPhase.setName(BURST_PHASE);
-		modConf.add(burstPhase, "4, 24, fill, default");
+		modConf.add(burstPhase, "4, 20, fill, default");
 		burstPhase.setColumns(10);
 		
 	}
-	
 	// get the HP34401 GUI and its components for display
 	public JComponent getHP33120aPanel(){
 		return wfmGenPanel;
@@ -325,8 +299,6 @@ public class HP33120aView implements HP33120aInterface{
 		amDepth.setEnabled(true);
 		fmDeviation.setEnabled(true);
 		hopFrequency.setEnabled(true);
-		intDeviationPWM.setEnabled(true);
-		phaseDeviationPM.setEnabled(true);
 		burstRate.setEnabled(true);
 		burstCount.setEnabled(true);
 		burstPhase.setEnabled(true);
@@ -340,8 +312,6 @@ public class HP33120aView implements HP33120aInterface{
 		amDepth.setEnabled(false);
 		fmDeviation.setEnabled(false);
 		hopFrequency.setEnabled(false);
-		intDeviationPWM.setEnabled(false);
-		phaseDeviationPM.setEnabled(false);
 		burstRate.setEnabled(false);
 		burstCount.setEnabled(false);
 		burstPhase.setEnabled(false);		
@@ -374,16 +344,13 @@ public class HP33120aView implements HP33120aInterface{
 		btnWfmConf.addActionListener(wfmc);
 		frequency.addFocusListener(wfmc);
 		amplitude.addFocusListener(wfmc);
+		unit.addActionListener(wfmc);
 		offset.addFocusListener(wfmc);
-		rampSymmetry.addFocusListener(wfmc);
 		dutyCycleSquare.addFocusListener(wfmc);
-		dutyCyclePulse.addFocusListener(wfmc);
 		modulatingFreq.addFocusListener(wfmc);
 		amDepth.addFocusListener(wfmc);
 		fmDeviation.addFocusListener(wfmc);
 		hopFrequency.addFocusListener(wfmc);
-		intDeviationPWM.addFocusListener(wfmc);
-		phaseDeviationPM.addFocusListener(wfmc);
 		burstRate.addFocusListener(wfmc);
 		burstCount.addFocusListener(wfmc);
 		burstPhase.addFocusListener(wfmc);
@@ -433,17 +400,7 @@ public class HP33120aView implements HP33120aInterface{
 	public String getBurstRate() {
 		return burstRate.getText();
 	}
-
-	@Override
-	public String getPhaseDeviationPM() {
-		return phaseDeviationPM.getText();
-	}
-
-	@Override
-	public String getIntDeviationPWM() {
-		return intDeviationPWM.getText();
-	}
-
+	
 	@Override
 	public String getHopFrequency() {
 		return hopFrequency.getText();
@@ -465,18 +422,8 @@ public class HP33120aView implements HP33120aInterface{
 	}
 
 	@Override
-	public String getDutyCyclePulse() {		
-		return dutyCyclePulse.getText();
-	}
-
-	@Override
 	public String getDutyCycleSquare() {
 		return dutyCycleSquare.getText();
-	}
-
-	@Override
-	public String getRampSymmetry() {
-		return rampSymmetry.getText();
 	}
 
 	@Override
@@ -487,5 +434,24 @@ public class HP33120aView implements HP33120aInterface{
 	@Override
 	public String getOffset() {
 		return offset.getText();
+	}
+
+	@Override
+	public JComboBox getUnit() {
+		return unit;
+	}
+	
+	// TODO: Make it work right! 
+	class CustomListCellRenderer extends JLabel implements ListCellRenderer{
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value,
+				int index, boolean isSelected, boolean cellHasFocus) {
+			setText(value.toString());
+			if(index ==  2 || index == 3){
+				setEnabled(false);
+				setFocusable(false);
+			}
+			return this;
+		}		
 	}
 }

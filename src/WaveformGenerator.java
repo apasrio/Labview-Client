@@ -3,7 +3,7 @@ public class WaveformGenerator {
 	
 	private int signalShape, typeOfSignal, modType, modWfmShape, amDepth, burstCount, burstPhase;
 	private float signalFreq, signalAmp, signalOff, deviationFM, hopFrequency, internalDeviation, phaseDeviation, burstRate, modFreq;
-	private int rampSymm, dutyCycleSq, dutyCyclePuls;
+	private int rampSymm, dutyCycleSq, dutyCyclePuls, unit;
 	private String frame;
 	private String dataValidationMessage;
 	
@@ -12,12 +12,13 @@ public class WaveformGenerator {
 		 *  Constructor to build a default instance of WaveformGenerator
 		 *  Signal Mode, generating a 1000Hz Sine, without offset and 2 Vpp
 		 */
-		this.typeOfSignal = 0; // Type of signal
+		this.typeOfSignal = 0; 		// Type of signal3
 		
-		this.signalShape = 1; //Sine Signal
-		this.signalFreq = 1000f; //1000Hz
-		this.signalAmp = 2f; // 2Vpp
-		this.signalOff = 0f; // Offset
+		this.signalShape = 1; 		//Sine Signal
+		this.unit = 0; 				// (0) Vpp Units, (1) Vrms, (2) dB
+		this.signalFreq = 1000f; 	//1000Hz
+		this.signalAmp = 2f; 		// 2Vpp
+		this.signalOff = 0f; 		// Offset
 		
 		// Initialization of rampSymme, dutyCycleSq and dutyCyclePuls to 50% although
 		// it is no necessary because we are generating a Sine 
@@ -36,6 +37,7 @@ public class WaveformGenerator {
 	public void setFrame() {
 		this.frame = String.valueOf(this.typeOfSignal) 
 				+ "," + String.valueOf(this.signalShape)
+				+ "," + String.valueOf(this.unit)
 				+ "," + String.valueOf(this.signalFreq)
 				+ "," + String.valueOf(this.signalAmp)
 				+ "," + String.valueOf(this.signalOff)
@@ -224,5 +226,13 @@ public class WaveformGenerator {
 
 	public String getDataValidationMessage() {
 		return dataValidationMessage;
+	}
+
+	public int getUnit() {
+		return unit;
+	}
+
+	public void setUnit(int unit) {
+		this.unit = unit;
 	}
 }
