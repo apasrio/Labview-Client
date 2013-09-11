@@ -24,17 +24,17 @@ public class WaveformControl implements ActionListener, FocusListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		System.out.println("Event Triggered");
-		if(event.getActionCommand().equals(WaveFormInterface.TYPE_OF_SIGNAL)){	
-			combo = ((WaveFormInterface) view).getTypeOfSignal();
-			if (combo.getSelectedItem().equals(WaveFormInterface.SIGNAL)){
+		if(event.getActionCommand().equals(AG33220aInterface.TYPE_OF_SIGNAL)){	
+			combo = ((AG33220aInterface) view).getTypeOfSignal();
+			if (combo.getSelectedItem().equals(AG33220aInterface.SIGNAL)){
 				System.out.println("Disabling Buttons");
-				((WaveFormInterface) view).disableModulationbuttons();
-			} else if (combo.getSelectedItem().equals(WaveFormInterface.MODULATION)){
-				((WaveFormInterface) view).enableModulationButtons();
+				((AG33220aInterface) view).disableModulationbuttons();
+			} else if (combo.getSelectedItem().equals(AG33220aInterface.MODULATION)){
+				((AG33220aInterface) view).enableModulationButtons();
 				System.out.println("Enabling Buttons");
 			}
 		}
-		if(event.getActionCommand().equals(WaveFormInterface.CONFIG)){
+		if(event.getActionCommand().equals(AG33220aInterface.CONFIG)){
 			// Configuration Button has been pressed, we have to read all the fields
 			// create a request and send it to the server. We are going to use the CSV format
 			System.out.println("Do it!! Button has been presed");	
@@ -44,45 +44,45 @@ public class WaveformControl implements ActionListener, FocusListener{
 			System.out.println(wfmGen.getFrame());
 			
 			try {
-				TCPClient.bidirectComm(wfmGen.getFrame(), WaveFormInterface.QUERY_MESSAGE_TYPE);
+				TCPClient.bidirectComm(wfmGen.getFrame(), AG33220aInterface.QUERY_MESSAGE_TYPE);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			}
-		if(event.getActionCommand().equals(WaveFormInterface.FREQUENCY)){
+		if(event.getActionCommand().equals(AG33220aInterface.FREQUENCY)){
 			System.out.println("A system has lost its focus! ");
 		}
 	}
 	
 	private void readFields(){
-		combo = ((WaveFormInterface) view).getTypeOfSignal();
+		combo = ((AG33220aInterface) view).getTypeOfSignal();
 		// Start reading signal fields
-		System.out.println(((WaveFormInterface) view).getTypeOfSignal().getSelectedItem());
-		wfmGen.setTypeOfSignal(((WaveFormInterface) view).getTypeOfSignal().getSelectedIndex());
+		System.out.println(((AG33220aInterface) view).getTypeOfSignal().getSelectedItem());
+		wfmGen.setTypeOfSignal(((AG33220aInterface) view).getTypeOfSignal().getSelectedIndex());
 		
 		// TODO: We need a catalog to know what each number means
-		wfmGen.setSignalShape(((WaveFormInterface) view).getSignalShape().getSelectedIndex());
-		wfmGen.setUnit(((WaveFormInterface) view).getUnit().getSelectedIndex());
-		wfmGen.setSignalFreq(Float.parseFloat(((WaveFormInterface) view).getFrequency()));
-		wfmGen.setSignalAmp(Float.parseFloat(((WaveFormInterface) view).getAmplitude()));
-		wfmGen.setSignalOff(Float.parseFloat(((WaveFormInterface) view).getOffset()));
-		wfmGen.setRampSymm(Integer.parseInt(((WaveFormInterface) view).getRampSymmetry()));
-		wfmGen.setDutyCycleSq(Integer.parseInt(((WaveFormInterface) view).getDutyCycleSquare()));
-		wfmGen.setDutyCyclePuls(Integer.parseInt(((WaveFormInterface) view).getDutyCyclePulse()));
+		wfmGen.setSignalShape(((AG33220aInterface) view).getSignalShape().getSelectedIndex());
+		wfmGen.setUnit(((AG33220aInterface) view).getUnit().getSelectedIndex());
+		wfmGen.setSignalFreq(Float.parseFloat(((AG33220aInterface) view).getFrequency()));
+		wfmGen.setSignalAmp(Float.parseFloat(((AG33220aInterface) view).getAmplitude()));
+		wfmGen.setSignalOff(Float.parseFloat(((AG33220aInterface) view).getOffset()));
+		wfmGen.setRampSymm(Integer.parseInt(((AG33220aInterface) view).getRampSymmetry()));
+		wfmGen.setDutyCycleSq(Integer.parseInt(((AG33220aInterface) view).getDutyCycleSquare()));
+		wfmGen.setDutyCyclePuls(Integer.parseInt(((AG33220aInterface) view).getDutyCyclePulse()));
 		
-		if(combo.getSelectedItem().equals(WaveFormInterface.MODULATION)){
+		if(combo.getSelectedItem().equals(AG33220aInterface.MODULATION)){
 			// We also read the modulation fields
-			wfmGen.setModType(((WaveFormInterface) view).getModType().getSelectedIndex());
-			wfmGen.setModWfmShape(((WaveFormInterface) view).getModWfmShape().getSelectedIndex());
-			wfmGen.setAmDepth(Integer.parseInt(((WaveFormInterface) view).getAmDepth()));
-			wfmGen.setDeviationFM(Float.parseFloat(((WaveFormInterface) view).getFmDeviation()));
-			wfmGen.setHopFrequency(Float.parseFloat(((WaveFormInterface) view).getHopFrequency()));
-			wfmGen.setInternalDeviation(Float.parseFloat(((WaveFormInterface) view).getIntDeviationPWM()));
-			wfmGen.setPhaseDeviation(Float.parseFloat(((WaveFormInterface) view).getPhaseDeviationPM()));
-			wfmGen.setBurstRate(Float.parseFloat(((WaveFormInterface) view).getBurstRate()));
-			wfmGen.setBurstCount(Integer.parseInt(((WaveFormInterface) view).getBurstCount()));
-			wfmGen.setBurstPhase(Integer.parseInt(((WaveFormInterface) view).getBurstPhase()));
+			wfmGen.setModType(((AG33220aInterface) view).getModType().getSelectedIndex());
+			wfmGen.setModWfmShape(((AG33220aInterface) view).getModWfmShape().getSelectedIndex());
+			wfmGen.setAmDepth(Integer.parseInt(((AG33220aInterface) view).getAmDepth()));
+			wfmGen.setDeviationFM(Float.parseFloat(((AG33220aInterface) view).getFmDeviation()));
+			wfmGen.setHopFrequency(Float.parseFloat(((AG33220aInterface) view).getHopFrequency()));
+			wfmGen.setInternalDeviation(Float.parseFloat(((AG33220aInterface) view).getIntDeviationPWM()));
+			wfmGen.setPhaseDeviation(Float.parseFloat(((AG33220aInterface) view).getPhaseDeviationPM()));
+			wfmGen.setBurstRate(Float.parseFloat(((AG33220aInterface) view).getBurstRate()));
+			wfmGen.setBurstCount(Integer.parseInt(((AG33220aInterface) view).getBurstCount()));
+			wfmGen.setBurstPhase(Integer.parseInt(((AG33220aInterface) view).getBurstPhase()));
 		}
 	}
 
@@ -99,46 +99,46 @@ public class WaveformControl implements ActionListener, FocusListener{
 		final JTextComponent c = (JTextComponent) event.getSource();
 		String name = c.getName();
 		String text = c.getText();
-		if (name.equals(WaveFormInterface.AMPLITUDE)){
+		if (name.equals(AG33220aInterface.AMPLITUDE)){
 			System.out.println("Here should be called the data-validation method for Amplitude");
-		}else if (name.equals(WaveFormInterface.FREQUENCY)){
+		}else if (name.equals(AG33220aInterface.FREQUENCY)){
 			System.out.println("Here should be called the data-validation method for Frequency");
 			VALIDATION_FLAG = wfmGen.frequencyValidation(text);
 			if(VALIDATION_FLAG){
 				// There is some error in the frequency
 				System.out.println("Frequency is higher than expected");
-				((WaveFormInterface) view).disableExecutionButton();
-				((WaveFormInterface) view).setDataValidationMessage(wfmGen.getDataValidationMessage());
+				((AG33220aInterface) view).disableExecutionButton();
+				((AG33220aInterface) view).setDataValidationMessage(wfmGen.getDataValidationMessage());
 			}
 			else{
-				((WaveFormInterface) view).enableExecutionButton();
-				((WaveFormInterface) view).disableDataValidationLabel();
+				((AG33220aInterface) view).enableExecutionButton();
+				((AG33220aInterface) view).disableDataValidationLabel();
 			}				
-		} else if (name.equals(WaveFormInterface.OFFSET)){
+		} else if (name.equals(AG33220aInterface.OFFSET)){
 			System.out.println("Here should be called the data-validation method for Offset");
-		}else if (name.equals(WaveFormInterface.RAMP_SYMMETRY)){
+		}else if (name.equals(AG33220aInterface.RAMP_SYMMETRY)){
 			System.out.println("Here should be called the data-validation method for Ramp Symmetry");
-		}else if (name.equals(WaveFormInterface.DUTY_CYCLE_SQUARE)){
+		}else if (name.equals(AG33220aInterface.DUTY_CYCLE_SQUARE)){
 			System.out.println("Here should be called the data-validation method for Duty Cycle Square");
-		}else if (name.equals(WaveFormInterface.DUTY_CYCLE_PULSE)){
+		}else if (name.equals(AG33220aInterface.DUTY_CYCLE_PULSE)){
 			System.out.println("Here should be called the data-validation method for Duty Cycle Pulse");
-		}else if (name.equals(WaveFormInterface.MODULATING_FREQUENCY)){
+		}else if (name.equals(AG33220aInterface.MODULATING_FREQUENCY)){
 			System.out.println("Here should be called the data-validation method for Modulating Frequency");
-		}else if (name.equals(WaveFormInterface.AM_DEPTH)){
+		}else if (name.equals(AG33220aInterface.AM_DEPTH)){
 			System.out.println("Here should be called the data-validation method for AM Depth");
-		}else if (name.equals(WaveFormInterface.FM_DEVIATION)){
+		}else if (name.equals(AG33220aInterface.FM_DEVIATION)){
 			System.out.println("Here should be called the data-validation method for FM Deviation");
-		}else if (name.equals(WaveFormInterface.HOP_FREQUENCY)){
+		}else if (name.equals(AG33220aInterface.HOP_FREQUENCY)){
 			System.out.println("Here should be called the data-validation method for Hop Frequency");
-		}else if (name.equals(WaveFormInterface.DEVIATION_PWM)){
+		}else if (name.equals(AG33220aInterface.DEVIATION_PWM)){
 			System.out.println("Here should be called the data-validation method for Int Deviation PWM");
-		}else if (name.equals(WaveFormInterface.PHASE_DEVIATION_PM)){
+		}else if (name.equals(AG33220aInterface.PHASE_DEVIATION_PM)){
 			System.out.println("Here should be called the data-validation method for Phase Deviation");
-		}else if (name.equals(WaveFormInterface.BURST_RATE)){
+		}else if (name.equals(AG33220aInterface.BURST_RATE)){
 			System.out.println("Here should be called the data-validation method for Burst Rate");
-		}else if (name.equals(WaveFormInterface.BURST_COUNT)){
+		}else if (name.equals(AG33220aInterface.BURST_COUNT)){
 			System.out.println("Here should be called the data-validation method for Burst Count");
-		}else if (name.equals(WaveFormInterface.BURST_PHASE)){
+		}else if (name.equals(AG33220aInterface.BURST_PHASE)){
 			System.out.println("Here should be called the data-validation method for Burst Phase");
 		}
 		System.out.println("Text : " +text);

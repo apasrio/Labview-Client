@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
-public interface WaveFormInterface {
+public interface AG33220aInterface {
 	void enableModulationButtons(); // Method to enable buttons if normal signal is selected	
 	void disableModulationbuttons(); // Method to disable buttons if normal signal is selected
 	void disableExecutionButton();	// Method to disable the Execution Button if there is any problem with data validation

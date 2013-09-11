@@ -23,7 +23,7 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class HP33120aView implements HP33120aInterface{
 
-	private JPanel wfmGenPanel = new JPanel();	// Holds the HP34401 GUI and its components, it is raised in the main View
+	private JPanel wfmGenPanel = new JPanel();	// Holds the HP33120A GUI and its components, it is raised in the main View
 	private JTextField frequency, amplitude, dutyCycleSquare, modulatingFreq, offset;
 	private JTextField amDepth, fmDeviation, hopFrequency, burstRate, burstCount, burstPhase;
 	private JComboBox typeOfSignal, modType, modWfmShape, wfmShape, unit;

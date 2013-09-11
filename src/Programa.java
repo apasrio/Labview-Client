@@ -22,7 +22,7 @@ public class Programa{
 					ConfControl confControl = new ConfControl(vista, clientSocket);
 					WaveformControl wfmControl = new WaveformControl(vista, clientSocket, ag33220a);
 					vista.setConfControl(confControl);
-					((WaveFormInterface) vista).setWfmControl(wfmControl);
+					((AG33220aInterface) vista).setWfmControl(wfmControl);
 					
 				} catch (Exception e) {
 					e.printStackTrace();

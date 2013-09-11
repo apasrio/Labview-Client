@@ -21,7 +21,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 
-public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
+public class Vista extends JFrame implements ViewInterface, AG33220aInterface {
 	
 		
 	static String SocketIp = "127.0.0.1";
