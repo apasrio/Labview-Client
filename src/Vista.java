@@ -37,6 +37,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	private JLabel dataValidationMsg;
 	
 	private ImageIcon warning_icon;
+	private JComboBox unit;
 
 	/**
 	 * Create the applet.
@@ -130,58 +131,66 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 		wvfShape.setModel(new DefaultComboBoxModel(new String[] {"DC", "Sine", "Square", "Triangle", "Ramp", "Pulse", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
 		signalConfiguration.add(wvfShape, "4, 6, fill, default");
 		
+		JLabel lblUnit = new JLabel("Unit:");
+		signalConfiguration.add(lblUnit, "2, 8, right, default");
+		
+		unit = new JComboBox();
+		unit.setModel(new DefaultComboBoxModel(new String[] {VPP, VRMS, DB}));
+		signalConfiguration.add(unit, "4, 8, fill, default");
+		
+		
 		JLabel lblNewLabel_1 = new JLabel("Frequency (Hz): ");
-		signalConfiguration.add(lblNewLabel_1, "2, 8, right, center");
+		signalConfiguration.add(lblNewLabel_1, "2, 10, right, center");
 		
 		frequency = new JTextField();
 		frequency.setText("1000");
 		frequency.setName(FREQUENCY);
-		signalConfiguration.add(frequency, "4, 8, fill, default");
+		signalConfiguration.add(frequency, "4, 10, fill, default");
 		frequency.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Amplitude (Vpp): ");
-		signalConfiguration.add(lblNewLabel_2, "2, 10, right, center");
+		signalConfiguration.add(lblNewLabel_2, "2, 12, right, center");
 		
 		amplitude = new JTextField();
 		amplitude.setText("1");
 		amplitude.setName(AMPLITUDE);
-		signalConfiguration.add(amplitude, "4, 10, fill, default");
+		signalConfiguration.add(amplitude, "4, 12, fill, default");
 		amplitude.setColumns(10);
 		
 		JLabel offsetLabel = new JLabel("Offset (Vdc): ");
-		signalConfiguration.add(offsetLabel, "2, 12, right, default");
+		signalConfiguration.add(offsetLabel, "2, 14, right, default");
 		
 		offset = new JTextField();
 		offset.setText("0");
 		offset.setName(OFFSET);
-		signalConfiguration.add(offset, "4, 12, fill, default");
+		signalConfiguration.add(offset, "4, 14, fill, default");
 		offset.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Ramp Symmetry(%):");
-		signalConfiguration.add(lblNewLabel_3, "2, 14, right, default");
+		signalConfiguration.add(lblNewLabel_3, "2, 16, right, default");
 		
 		rampSymmetry = new JTextField();
 		rampSymmetry.setText("50");
 		rampSymmetry.setName(RAMP_SYMMETRY);
-		signalConfiguration.add(rampSymmetry, "4, 14, fill, default");
+		signalConfiguration.add(rampSymmetry, "4, 16, fill, default");
 		rampSymmetry.setColumns(10);
 		
 		JLabel lblNewLabel_4 = new JLabel("Duty Cycle (%) Square:");
-		signalConfiguration.add(lblNewLabel_4, "2, 16, right, default");
+		signalConfiguration.add(lblNewLabel_4, "2, 18, right, default");
 		
 		dutyCycleSquare = new JTextField();
 		dutyCycleSquare.setText("50");
 		dutyCycleSquare.setName(DUTY_CYCLE_SQUARE);
-		signalConfiguration.add(dutyCycleSquare, "4, 16, fill, default");
+		signalConfiguration.add(dutyCycleSquare, "4, 18, fill, default");
 		dutyCycleSquare.setColumns(10);
 		
 		JLabel lblNewLabel_5 = new JLabel("Duty Cycle (%) Pulse:");
-		signalConfiguration.add(lblNewLabel_5, "2, 18, right, default");
+		signalConfiguration.add(lblNewLabel_5, "2, 20, right, default");
 		
 		dutyCyclePulse = new JTextField();
 		dutyCyclePulse.setText("50");
 		dutyCyclePulse.setName(DUTY_CYCLE_PULSE);
-		signalConfiguration.add(dutyCyclePulse, "4, 18, fill, default");
+		signalConfiguration.add(dutyCyclePulse, "4, 20, fill, default");
 		dutyCyclePulse.setColumns(10);
 		
 		btnWfmConf = new JButton("Do it!");
@@ -415,6 +424,7 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	public void setWfmControl(WaveformControl wfmc) {
 		typeOfSignal.addActionListener(wfmc);
 		btnWfmConf.addActionListener(wfmc);
+		unit.addActionListener(wfmc);
 		frequency.addFocusListener(wfmc);
 		amplitude.addFocusListener(wfmc);
 		offset.addFocusListener(wfmc);
@@ -565,6 +575,11 @@ public class Vista extends JFrame implements ViewInterface, WaveFormInterface {
 	@Override
 	public void disableDataValidationLabel() {
 		dataValidationMsg.setVisible(false);		
+	}
+
+	@Override
+	public JComboBox getUnit() {
+		return unit;
 	}
 	
 }
