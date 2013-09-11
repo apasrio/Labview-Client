@@ -38,6 +38,8 @@ public interface WaveFormInterface {
 	public void setDataValidationMessage(String validationMessage);
 	public void disableDataValidationLabel();
 	
+	static final int QUERY_MESSAGE_TYPE = 20;
+	
 	static final String VPP = "Vpp";
 	static final String VRMS = "Vrms";
 	static final String DB = "dB";		

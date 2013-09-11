@@ -42,6 +42,13 @@ public class WaveformControl implements ActionListener, FocusListener{
 			wfmGen.setFrame();
 			// Test print for WaveformGen
 			System.out.println(wfmGen.getFrame());
+			
+			try {
+				TCPClient.bidirectComm(wfmGen.getFrame(), WaveFormInterface.QUERY_MESSAGE_TYPE);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			}
 		if(event.getActionCommand().equals(WaveFormInterface.FREQUENCY)){
 			System.out.println("A system has lost its focus! ");
