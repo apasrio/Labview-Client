@@ -1,17 +1,13 @@
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
@@ -22,42 +18,21 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 
-public class Vista extends JFrame implements ViewInterface, AG33220aInterface {
+public class AG33220aView implements AG33220aInterface{
+	private JPanel agilent_33220a = new JPanel();	// Holds the HP33120A GUI and its components, it is raised in the main View
 	
-		
-	static String SocketIp = "127.0.0.1";
-	static int SocketPort = 5020;
-	private JTextField msgToSend, frequency, amplitude, rampSymmetry, dutyCycleSquare, dutyCyclePulse, modulatingFreq;
+	private JTextField frequency, amplitude, rampSymmetry, dutyCycleSquare, dutyCyclePulse, modulatingFreq;
 	private JTextField offset;
-	private JTextField amDepth, fmDeviation, hopFrequency, intDeviationPWM, phaseDeviationPM, burstRate, burstCount, burstPhase;
-	private JButton connectButton, disconnectButton, sendButton;
+	private JTextField amDepth, fmDeviation, hopFrequency, intDeviationPWM, phaseDeviationPM, burstRate, burstCount, burstPhase;	
 	private JButton btnWfmConf;
-	private JComboBox typeOfSignal, modType, modWfmShape;
+	private JComboBox typeOfSignal, modType, modWfmShape, unit;
 	private JPanel modConfiguration;
 	private JComboBox wvfShape;
 	private JLabel dataValidationMsg;
 	
-	private ImageIcon warning_icon;
-	private JComboBox unit;
-
-	/**
-	 * Create the applet.
-	 */
-	public Vista(final TCPClient socketClient, HP33120a hp33120a, HP34401a hp34401a) {
-		this.setSize(1280,960);
-		getContentPane().setLayout(new GridLayout(2, 0, 0, 0));
+	
+	public AG33220aView(){
 		
-		loadIcons();
-		
-		JPanel panel = new JPanel();
-		getContentPane().add(panel);
-		panel.setLayout(new GridLayout(0, 2, 0, 0));
-		
-		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		panel.add(tabbedPane_1);
-		
-		JPanel agilent_33220a = new JPanel();
-		tabbedPane_1.addTab("Agilent 33220A", null, agilent_33220a, null);
 		agilent_33220a.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JPanel signalConfiguration = new JPanel();
@@ -198,7 +173,7 @@ public class Vista extends JFrame implements ViewInterface, AG33220aInterface {
 		btnWfmConf.setActionCommand(CONFIG);
 		signalConfiguration.add(btnWfmConf, "4, 30");
 		
-		dataValidationMsg = new JLabel("", warning_icon, JLabel.HORIZONTAL);
+		dataValidationMsg = new JLabel("");
 		dataValidationMsg.setForeground(Color.RED);
 		signalConfiguration.add(dataValidationMsg, "2, 32, 5, 1, right, default");
 		
@@ -347,110 +322,10 @@ public class Vista extends JFrame implements ViewInterface, AG33220aInterface {
 		burstPhase.setName(BURST_PHASE);
 		modConfiguration.add(burstPhase, "4, 24, fill, default");
 		burstPhase.setColumns(10);
-		
-		// TODO: Here we should start defining AG33220a Components
-		
-		// Start defining HP33120a Components		
-		HP33120aInterface hp33120aView = new HP33120aView();
-		tabbedPane_1.addTab("HP 33120A", null, hp33120aView.getHP33120aPanel(), null);
-		HP33120aControl hp33120aControl = new HP33120aControl(hp33120aView, socketClient, hp33120a);
-		hp33120aView.setHP33120aControl(hp33120aControl);		
-		
-		JTabbedPane tabbedPane_2 = new JTabbedPane(JTabbedPane.TOP);
-		panel.add(tabbedPane_2);		
-		
-		// Start defining HP34401a Components 
-		HP34401aView hp34401aView = new HP34401aView();
-		tabbedPane_2.addTab("HP34401A", null, hp34401aView.getHP34401aPanel(), null);
-		HP34401aControl hp34401aControl = new HP34401aControl(hp34401aView,socketClient, hp34401a);
-		hp34401aView.setHP34401aControl(hp34401aControl);
-		
-		
-		JPanel panel_1 = new JPanel();
-		getContentPane().add(panel_1);
-		panel_1.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		panel_1.add(tabbedPane);
-		
-		JPanel hp_54602b = new JPanel();
-		tabbedPane.addTab("HP 54602B", null, hp_54602b, null);
-		hp_54602b.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		connectButton = new JButton("Connect");
-		connectButton.setActionCommand(CONNECT);
-		hp_54602b.add(connectButton);
-		
-		disconnectButton = new JButton("Disconnect");
-		disconnectButton.setActionCommand(DISCONNECT);
-		hp_54602b.add(disconnectButton);
-		
-		sendButton = new JButton("Send");
-		sendButton.setActionCommand(SEND);
-		hp_54602b.add(sendButton);
-		
-		JLabel lblNewLabel = new JLabel("To Send: ");
-		hp_54602b.add(lblNewLabel);
-		
-		msgToSend = new JTextField();
-		msgToSend.setToolTipText("Introduce Text To Send\r\n");
-		hp_54602b.add(msgToSend);
-		msgToSend.setColumns(50);
-		
-		this.setVisible(true);
-
-	}
-	
-	private void loadIcons(){
-		java.net.URL imageURL = getClass().getResource("../images/images.jpg");
-		System.out.println("Trying to load an Image");
-		if(imageURL != null){
-			// TODO: The system does not load the Icon
-			System.out.println("Loaded Image");
-			this.warning_icon = new ImageIcon(imageURL, "Warning Icon");
-		}
 	}
 
 	@Override
-	public void setConfControl(ConfControl c) {
-		// Adding conf control
-		connectButton.addActionListener(c);
-		disconnectButton.addActionListener(c);
-		sendButton.addActionListener(c);
-	}
-
-	public String getMsgToSend() {
-		return msgToSend.getText();
-	}
-
-	@Override
-	public void setWfmControl(WaveformControl wfmc) {
-		typeOfSignal.addActionListener(wfmc);
-		btnWfmConf.addActionListener(wfmc);
-		unit.addActionListener(wfmc);
-		frequency.addFocusListener(wfmc);
-		amplitude.addFocusListener(wfmc);
-		offset.addFocusListener(wfmc);
-		rampSymmetry.addFocusListener(wfmc);
-		dutyCycleSquare.addFocusListener(wfmc);
-		dutyCyclePulse.addFocusListener(wfmc);
-		modulatingFreq.addFocusListener(wfmc);
-		amDepth.addFocusListener(wfmc);
-		fmDeviation.addFocusListener(wfmc);
-		hopFrequency.addFocusListener(wfmc);
-		intDeviationPWM.addFocusListener(wfmc);
-		phaseDeviationPM.addFocusListener(wfmc);
-		burstRate.addFocusListener(wfmc);
-		burstCount.addFocusListener(wfmc);
-		burstPhase.addFocusListener(wfmc);
-	}
-
-	public JComboBox getTypeOfSignal() {
-		return typeOfSignal;
-	}
-
-	@Override
-	public void enableModulationButtons() {	
+	public void enableModulationButtons() {		
 		modType.setEnabled(true);
 		modWfmShape.setEnabled(true);
 		modulatingFreq.setEnabled(true);
@@ -476,108 +351,59 @@ public class Vista extends JFrame implements ViewInterface, AG33220aInterface {
 		phaseDeviationPM.setEnabled(false);
 		burstRate.setEnabled(false);
 		burstCount.setEnabled(false);
-		burstPhase.setEnabled(false);
-	}
-
-	public String getFrequency() {
-		return frequency.getText();
-	}
-
-	public String getAmplitude() {
-		return amplitude.getText();
-	}
-
-	public String getRampSymmetry() {
-		return rampSymmetry.getText();
-	}
-
-	public String getDutyCycleSquare() {
-		return dutyCycleSquare.getText();
-	}
-
-	public String getDutyCyclePulse() {
-		return dutyCyclePulse.getText();
-	}
-
-	public String getModulatingFreq() {
-		return modulatingFreq.getText();
-	}
-
-	public String getAmDepth() {
-		return amDepth.getText();
-	}
-
-	public String getFmDeviation() {
-		return fmDeviation.getText();
-	}
-
-	public String getHopFrequency() {
-		return hopFrequency.getText();
-	}
-
-	public String getIntDeviationPWM() {
-		return intDeviationPWM.getText();
-	}
-
-	public String getPhaseDeviationPM() {
-		return phaseDeviationPM.getText();
-	}
-
-	public String getBurstRate() {
-		return burstRate.getText();
-	}
-
-	public String getBurstCount() {
-		return burstCount.getText();
-	}
-
-	public String getBurstPhase() {
-		return burstPhase.getText();
-	}
-
-	public JButton getConnectButton() {
-		return connectButton;
-	}
-
-	public JComboBox getModType() {
-		return modType;
-	}
-
-	public JComboBox getModWfmShape() {
-		return modWfmShape;
-	}
-
-	public JPanel getModConfiguration() {
-		return modConfiguration;
-	}
-	
-	public JComboBox getSignalShape() {
-		return wvfShape;
-	}
-	
-	public String getOffset() {
-		return offset.getText();
+		burstPhase.setEnabled(false);		
 	}
 
 	@Override
 	public void disableExecutionButton() {
-		btnWfmConf.setEnabled(false);
+		btnWfmConf.setEnabled(false);		
 	}
-	
+
 	@Override
 	public void enableExecutionButton() {
-		btnWfmConf.setEnabled(true);
+		btnWfmConf.setEnabled(true);		
 	}
 
 	@Override
-	public void setDataValidationMessage(String validationMessage) {
-		dataValidationMsg.setText(validationMessage);
-		dataValidationMsg.setVisible(true);
+	public void setWfmControl(WaveformControl wfmc) {
+		typeOfSignal.addActionListener(wfmc);
+		btnWfmConf.addActionListener(wfmc);
+		unit.addActionListener(wfmc);
+		frequency.addFocusListener(wfmc);
+		amplitude.addFocusListener(wfmc);
+		offset.addFocusListener(wfmc);
+		rampSymmetry.addFocusListener(wfmc);
+		dutyCycleSquare.addFocusListener(wfmc);
+		dutyCyclePulse.addFocusListener(wfmc);
+		modulatingFreq.addFocusListener(wfmc);
+		amDepth.addFocusListener(wfmc);
+		fmDeviation.addFocusListener(wfmc);
+		hopFrequency.addFocusListener(wfmc);
+		intDeviationPWM.addFocusListener(wfmc);
+		phaseDeviationPM.addFocusListener(wfmc);
+		burstRate.addFocusListener(wfmc);
+		burstCount.addFocusListener(wfmc);
+		burstPhase.addFocusListener(wfmc);		
 	}
 
 	@Override
-	public void disableDataValidationLabel() {
-		dataValidationMsg.setVisible(false);		
+	public JComboBox getTypeOfSignal() {
+		return typeOfSignal;
+	}
+
+	@Override
+	public JComboBox getSignalShape() {
+		return wvfShape;
+	}
+
+	@Override
+	public JComboBox getModWfmShape() {		
+		return modWfmShape;
+	}
+
+	@Override
+	public JComboBox getModType() {
+		return modType;
 	}
 
 	@Override
@@ -586,9 +412,99 @@ public class Vista extends JFrame implements ViewInterface, AG33220aInterface {
 	}
 
 	@Override
-	public JComponent getHP33120aPanel() {
-		// TODO Auto-generated method stub
-		return null;
+	public JPanel getModConfiguration() {
+		return modConfiguration;
 	}
-	
+
+	@Override
+	public String getBurstPhase() {
+		return burstPhase.getText();
+	}
+
+	@Override
+	public String getBurstCount() {
+		return burstCount.getText();
+	}
+
+	@Override
+	public String getBurstRate() {
+		return burstRate.getText();
+	}
+
+	@Override
+	public String getPhaseDeviationPM() {
+		return phaseDeviationPM.getText();
+	}
+
+	@Override
+	public String getIntDeviationPWM() {		
+		return intDeviationPWM.getText();
+	}
+
+	@Override
+	public String getHopFrequency() {
+		return hopFrequency.getText();
+	}
+
+	@Override
+	public String getFmDeviation() {
+		return fmDeviation.getText();
+	}
+
+	@Override
+	public String getAmDepth() {
+		return amDepth.getText();
+	}
+
+	@Override
+	public String getModulatingFreq() {
+		return modulatingFreq.getText();
+	}
+
+	@Override
+	public String getDutyCyclePulse() {
+		return dutyCyclePulse.getText();
+	}
+
+	@Override
+	public String getDutyCycleSquare() {
+		return dutyCycleSquare.getText();
+	}
+
+	@Override
+	public String getRampSymmetry() {
+		return rampSymmetry.getText();
+	}
+
+	@Override
+	public String getAmplitude() {
+		return amplitude.getText();
+	}
+
+	@Override
+	public String getFrequency() {
+		return frequency.getText();
+	}
+
+	@Override
+	public String getOffset() {
+		return offset.getText();
+	}
+
+	@Override
+	public void setDataValidationMessage(String validationMessage) {
+		dataValidationMsg.setText(validationMessage);
+		dataValidationMsg.setVisible(true);		
+	}
+
+	@Override
+	public void disableDataValidationLabel() {
+		dataValidationMsg.setVisible(false);		
+	}
+
+	@Override
+	public JComponent getHP33120aPanel() {
+		return agilent_33220a;
+	}
+
 }

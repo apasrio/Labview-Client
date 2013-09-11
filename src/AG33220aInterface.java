@@ -1,5 +1,6 @@
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -17,8 +18,8 @@ public interface AG33220aInterface {
 	public JComboBox getModWfmShape();
 	public JComboBox getModType();
 	public JComboBox getUnit();
+	public JComponent getHP33120aPanel();
 	public JPanel getModConfiguration();
-	public JButton getConnectButton();
 	public String getBurstPhase();
 	public String getBurstCount();
 	public String getBurstRate();
