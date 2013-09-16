@@ -10,7 +10,7 @@ public interface AG33220aInterface {
 	void disableModulationbuttons(); // Method to disable buttons if normal signal is selected
 	void disableExecutionButton();	// Method to disable the Execution Button if there is any problem with data validation
 	void enableExecutionButton();	// Method to enable the Execution Button
-	void setWfmControl(WaveformControl wfmc);
+	void setAG33220aControl(AG33220aControl wfmc);
 	
 	// Needed getters and setters
 	public JComboBox getTypeOfSignal();
@@ -18,7 +18,7 @@ public interface AG33220aInterface {
 	public JComboBox getModWfmShape();
 	public JComboBox getModType();
 	public JComboBox getUnit();
-	public JComponent getHP33120aPanel();
+	public JComponent getAG33220aPanel();
 	public JPanel getModConfiguration();
 	public String getBurstPhase();
 	public String getBurstCount();

@@ -7,15 +7,15 @@ import javax.swing.JComboBox;
 import javax.swing.text.JTextComponent;
 
 
-public class WaveformControl implements ActionListener, FocusListener{
-	private ViewInterface view;
+public class AG33220aControl implements ActionListener, FocusListener{
+	private AG33220aInterface view;
 	private TCPClient tcpClient;
 	private JComboBox combo;
-	private WaveformGenerator wfmGen;
+	private AG33220a wfmGen;
 	
 	private boolean VALIDATION_FLAG = false;
 	
-	public WaveformControl(ViewInterface view, TCPClient socketClient, WaveformGenerator wfmGen){
+	public AG33220aControl(AG33220aInterface view, TCPClient socketClient, AG33220a wfmGen){
 		this.tcpClient = socketClient;
 		this.view = view;
 		this.wfmGen = wfmGen;

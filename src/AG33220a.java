@@ -1,5 +1,5 @@
 
-public class WaveformGenerator {
+public class AG33220a {
 	
 	private int signalShape, typeOfSignal, modType, modWfmShape, amDepth, burstCount, burstPhase;
 	private float signalFreq, signalAmp, signalOff, deviationFM, hopFrequency, internalDeviation, phaseDeviation, burstRate, modFreq;
@@ -7,7 +7,7 @@ public class WaveformGenerator {
 	private String frame;
 	private String dataValidationMessage;
 	
-	public WaveformGenerator(){
+	public AG33220a(){
 		/*
 		 *  Constructor to build a default instance of WaveformGenerator
 		 *  Signal Mode, generating a 1000Hz Sine, without offset and 2 Vpp

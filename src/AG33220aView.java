@@ -365,7 +365,7 @@ public class AG33220aView implements AG33220aInterface{
 	}
 
 	@Override
-	public void setWfmControl(WaveformControl wfmc) {
+	public void setAG33220aControl(AG33220aControl wfmc) {
 		typeOfSignal.addActionListener(wfmc);
 		btnWfmConf.addActionListener(wfmc);
 		unit.addActionListener(wfmc);
@@ -503,7 +503,7 @@ public class AG33220aView implements AG33220aInterface{
 	}
 
 	@Override
-	public JComponent getHP33120aPanel() {
+	public JComponent getAG33220aPanel() {
 		return agilent_33220a;
 	}
 

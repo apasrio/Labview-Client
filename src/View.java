@@ -22,7 +22,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 
-public class Vista extends JFrame implements ViewInterface, AG33220aInterface {
+public class View extends JFrame implements ViewInterface, AG33220aInterface {
 	
 		
 	static String SocketIp = "127.0.0.1";
@@ -43,24 +43,24 @@ public class Vista extends JFrame implements ViewInterface, AG33220aInterface {
 	/**
 	 * Create the applet.
 	 */
-	public Vista(final TCPClient socketClient, HP33120a hp33120a, HP34401a hp34401a) {
+	public View(final TCPClient socketClient, HP33120a hp33120a, HP34401a hp34401a, AG33220a ag33220a) {
 		this.setSize(1280,960);
 		getContentPane().setLayout(new GridLayout(2, 0, 0, 0));
 		
 		loadIcons();
 		
-		JPanel panel = new JPanel();
-		getContentPane().add(panel);
-		panel.setLayout(new GridLayout(0, 2, 0, 0));
+		JPanel topPanel = new JPanel();
+		getContentPane().add(topPanel);
+		topPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		panel.add(tabbedPane_1);
+		JTabbedPane waveformGenerators = new JTabbedPane(JTabbedPane.TOP);
+		topPanel.add(waveformGenerators);
 		
-		JPanel agilent_33220a = new JPanel();
-		tabbedPane_1.addTab("Agilent 33220A", null, agilent_33220a, null);
-		agilent_33220a.setLayout(new GridLayout(0, 2, 0, 0));
+		//JPanel agilent_33220a = new JPanel();
+		//tabbedPane_1.addTab("Agilent 33220A", null, agilent_33220a, null);
+		//agilent_33220a.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		JPanel signalConfiguration = new JPanel();
+		/*JPanel signalConfiguration = new JPanel();
 		signalConfiguration.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		agilent_33220a.add(signalConfiguration);
 		signalConfiguration.setLayout(new FormLayout(new ColumnSpec[] {
@@ -346,35 +346,39 @@ public class Vista extends JFrame implements ViewInterface, AG33220aInterface {
 		burstPhase.setEnabled(false);
 		burstPhase.setName(BURST_PHASE);
 		modConfiguration.add(burstPhase, "4, 24, fill, default");
-		burstPhase.setColumns(10);
+		burstPhase.setColumns(10);*/
 		
-		// TODO: Here we should start defining AG33220a Components
-		
+		// Start defining AG33220a Components
+		AG33220aInterface ag33220aView = new AG33220aView();
+		waveformGenerators.addTab("Agilent 33220A", null, ag33220aView.getAG33220aPanel(), null);
+		AG33220aControl ag33220aControl = new AG33220aControl(ag33220aView, socketClient, ag33220a);
+		ag33220aView.setAG33220aControl(ag33220aControl);
+
 		// Start defining HP33120a Components		
 		HP33120aInterface hp33120aView = new HP33120aView();
-		tabbedPane_1.addTab("HP 33120A", null, hp33120aView.getHP33120aPanel(), null);
+		waveformGenerators.addTab("HP 33120A", null, hp33120aView.getHP33120aPanel(), null);
 		HP33120aControl hp33120aControl = new HP33120aControl(hp33120aView, socketClient, hp33120a);
 		hp33120aView.setHP33120aControl(hp33120aControl);		
 		
-		JTabbedPane tabbedPane_2 = new JTabbedPane(JTabbedPane.TOP);
-		panel.add(tabbedPane_2);		
+		JTabbedPane digitalMultimeters = new JTabbedPane(JTabbedPane.TOP);
+		topPanel.add(digitalMultimeters);		
 		
 		// Start defining HP34401a Components 
 		HP34401aView hp34401aView = new HP34401aView();
-		tabbedPane_2.addTab("HP34401A", null, hp34401aView.getHP34401aPanel(), null);
+		digitalMultimeters.addTab("HP34401A", null, hp34401aView.getHP34401aPanel(), null);
 		HP34401aControl hp34401aControl = new HP34401aControl(hp34401aView,socketClient, hp34401a);
 		hp34401aView.setHP34401aControl(hp34401aControl);
 		
 		
-		JPanel panel_1 = new JPanel();
-		getContentPane().add(panel_1);
-		panel_1.setLayout(new GridLayout(1, 0, 0, 0));
+		JPanel bottomPanel = new JPanel();
+		getContentPane().add(bottomPanel);
+		bottomPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		panel_1.add(tabbedPane);
+		JTabbedPane oscilloscopesPanel = new JTabbedPane(JTabbedPane.TOP);
+		bottomPanel.add(oscilloscopesPanel);
 		
 		JPanel hp_54602b = new JPanel();
-		tabbedPane.addTab("HP 54602B", null, hp_54602b, null);
+		oscilloscopesPanel.addTab("HP 54602B", null, hp_54602b, null);
 		hp_54602b.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		connectButton = new JButton("Connect");
@@ -424,7 +428,7 @@ public class Vista extends JFrame implements ViewInterface, AG33220aInterface {
 	}
 
 	@Override
-	public void setWfmControl(WaveformControl wfmc) {
+	public void setAG33220aControl(AG33220aControl wfmc) {
 		typeOfSignal.addActionListener(wfmc);
 		btnWfmConf.addActionListener(wfmc);
 		unit.addActionListener(wfmc);
@@ -586,7 +590,7 @@ public class Vista extends JFrame implements ViewInterface, AG33220aInterface {
 	}
 
 	@Override
-	public JComponent getHP33120aPanel() {
+	public JComponent getAG33220aPanel() {
 		// TODO Auto-generated method stub
 		return null;
 	}
