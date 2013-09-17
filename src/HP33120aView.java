@@ -257,7 +257,7 @@ public class HP33120aView implements HP33120aInterface{
 		modConf.add(lblAMDepth, "2, 10, right, default");
 		
 		amDepth = new JTextField();
-		amDepth.setText("50");
+		amDepth.setText("100");
 		amDepth.setEnabled(false);
 		amDepth.setName(AM_DEPTH);
 		modConf.add(amDepth, "4, 10, fill, default");

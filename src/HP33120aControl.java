@@ -58,6 +58,8 @@ public class HP33120aControl implements ActionListener, FocusListener{
 		JComboBox<String> combo;
 		// Changes according to the selected type of signal
 		if(event.getActionCommand().equals(HP33120aInterface.TYPE_OF_SIGNAL)){	
+			readFields();
+			dataValidation();
 			combo = view.getTypeOfSignal();
 			if (combo.getSelectedItem().equals(Globals.SIGNAL)){
 				System.out.println("Disabling Buttons");

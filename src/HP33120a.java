@@ -74,6 +74,9 @@ public class HP33120a {
 		offsetValidation();
 		dutyCycleSqValidation();
 		
+		if(typeOfSignal == 1){
+			amModulationValidation();
+		}
 		// TODO: Change JTextField by JTextArea or by JTextPane
 		return dataValidationFlag;
 	}
@@ -118,6 +121,16 @@ public class HP33120a {
 	
 	private void offsetValidation(){
 		// TODO: Pending to solve
+	}
+	
+	private void amModulationValidation(){
+		System.out.println("Checking AM Modulation!!");
+		if(typeOfSignal == 1 && modType == 0){
+			if(amDepth < 0 || amDepth > 120){
+				dataValidationMessage += "AM Depth must be an integer between 0% and 120%";
+				dataValidationFlag = true;
+			}
+		}
 	}
 	
 	private void dutyCycleSqValidation(){
