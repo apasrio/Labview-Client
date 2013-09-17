@@ -71,12 +71,15 @@ public class HP33120a {
 		dataValidationMessage = "";
 		frequencyValidation();
 		amplitudeValidation();
+		offsetValidation();
+		dutyCycleSqValidation();
 		
 		// TODO: Change JTextField by JTextArea or by JTextPane
 		return dataValidationFlag;
 	}
 	
 	private void frequencyValidation(){				
+		System.out.println("Checking Frequency!!!!!!");
 		if (signalShape == 1 || signalShape == 2){
 			if(signalFreq > 15000000f || signalFreq < 0.0001f){
 				System.out.println(dataValidationMessage);
@@ -111,6 +114,27 @@ public class HP33120a {
 			}
 		}
 		// TODO: Check load system
+	}
+	
+	private void offsetValidation(){
+		// TODO: Pending to solve
+	}
+	
+	private void dutyCycleSqValidation(){
+		System.out.println("Checking Duty Cycle for Square signal");
+		if(signalShape == 2 && signalFreq <= 5000000 ){
+			if(dutyCycleSq < 20 || dutyCycleSq > 80){
+				dataValidationMessage += "Duty Cycle must be between 20% and 80%\n";
+				dataValidationFlag = true;
+				return;
+			}
+		}else if (signalShape == 2 && signalFreq > 5000000){
+			if(dutyCycleSq < 40 || dutyCycleSq > 60){
+				dataValidationMessage += "Duty Cycle must be between 40% and 60%\n";
+				dataValidationFlag = true;
+				return;
+			}
+		}
 	}
 	
 	public String getFrame() {		

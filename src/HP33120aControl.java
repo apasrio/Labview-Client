@@ -9,10 +9,8 @@ import javax.swing.text.JTextComponent;
 
 public class HP33120aControl implements ActionListener, FocusListener{
 	private HP33120aInterface view;
-	private TCPClient tcpClient;
-	private JComboBox combo;
+	private TCPClient tcpClient;	
 	private HP33120a hp33120a;
-	private String test;
 	
 	private boolean VALIDATION_FLAG = false;
 	
@@ -24,8 +22,7 @@ public class HP33120aControl implements ActionListener, FocusListener{
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	@Override
@@ -50,34 +47,55 @@ public class HP33120aControl implements ActionListener, FocusListener{
 						name.equals(HP33120aInterface.BURST_PHASE)
 						){
 					readFields();
-					System.out.println("Here should be called the data-validation method");					
-					
-					VALIDATION_FLAG = hp33120a.dataValidation();
-					if(VALIDATION_FLAG){
-						// There is some error in the frequency
-						System.out.println("Called dataValidation()");
-						view.disableExecutionButton();
-						view.setDataValidationMessage(hp33120a.getDataValidationMessage());
-						System.out.println(hp33120a.getDataValidationMessage());
-					}
-					else{
-						view.enableExecutionButton();
-						view.disableDataValidationLabel();
-					}									
+					System.out.println("Data Validation Method is going to be called! ");					
+					dataValidation();									
 				}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		System.out.println("HP33120a Event Triggered");
+		JComboBox<String> combo;
+		// Changes according to the selected type of signal
 		if(event.getActionCommand().equals(HP33120aInterface.TYPE_OF_SIGNAL)){	
 			combo = view.getTypeOfSignal();
-			if (combo.getSelectedItem().equals(HP33120aInterface.SIGNAL)){
+			if (combo.getSelectedItem().equals(Globals.SIGNAL)){
 				System.out.println("Disabling Buttons");
 				view.disableModulationbuttons();
-			} else if (combo.getSelectedItem().equals(HP33120aInterface.MODULATION)){
+			} else if (combo.getSelectedItem().equals(Globals.MODULATION)){
 				view.enableModulationButtons();
 				System.out.println("Enabling Buttons");
+			}
+		}
+		// Changes according to the selected waveform shape
+		if(event.getActionCommand().equals(HP33120aInterface.WAVEFORM_SHAPE)){
+			System.out.println("HP33120a WAVEFORMSHAPE CHANGED!!!!");
+			readFields();
+			dataValidation();
+			combo = view.getSignalShape();
+			String command = (String) combo.getSelectedItem();			
+			if(command.equals(Globals.DC)){
+				view.configForDC();
+			}else if (command.equals(Globals.SINE)){
+				view.configForSine();
+			}else if (command.equals(Globals.SQUARE)){
+				view.configForSquare();
+			}else if (command.equals(Globals.TRIANGLE)){
+				view.configForTriangle();
+			}else if (command.equals(Globals.RAMP)){
+				view.configForRamp();
+			}else if (command.equals(Globals.PULSE)){
+				view.configForPulse();
+			}else if (command.equals(Globals.NOISE)){
+				view.configForNoise();
+			}else if (command.equals(Globals.SINC)){
+				view.configForSinc();
+			}else if (command.equals(Globals.NEG_RAMP)){
+				view.configForNegRamp();
+			}else if (command.equals(Globals.EXP_RISE)){
+				view.configForExpRise();
+			}else if (command.equals(Globals.EXP_FALL)){
+				view.configForExpFall();
 			}
 		}
 		if(event.getActionCommand().equals(HP33120aInterface.CONFIG)){
@@ -94,14 +112,25 @@ public class HP33120aControl implements ActionListener, FocusListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			}
-		if(event.getActionCommand().equals(HP33120aInterface.FREQUENCY)){
-			System.out.println("A system has lost its focus! ");
-		}		
+		}	
+	}
+	private void dataValidation(){
+		VALIDATION_FLAG = hp33120a.dataValidation();
+		if(VALIDATION_FLAG){
+			// There is some error in the frequency
+			System.out.println("Called dataValidation()");
+			view.disableExecutionButton();
+			view.setDataValidationMessage(hp33120a.getDataValidationMessage());
+			System.out.println(hp33120a.getDataValidationMessage());
+		}
+		else{
+			view.enableExecutionButton();
+			view.disableDataValidationLabel();
+		}									
 	}
 	
 	private void readFields(){
-		combo = view.getTypeOfSignal();
+		JComboBox<String> combo = view.getTypeOfSignal();
 		// Start reading signal fields
 		System.out.println(view.getTypeOfSignal().getSelectedItem());
 		hp33120a.setTypeOfSignal(view.getTypeOfSignal().getSelectedIndex());
