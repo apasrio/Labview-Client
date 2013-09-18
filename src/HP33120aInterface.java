@@ -12,12 +12,12 @@ public interface HP33120aInterface {
 	void enableExecutionButton();	// Method to enable the Execution Button
 	void setHP33120aControl(HP33120aControl wfmc); //Enable the ActionListeners
 	
-	public JComboBox getTypeOfSignal();	
+	public JComboBox<String> getTypeOfSignal();	
 	public JComponent getHP33120aPanel();	
-	public JComboBox getSignalShape();
-	public JComboBox getModWfmShape();
-	public JComboBox getModType();
-	public JComboBox getUnit();
+	public JComboBox<String> getSignalShape();
+	public JComboBox<String> getModWfmShape();
+	public JComboBox<String> getModType();
+	public JComboBox<String> getUnit();
 	public JButton getConnectButton();
 	public String getBurstPhase();
 	public String getBurstCount();
@@ -34,16 +34,29 @@ public interface HP33120aInterface {
 	public void setDataValidationMessage(String validationMessage);
 	public void disableDataValidationLabel();
 	
+	// Methods to enable/disable buttons 
+	public void configForDC();
+	public void configForSine();
+	public void configForSquare();
+	public void configForTriangle();
+	public void configForRamp();
+	public void configForPulse();
+	public void configForNoise();
+	public void configForSinc();
+	public void configForNegRamp();
+	public void configForExpRise();
+	public void configForExpFall();
+	
+	
+	
 	static final int QUERY_MESSAGE_TYPE = 10;
-
-	static final String VPP = "Vpp";
-	static final String VRMS = "Vrms";
-	static final String DB = "dB";
-	static final String TYPE_OF_SIGNAL = "HP33120a_Type_of_Signal";
-	static final String MODULATION = "Modulation";
-	static final String SIGNAL = "Simple Signal";
+	
+	
+	// Constants for HP33120
+	static final String FREQUENCY = "HP33120a_Frequency";
+	static final String TYPE_OF_SIGNAL = "HP33120a_Type_of_Signal";	
 	static final String CONFIG = "HP33120a_Config";
-	static final String FREQUENCY = "Frequency";
+	static final String WAVEFORM_SHAPE = "HP33120a_Waveform_Shape";	
 	static final String AMPLITUDE ="HP33120a_Amplitude";
 	static final String OFFSET = "HP33120a_Offset";
 	static final String DUTY_CYCLE_SQUARE = "HP33120a_Duty_Cycle_Square";

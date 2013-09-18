@@ -1,21 +1,36 @@
 
 public class HP33120a {
-	private String frame;
+	private String frame, dataValidationMessage;
 	private int signalShape, typeOfSignal, unit, modType, modWfmShape, amDepth, burstCount, burstPhase;
 	private float signalFreq, signalAmp, signalOff, deviationFM, hopFrequency, burstRate, modFreq;
 	private int dutyCycleSq;
-	private String dataValidationMessage;
+	private boolean dataValidationFlag;
 	
 	public HP33120a(){
 		/*
 		 *  Constructor to build a default instance of HP33120A Waveform Generator
-		 *  Signal Mode, generating a 1000Hz Sine, without offset and 2 Vpp
+		 *  Signal Mode, generating a 1000Hz Sine, without offset and 0.1Vpp
+		 */
+		
+		/*
+		 * SignalShape_value 	->		Signal Shape
+		 * 		0							DC
+		 * 		1							Sine
+		 * 		2							Square
+		 * 		3							Triangle
+		 * 		4							Ramp
+		 * 		5							Pulse
+		 * 		6							Noise
+		 * 		7							Sinc
+		 * 		8							Neg. Ramp
+		 * 		9							Exp. Rise
+		 * 		10							Exp. Fall
 		 */
 		this.typeOfSignal = 0;		// Signal instead of modulation
 		this.unit = 0;
 		this.signalShape = 1;		// Sine Waveform
 		this.signalFreq = 1000f;	// 1000Hz
-		this.signalAmp = 2f;		// 2Vpp
+		this.signalAmp = 0.1f;		// 0.1Vpp
 		this.signalOff = 0f;		// 0V
 		
 		// Initialization of dutyCycleSq to 50% although
@@ -51,15 +66,88 @@ public class HP33120a {
 				+ "," + String.valueOf(this.burstPhase);
 	}
 	
-	public boolean frequencyValidation(String freq){
-		float frequency;
-		frequency = Float.parseFloat(freq);
-		if (frequency > 2000){
-			this.dataValidationMessage = "Frequency must be between 1Hz and 2000Hz";
-			return true;
+	public boolean dataValidation(){
+		dataValidationFlag = false;
+		dataValidationMessage = "";
+		frequencyValidation();
+		amplitudeValidation();
+		offsetValidation();
+		dutyCycleSqValidation();
+		
+		if(typeOfSignal == 1){
+			amModulationValidation();
 		}
-		else
-			return false;
+		// TODO: Change JTextField by JTextArea or by JTextPane
+		return dataValidationFlag;
+	}
+	
+	private void frequencyValidation(){				
+		System.out.println("Checking Frequency!!!!!!");
+		if (signalShape == 1 || signalShape == 2){
+			if(signalFreq > 15000000f || signalFreq < 0.0001f){
+				System.out.println(dataValidationMessage);
+				dataValidationMessage += "Frequency must be between 0.1mHz and 15MHz\n";
+				System.out.println("Error in frequency!");
+				System.out.println(dataValidationMessage);
+				dataValidationFlag = true;
+				return;
+			}
+		} else if (signalShape == 3 || signalShape == 4){
+			if(signalFreq > 100000f || signalFreq < 0.0001f){
+				System.out.println(dataValidationMessage);
+				dataValidationMessage += "Frequency must be between 0.1mHz and 100KHz\n";
+				dataValidationFlag = true;
+				System.out.println("Error in frequency!");
+				System.out.println(dataValidationMessage);
+				return;
+			}				
+		}
+		// TODO: Check Built-In Arbs way of working
+	}
+	
+	private void amplitudeValidation(){
+		System.out.println("Checking Amplitude!!!!!!");
+		if(signalShape <= 6){
+			if(signalAmp > 10f || signalAmp < 0.05f){
+				System.out.println("Error in amplitude");
+				System.out.println(dataValidationMessage);
+				dataValidationMessage += "Amplitude must be between 20mVpp and 10Vpp\n";
+				dataValidationFlag =  true;
+				return;
+			}
+		}
+		// TODO: Check load system
+	}
+	
+	private void offsetValidation(){
+		// TODO: Pending to solve
+	}
+	
+	private void amModulationValidation(){
+		System.out.println("Checking AM Modulation!!");
+		if(typeOfSignal == 1 && modType == 0){
+			if(amDepth < 0 || amDepth > 120){
+				dataValidationMessage += "AM Depth must be an integer between 0% and 120%";
+				dataValidationFlag = true;
+			}
+		}
+	}
+	
+	private void dutyCycleSqValidation(){
+		System.out.println("Checking Duty Cycle for Square signal");
+		if(signalShape == 2 && signalFreq <= 5000000 ){
+			if(dutyCycleSq < 20 || dutyCycleSq > 80){
+				dataValidationMessage += "Duty Cycle must be between 20% and 80%\n";
+				dataValidationFlag = true;
+				return;
+			}
+		}else if (signalShape == 2 && signalFreq > 5000000){
+			if(dutyCycleSq < 40 || dutyCycleSq > 60){
+				dataValidationMessage += "Duty Cycle must be between 40% and 60%\n";
+				dataValidationFlag = true;
+				return;
+			}
+		}
 	}
 	
 	public String getFrame() {		
