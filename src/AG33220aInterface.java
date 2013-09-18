@@ -1,15 +1,16 @@
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
-public interface WaveFormInterface {
+public interface AG33220aInterface {
 	void enableModulationButtons(); // Method to enable buttons if normal signal is selected	
 	void disableModulationbuttons(); // Method to disable buttons if normal signal is selected
 	void disableExecutionButton();	// Method to disable the Execution Button if there is any problem with data validation
 	void enableExecutionButton();	// Method to enable the Execution Button
-	void setWfmControl(WaveformControl wfmc);
+	void setAG33220aControl(AG33220aControl wfmc);
 	
 	// Needed getters and setters
 	public JComboBox getTypeOfSignal();
@@ -17,8 +18,8 @@ public interface WaveFormInterface {
 	public JComboBox getModWfmShape();
 	public JComboBox getModType();
 	public JComboBox getUnit();
+	public JComponent getAG33220aPanel();
 	public JPanel getModConfiguration();
-	public JButton getConnectButton();
 	public String getBurstPhase();
 	public String getBurstCount();
 	public String getBurstRate();

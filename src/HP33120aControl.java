@@ -119,7 +119,7 @@ public class HP33120aControl implements ActionListener, FocusListener{
 		hp33120a.setSignalOff(Float.parseFloat(view.getOffset()));
 		hp33120a.setDutyCycleSq(Integer.parseInt(view.getDutyCycleSquare()));
 		
-		if(combo.getSelectedItem().equals(WaveFormInterface.MODULATION)){
+		if(combo.getSelectedItem().equals(AG33220aInterface.MODULATION)){
 			// We also read the modulation fields
 			hp33120a.setModType(view.getModType().getSelectedIndex());
 			hp33120a.setModWfmShape(view.getModWfmShape().getSelectedIndex());
