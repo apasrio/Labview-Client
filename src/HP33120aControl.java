@@ -45,7 +45,7 @@ public class HP33120aControl implements ActionListener, FocusListener{
 						name.equals(HP33120aInterface.BURST_RATE) || 
 						name.equals(HP33120aInterface.BURST_COUNT) ||
 						name.equals(HP33120aInterface.BURST_PHASE)
-						){
+						){					
 					readFields();
 					System.out.println("Data Validation Method is going to be called! ");					
 					dataValidation();									
@@ -74,6 +74,7 @@ public class HP33120aControl implements ActionListener, FocusListener{
 			System.out.println("HP33120a WAVEFORMSHAPE CHANGED!!!!");
 			readFields();
 			dataValidation();
+			// TODO: If ModulationType Changes readFields and DataValidation should be called too! 
 			combo = view.getSignalShape();
 			String command = (String) combo.getSelectedItem();			
 			if(command.equals(Globals.DC)){

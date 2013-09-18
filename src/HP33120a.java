@@ -69,6 +69,8 @@ public class HP33120a {
 	}
 	
 	public boolean dataValidation(){
+		// TODO: Ensure that read fields has the appropiate format
+		
 		dataValidationFlag = false;
 		dataValidationMessage = "";
 		frequencyValidation();
@@ -78,6 +80,7 @@ public class HP33120a {
 		
 		if(typeOfSignal == 1){
 			amModulationValidation();
+			burstRateValidation();
 		}
 		return dataValidationFlag;
 	}
@@ -108,6 +111,7 @@ public class HP33120a {
 	
 	private void amplitudeValidation(){
 		System.out.println("Checking Amplitude!!!!!!");
+		// Limits are fixed between 50mVpp and 10Vpp because we have a 50 ohms output impedance
 		if(signalShape <= 6){
 			if(signalAmp > 10f || signalAmp < 0.05f){
 				System.out.println("Error in amplitude");
@@ -116,8 +120,7 @@ public class HP33120a {
 				dataValidationFlag =  true;
 				return;
 			}
-		}
-		// TODO: Check load system
+		}		
 	}
 	
 	private void offsetValidation(){		
@@ -148,17 +151,7 @@ public class HP33120a {
 			dataValidationMessage += "Offset must be between " + lowerLimit + " Vdc and " + upperLimit + " Vdc\n" ;
 			dataValidationFlag = true;
 		}
-	}
-	
-	private void amModulationValidation(){
-		System.out.println("Checking AM Modulation!!");
-		if(typeOfSignal == 1 && modType == 0){
-			if(amDepth < 0 || amDepth > 120){
-				dataValidationMessage += "AM Depth must be an integer between 0% and 120%";
-				dataValidationFlag = true;
-			}
-		}
-	}
+	}	
 	
 	private void dutyCycleSqValidation(){
 		System.out.println("Checking Duty Cycle for Square signal");
@@ -177,7 +170,37 @@ public class HP33120a {
 		}
 	}
 	
+	private void burstCountValidation(){
+		// TODO: Implement data Validation
+		if(typeOfSignal == 1 && modType == 5){
+			
+		}
+	}
 	
+	private void burstPhaseValidation(){
+		// TODO: Complete this stub
+	}
+	
+	private void burstRateValidation(){
+		// TODO: Finish this method
+		// This should be between 10mHz and 50kHz
+		if(typeOfSignal == 1 && modType == 5){
+			if(burstRate < 0.01 ||burstRate > 50000){
+				dataValidationMessage += "Burst Rate must be between 10mHz and 50kHz";
+				dataValidationFlag = true;
+			}
+		}
+	}
+	
+	private void amModulationValidation(){
+		System.out.println("Checking AM Modulation!!");
+		if(typeOfSignal == 1 && modType == 0){
+			if(amDepth < 0 || amDepth > 120){
+				dataValidationMessage += "AM Depth must be an integer between 0% and 120%";
+				dataValidationFlag = true;
+			}
+		}
+	}	
 	
 	public String getFrame() {		
 		return frame;

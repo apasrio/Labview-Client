@@ -1,8 +1,8 @@
-
-public class Globals {
 	/*
 	 * Class to define common global constants
 	 */
+
+public class Globals {	
 	
 	// Waveform Generators Constants
 	static final String DC = "DC";
@@ -23,7 +23,7 @@ public class Globals {
 	static final String PM = "PM";
 	static final String PWM = "PWM";
 	static final String FSK = "FSK";
-	static final String BURST_MODE = "BURST_MODE";
+	static final String BURST_MODE = "Burst Mode";
 	static final String VPP = "Vpp";
 	static final String VRMS = "Vrms";
 	static final String DB = "dB";
