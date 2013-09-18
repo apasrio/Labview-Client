@@ -19,12 +19,14 @@ public class HP33120a {
 		 * 		2							Square
 		 * 		3							Triangle
 		 * 		4							Ramp
-		 * 		5							Pulse
-		 * 		6							Noise
-		 * 		7							Sinc
-		 * 		8							Neg. Ramp
-		 * 		9							Exp. Rise
-		 * 		10							Exp. Fall
+		 * 		6							Pulse (Not Allowed)
+		 * 		7							Noise
+		 * 		8							Sinc
+		 * 		9							Neg. Ramp
+		 * 		10							Exp. Rise
+		 * 		11							Exp. Fall
+		 * 		12							Cardiac (To be implemented)
+		 * 		13							Volatile (To be implemented)		
 		 */
 		this.typeOfSignal = 0;		// Signal instead of modulation
 		this.unit = 0;
@@ -77,7 +79,6 @@ public class HP33120a {
 		if(typeOfSignal == 1){
 			amModulationValidation();
 		}
-		// TODO: Change JTextField by JTextArea or by JTextPane
 		return dataValidationFlag;
 	}
 	
@@ -119,8 +120,34 @@ public class HP33120a {
 		// TODO: Check load system
 	}
 	
-	private void offsetValidation(){
-		// TODO: Pending to solve
+	private void offsetValidation(){		
+		// System is developed to have a 50 Ohms output impedance then Vmax = 5Vdc, therefore next equations
+		// must be satisfied: ABS(Voff) + 1/2 Vpp =< 5Vdc and
+		// ABS(Voff) =< 2Vpp
+		int Vmax = 5;
+		float lowerLimit, upperLimit;
+		float upperLimit_1, upperLimit_2, lowerLimit_1, lowerLimit_2;
+		upperLimit_1 = Vmax - (signalAmp / 2);
+		lowerLimit_1 = (signalAmp / 2) - Vmax;
+		upperLimit_2 = 2 * signalAmp;
+		lowerLimit_2 = -2 * signalAmp;
+		if(!(lowerLimit_1<=signalOff && signalOff<=upperLimit_1) || !(lowerLimit_2<=signalOff && signalOff<=upperLimit_2)){
+			// At least one of two equations is invalid, so we are going to tell user what are the more restrictive limits
+			if(lowerLimit_1 > lowerLimit_2){
+				lowerLimit = lowerLimit_1;
+			}else{
+				lowerLimit = lowerLimit_2;
+			}
+			
+			if(upperLimit_1 < upperLimit_2){
+				upperLimit = upperLimit_1;
+			}
+			else{
+				upperLimit = upperLimit_2;
+			}
+			dataValidationMessage += "Offset must be between " + lowerLimit + " Vdc and " + upperLimit + " Vdc\n" ;
+			dataValidationFlag = true;
+		}
 	}
 	
 	private void amModulationValidation(){
@@ -150,6 +177,8 @@ public class HP33120a {
 		}
 	}
 	
+	
+	
 	public String getFrame() {		
 		return frame;
 	}
@@ -163,7 +192,12 @@ public class HP33120a {
 	}
 
 	public void setSignalShape(int signalShape) {
-		this.signalShape = signalShape;
+		if (signalShape > 5){
+			// This is done because in the LabVIEW Driver signalShape numbers does not follow a sequence 
+			this.signalShape = signalShape +1;
+		} else {
+			this.signalShape = signalShape;
+		}
 	}
 
 	public int getTypeOfSignal() {

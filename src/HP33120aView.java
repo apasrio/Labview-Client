@@ -137,6 +137,7 @@ public class HP33120aView implements HP33120aInterface{
 		signalConf.add(lblAmplitude, "2, 12, right, center");
 		
 		amplitude = new JTextField();
+		amplitude.setEnabled(false);
 		amplitude.setText("1");
 		amplitude.setName(AMPLITUDE);
 		signalConf.add(amplitude, "4, 12, fill, default");
@@ -564,7 +565,7 @@ public class HP33120aView implements HP33120aInterface{
 	}
 	@Override
 	public void configForDC() {
-		amplitude.setEnabled(true);
+		amplitude.setEnabled(false);
 		frequency.setEnabled(false);
 		offset.setEnabled(true);
 		dutyCycleSquare.setEnabled(false);
