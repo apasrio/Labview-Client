@@ -145,7 +145,7 @@ public class AG33220a {
 	}
 
 	public void setModWfmShape(int modWfmShape) {
-		this.modWfmShape = modWfmShape;
+		this.modWfmShape = modWfmShape + 1;
 	}
 
 	public int getAmDepth() {
