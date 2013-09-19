@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -7,9 +8,11 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
@@ -225,7 +228,7 @@ public class HP33120aView implements HP33120aInterface{
 				Globals.BURST_MODE}));
 		modConf.add(modType, "4, 4, fill, default");
 		// TODO: fix the next line
-		// modType.setRenderer(new CustomListCellRenderer());
+		modType.setRenderer(new CustomListCellRenderer());
 		// When this method works we can disable Modulations that are not supported by the device
 		
 		JLabel lblModWfmShape = new JLabel("Modulating wfm Shape:");
@@ -472,7 +475,7 @@ public class HP33120aView implements HP33120aInterface{
 	public JComboBox<String> getUnit() {
 		return unit;
 	}
-	/*
+	
 	// TODO: Make it work right! 
 	class CustomListCellRenderer extends JLabel implements ListCellRenderer{
 		@Override
@@ -482,10 +485,13 @@ public class HP33120aView implements HP33120aInterface{
 			if(index ==  2 || index == 3){
 				setEnabled(false);
 				setFocusable(false);
+			}else{
+				setEnabled(true);
+				setFocusable(true);
 			}
 			return this;
 		}		
-	}*/
+	}
 	
 	@Override
 	public void configForSine() {
