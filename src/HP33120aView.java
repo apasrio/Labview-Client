@@ -216,6 +216,7 @@ public class HP33120aView implements HP33120aInterface{
 		modType = new JComboBox<String>();
 		modType.setEnabled(false);
 		modType.setMaximumRowCount(4);
+		modType.setActionCommand(HP33120aInterface.MODULATION_TYPE);
 		modType.setModel(new DefaultComboBoxModel<String>(new String[] {Globals.AM,
 				Globals.FM,
 				Globals.PWM,
@@ -248,7 +249,7 @@ public class HP33120aView implements HP33120aInterface{
 		modConf.add(lblModFreq, "2, 8, right, default");
 		
 		modulatingFreq = new JTextField();
-		modulatingFreq.setText("1000");
+		modulatingFreq.setText("100");
 		modulatingFreq.setName(MODULATING_FREQUENCY);
 		modulatingFreq.setEnabled(false);
 		modConf.add(modulatingFreq, "4, 8, fill, default");
@@ -268,7 +269,7 @@ public class HP33120aView implements HP33120aInterface{
 		modConf.add(lblFMDeviation, "2, 12, right, default");
 		
 		fmDeviation = new JTextField();
-		fmDeviation.setText("50");
+		fmDeviation.setText("100");
 		fmDeviation.setEnabled(false);
 		fmDeviation.setName(FM_DEVIATION);
 		modConf.add(fmDeviation, "4, 12, fill, default");
@@ -278,7 +279,7 @@ public class HP33120aView implements HP33120aInterface{
 		modConf.add(lblHopFreq, "2, 14, right, default");
 		
 		hopFrequency = new JTextField();
-		hopFrequency.setText("500");
+		hopFrequency.setText("100");
 		hopFrequency.setEnabled(false);
 		hopFrequency.setName(HOP_FREQUENCY);
 		modConf.add(hopFrequency, "4, 14, fill, default");
@@ -377,6 +378,7 @@ public class HP33120aView implements HP33120aInterface{
 		unit.addActionListener(wfmc);
 		offset.addFocusListener(wfmc);
 		dutyCycleSquare.addFocusListener(wfmc);
+		modType.addActionListener(wfmc);
 		modulatingFreq.addFocusListener(wfmc);
 		amDepth.addFocusListener(wfmc);
 		fmDeviation.addFocusListener(wfmc);
@@ -485,8 +487,6 @@ public class HP33120aView implements HP33120aInterface{
 		}		
 	}*/
 	
-	// TODO: Check what is the right config for each WaveformShape
-	
 	@Override
 	public void configForSine() {
 		amplitude.setEnabled(true);
@@ -517,7 +517,7 @@ public class HP33120aView implements HP33120aInterface{
 	}
 	@Override
 	public void configForPulse() {
-		// TODO: Does the HP33120a the Pulse waveform shape?
+		// TODO: Does the HP33120a the Pulse waveform shape? We have to disable this option!!!!
 		amplitude.setEnabled(true);
 		frequency.setEnabled(true);
 		offset.setEnabled(true);
@@ -525,7 +525,6 @@ public class HP33120aView implements HP33120aInterface{
 	}
 	@Override
 	public void configForNoise() {
-		// TODO: Check if this is right
 		amplitude.setEnabled(true);
 		frequency.setEnabled(true);
 		offset.setEnabled(true);
@@ -533,7 +532,6 @@ public class HP33120aView implements HP33120aInterface{
 	}
 	@Override
 	public void configForSinc() {
-		// TODO: Check if this is right
 		amplitude.setEnabled(true);
 		frequency.setEnabled(true);
 		offset.setEnabled(true);
@@ -541,7 +539,6 @@ public class HP33120aView implements HP33120aInterface{
 	}
 	@Override
 	public void configForNegRamp() {
-		// TODO: Check if this is right
 		amplitude.setEnabled(true);
 		frequency.setEnabled(true);
 		offset.setEnabled(true);
@@ -549,7 +546,6 @@ public class HP33120aView implements HP33120aInterface{
 	}
 	@Override
 	public void configForExpRise() {
-		// TODO: Check if this is right
 		amplitude.setEnabled(true);
 		frequency.setEnabled(true);
 		offset.setEnabled(true);
@@ -557,7 +553,6 @@ public class HP33120aView implements HP33120aInterface{
 	}
 	@Override
 	public void configForExpFall() {
-		// TODO: Check if this is right
 		amplitude.setEnabled(true);
 		frequency.setEnabled(true);
 		offset.setEnabled(true);
@@ -570,4 +565,49 @@ public class HP33120aView implements HP33120aInterface{
 		offset.setEnabled(true);
 		dutyCycleSquare.setEnabled(false);
 	}
+	@Override
+	public void configForFSK() {
+		// TODO: Check if it is right! 
+		modulatingFreq.setEnabled(true);		
+		amDepth.setEnabled(false);
+		fmDeviation.setEnabled(false);
+		hopFrequency.setEnabled(true);
+		burstPhase.setEnabled(false);
+		burstCount.setEnabled(false);
+		burstRate.setEnabled(false);
+		
+	}
+	@Override
+	public void configForAM() {
+		// TODO Auto-generated method stub
+		modulatingFreq.setEnabled(true);
+		amDepth.setEnabled(true);
+		fmDeviation.setEnabled(false);
+		hopFrequency.setEnabled(false);
+		burstPhase.setEnabled(false);
+		burstCount.setEnabled(false);
+		burstRate.setEnabled(false);
+	}
+	@Override
+	public void configForFM() {
+		// TODO Auto-generated method stub
+		modulatingFreq.setEnabled(true);
+		amDepth.setEnabled(false);
+		fmDeviation.setEnabled(true);
+		hopFrequency.setEnabled(false);
+		burstPhase.setEnabled(false);
+		burstCount.setEnabled(false);
+		burstRate.setEnabled(false);
+	}
+	@Override
+	public void configForBurstMode() {
+		// TODO Auto-generated method stub
+		modulatingFreq.setEnabled(false);
+		amDepth.setEnabled(false);
+		fmDeviation.setEnabled(false);
+		hopFrequency.setEnabled(false);
+		burstPhase.setEnabled(true);
+		burstCount.setEnabled(true);
+		burstRate.setEnabled(true);
+	}	
 }

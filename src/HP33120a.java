@@ -26,8 +26,10 @@ public class HP33120a {
 		 * 		10							Exp. Rise
 		 * 		11							Exp. Fall
 		 * 		12							Cardiac (To be implemented)
-		 * 		13							Volatile (To be implemented)		
+		 * 		13							Volatile (Is not going to be implemented -> outputs the waveform loaded in the volatile memory)		
 		 */
+		
+		
 		this.typeOfSignal = 0;		// Signal instead of modulation
 		this.unit = 0;
 		this.signalShape = 1;		// Sine Waveform
@@ -39,8 +41,26 @@ public class HP33120a {
 		// it is no necessary because we are generating a Sine
 		this.dutyCycleSq = 50;
 		
-		// Modulation fields 
+		// Modulation default fields (some of them are not needed) 
 		// TODO: Initialize modulation fields
+		this.modType = 0;
+		this.deviationFM = 100; // 100Hz 
+		
+		/*
+		 * ModulatingWaveform_Shape_Value 			-> 			Modulating Waveform Shape
+		 * 			1													Sine
+		 * 			2													Square
+		 * 			3													Triangle
+		 * 			4													UpRamp
+		 * 			5													DnRamp (Not Allowed)
+		 * 			7													Noise
+		 * 			8													Sinc
+		 * 			9													Neg. Ramp
+		 * 			10													Exp. Rise
+		 * 			11													Exp. Fall
+		 * 			12													Cardiac (To be implemented)
+		 * 
+		 */
 		
 		// Frame Initialization to an empty value
 		this.frame = "";		
@@ -68,19 +88,26 @@ public class HP33120a {
 				+ "," + String.valueOf(this.burstPhase);
 	}
 	
-	public boolean dataValidation(){
+	public boolean dataValidation(String dataValMessage){
 		// TODO: Ensure that read fields has the appropiate format
 		
 		dataValidationFlag = false;
-		dataValidationMessage = "";
+		dataValidationMessage = dataValMessage;
+		System.out.println("We are going to print the dataValMessage: " + dataValMessage);
 		frequencyValidation();
-		amplitudeValidation();
-		offsetValidation();
+		if(!amplitudeValidation()){
+			// To avoid incorrect info, this method is only executed when amplitudeValidation() has passed without errors!
+			offsetValidation();
+		}
+		
 		dutyCycleSqValidation();
 		
 		if(typeOfSignal == 1){
 			amModulationValidation();
+			deviationFMValidation();
 			burstRateValidation();
+			burstPhaseValidation();
+			burstCountValidation();
 		}
 		return dataValidationFlag;
 	}
@@ -109,7 +136,8 @@ public class HP33120a {
 		// TODO: Check Built-In Arbs way of working
 	}
 	
-	private void amplitudeValidation(){
+	private boolean amplitudeValidation(){
+		boolean aux = false;
 		System.out.println("Checking Amplitude!!!!!!");
 		// Limits are fixed between 50mVpp and 10Vpp because we have a 50 ohms output impedance
 		if(signalShape <= 6){
@@ -118,9 +146,10 @@ public class HP33120a {
 				System.out.println(dataValidationMessage);
 				dataValidationMessage += "Amplitude must be between 20mVpp and 10Vpp\n";
 				dataValidationFlag =  true;
-				return;
+				aux = true;
 			}
-		}		
+		}
+		return aux;
 	}
 	
 	private void offsetValidation(){		
@@ -173,16 +202,94 @@ public class HP33120a {
 	private void burstCountValidation(){
 		// TODO: Implement data Validation
 		if(typeOfSignal == 1 && modType == 5){
-			
+			if (burstCount > 50000){
+				dataValidationMessage += "Burst Count must be lower than 50000 cycles\n";
+				dataValidationFlag = true;
+			}else {
+				if(signalFreq > 0.01 && signalFreq <= 100){
+					int max_count;
+					max_count = (int) (500 * signalFreq);
+					if(burstCount > max_count || burstCount < 1){
+						dataValidationMessage += "Burst Count must be between 1 and " + max_count + "\n";
+						dataValidationFlag = true;
+					}
+				} else if (signalFreq > 100 && signalFreq <= 1000000 && burstCount < 1){
+					dataValidationMessage += "Burst Count must be at least 1\n";
+					dataValidationFlag = true;
+				} else if (signalFreq > 1000000 && signalFreq <= 2000000 && burstCount < 2){
+					dataValidationMessage += "Burst Count must be at least 2\n";
+					dataValidationFlag = true;
+				}else if (signalFreq > 2000000 && signalFreq <= 3000000 && burstCount < 3){
+					dataValidationMessage += "Burst Count must be at least 3\n";
+					dataValidationFlag = true;
+				}else if (signalFreq > 3000000 && signalFreq <= 4000000 && burstCount < 4){
+					dataValidationMessage += "Burst Count must be at least 4\n";
+					dataValidationFlag = true;
+				}else if (signalFreq > 4000000 && signalFreq <= 5000000 && burstCount < 5){
+					dataValidationMessage += "Burst Count must be at least 5\n";
+					dataValidationFlag = true;
+				}
+			}
 		}
 	}
 	
 	private void burstPhaseValidation(){
-		// TODO: Complete this stub
+		if(typeOfSignal == 1 && modType == 5){
+			if(burstPhase < -360 || burstPhase > 360){
+				dataValidationMessage += "Burst Phase must be between -360 and 360 degress\n";
+				dataValidationFlag = true;
+			}
+		}
+	}
+	
+	private void deviationFMValidation(){
+		if(typeOfSignal == 1 && modType == 1){
+			// Values must be between 10mHz and 7.5MHz
+			if(deviationFM < 0.01 || deviationFM > 7500000){
+				dataValidationMessage += "Deviation FM must be between 10mHz and 7.5MHz\n";
+				dataValidationFlag = true;
+			}
+		}
+	}
+	
+	private void modulatingFrequency(){
+		if(typeOfSignal == 1){
+			// The value must be between 10mHz and 20KHz
+			if(modFreq < 0.01 || modFreq > 20000){
+				dataValidationMessage += "Modulating Frequency must be between 10mHz and 2kHz\n";
+				dataValidationFlag = true;
+			}
+		}
+	}
+	
+	private void hopFrequencyValidation(){
+		// 10mHz to 15MHz (100 KHz for ramp and triangle, 5MHz for built-in arbs)
+		/**
+		 * For the carrier waveform you can select a sine, square, triangle, ramp, or arbitrary waveform! 
+		 * CHECK IT!!  THIS IS FOR FSK Modulation
+		 */
+		if(typeOfSignal == 1 && modType == 4){
+			if(signalShape == 3 || signalShape == 4){
+				// Ramp or triangle signal
+				if(hopFrequency < 0.01 || hopFrequency > 100000){
+					dataValidationMessage += "Hop Frequency must be between 10mHz and 100kHz\n"; 
+					dataValidationFlag = true;
+				}
+			} else if (signalShape >= 8 || signalShape <= 12){
+				if(hopFrequency < 0.01 || hopFrequency > 5000000){
+					dataValidationMessage += "Hop Frequency must be between 10mHz and 5MHz\n"; 
+					dataValidationFlag = true;
+				}
+			} else if (signalShape == 1 || signalShape == 2){
+				if(hopFrequency < 0.01 || hopFrequency > 15000000){
+					dataValidationMessage += "Hop Frequency must be between 10mHz and 15MHz\n"; 
+					dataValidationFlag = true;
+				}
+			}
+		}
 	}
 	
 	private void burstRateValidation(){
-		// TODO: Finish this method
 		// This should be between 10mHz and 50kHz
 		if(typeOfSignal == 1 && modType == 5){
 			if(burstRate < 0.01 ||burstRate > 50000){
@@ -244,7 +351,11 @@ public class HP33120a {
 	}
 
 	public void setModWfmShape(int modWfmShape) {
-		this.modWfmShape = modWfmShape;
+		if (modWfmShape > 5){
+			this.modWfmShape = modWfmShape + 1;
+		} else {
+			this.modWfmShape = modWfmShape;			
+		}
 	}
 
 	public int getAmDepth() {

@@ -11,7 +11,7 @@ public class HP33120aControl implements ActionListener, FocusListener{
 	private HP33120aInterface view;
 	private TCPClient tcpClient;	
 	private HP33120a hp33120a;
-	
+	private String auxDataValidationMessage;
 	private boolean VALIDATION_FLAG = false;
 	
 	public HP33120aControl(HP33120aInterface view, TCPClient socketClient, HP33120a hp33120a){
@@ -45,10 +45,9 @@ public class HP33120aControl implements ActionListener, FocusListener{
 						name.equals(HP33120aInterface.BURST_RATE) || 
 						name.equals(HP33120aInterface.BURST_COUNT) ||
 						name.equals(HP33120aInterface.BURST_PHASE)
-						){					
-					readFields();
+						){		
 					System.out.println("Data Validation Method is going to be called! ");					
-					dataValidation();									
+					dataValidation(readFields());									
 				}
 	}
 
@@ -58,22 +57,21 @@ public class HP33120aControl implements ActionListener, FocusListener{
 		JComboBox<String> combo;
 		// Changes according to the selected type of signal
 		if(event.getActionCommand().equals(HP33120aInterface.TYPE_OF_SIGNAL)){	
-			readFields();
-			dataValidation();
+			dataValidation(readFields());
 			combo = view.getTypeOfSignal();
 			if (combo.getSelectedItem().equals(Globals.SIGNAL)){
 				System.out.println("Disabling Buttons");
 				view.disableModulationbuttons();
 			} else if (combo.getSelectedItem().equals(Globals.MODULATION)){
 				view.enableModulationButtons();
+				view.configForAM();
 				System.out.println("Enabling Buttons");
 			}
 		}
 		// Changes according to the selected waveform shape
 		if(event.getActionCommand().equals(HP33120aInterface.WAVEFORM_SHAPE)){
-			System.out.println("HP33120a WAVEFORMSHAPE CHANGED!!!!");
-			readFields();
-			dataValidation();
+			System.out.println("HP33120a WAVEFORMSHAPE CHANGED!!!!");			
+			dataValidation(readFields());
 			// TODO: If ModulationType Changes readFields and DataValidation should be called too! 
 			combo = view.getSignalShape();
 			String command = (String) combo.getSelectedItem();			
@@ -101,6 +99,22 @@ public class HP33120aControl implements ActionListener, FocusListener{
 				view.configForExpFall();
 			}
 		}
+		if (event.getActionCommand().equals(HP33120aInterface.MODULATION_TYPE)){
+			System.out.println("HP33120a MODULATION TYPE CHANGED!!!!");
+			
+			// We should do data validation! 
+			combo = view.getModType();
+			String command = (String) combo.getSelectedItem();
+			if(command.equals(Globals.AM)){
+				view.configForAM();
+			}else if(command.equals(Globals.FM)){
+				view.configForFM();
+			}else if (command.equals(Globals.FSK)){
+				view.configForFSK();
+			}else if (command.equals(Globals.BURST_MODE)){
+				view.configForBurstMode();
+			}			
+		}
 		if(event.getActionCommand().equals(HP33120aInterface.CONFIG)){
 			// Configuration Button has been pressed, we have to read all the fields
 			// create a request and send it to the server. We are going to use the CSV format
@@ -117,9 +131,9 @@ public class HP33120aControl implements ActionListener, FocusListener{
 			}
 		}	
 	}
-	private void dataValidation(){
-		VALIDATION_FLAG = hp33120a.dataValidation();
-		if(VALIDATION_FLAG){
+	private void dataValidation(boolean formatError){
+		VALIDATION_FLAG = hp33120a.dataValidation(auxDataValidationMessage);
+		if(VALIDATION_FLAG || formatError){
 			// There is some error in the frequency
 			System.out.println("Called dataValidation()");
 			view.disableExecutionButton();
@@ -131,9 +145,12 @@ public class HP33120aControl implements ActionListener, FocusListener{
 			view.disableDataValidationLabel();
 		}									
 	}
+		
 	
-	private void readFields(){
+	private boolean readFields(){
 		JComboBox<String> combo = view.getTypeOfSignal();
+		boolean formatError = false;
+		auxDataValidationMessage = "";
 		// Start reading signal fields
 		System.out.println(view.getTypeOfSignal().getSelectedItem());
 		hp33120a.setTypeOfSignal(view.getTypeOfSignal().getSelectedIndex());
@@ -141,7 +158,13 @@ public class HP33120aControl implements ActionListener, FocusListener{
 		// TODO: We need a catalog to know what each number means
 		hp33120a.setSignalShape(view.getSignalShape().getSelectedIndex());
 		hp33120a.setUnit(view.getUnit().getSelectedIndex());
-		hp33120a.setSignalFreq(Float.parseFloat(view.getFrequency()));
+		try{
+			hp33120a.setSignalFreq(Float.parseFloat(view.getFrequency()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "Frequency must be a float\n";	
+			formatError = true;
+		}
+		//hp33120a.setSignalFreq(Float.parseFloat(view.getFrequency()));
 		hp33120a.setSignalAmp(Float.parseFloat(view.getAmplitude()));
 		hp33120a.setSignalOff(Float.parseFloat(view.getOffset()));
 		hp33120a.setDutyCycleSq(Integer.parseInt(view.getDutyCycleSquare()));
@@ -157,5 +180,6 @@ public class HP33120aControl implements ActionListener, FocusListener{
 			hp33120a.setBurstCount(Integer.parseInt(view.getBurstCount()));
 			hp33120a.setBurstPhase(Integer.parseInt(view.getBurstPhase()));
 		}
+		return formatError;
 	}
 }

@@ -47,6 +47,11 @@ public interface HP33120aInterface {
 	public void configForExpRise();
 	public void configForExpFall();
 	
+	public void configForFSK();
+	public void configForAM();
+	public void configForFM();
+	public void configForBurstMode();
+	
 	
 	
 	static final int QUERY_MESSAGE_TYPE = 10;
@@ -55,6 +60,7 @@ public interface HP33120aInterface {
 	// Constants for HP33120
 	static final String FREQUENCY = "HP33120a_Frequency";
 	static final String TYPE_OF_SIGNAL = "HP33120a_Type_of_Signal";	
+	static final String MODULATION_TYPE = "HP33120a_Modulation_Type";
 	static final String CONFIG = "HP33120a_Config";
 	static final String WAVEFORM_SHAPE = "HP33120a_Waveform_Shape";	
 	static final String AMPLITUDE ="HP33120a_Amplitude";
