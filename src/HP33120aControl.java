@@ -72,7 +72,6 @@ public class HP33120aControl implements ActionListener, FocusListener{
 		if(event.getActionCommand().equals(HP33120aInterface.WAVEFORM_SHAPE)){
 			System.out.println("HP33120a WAVEFORMSHAPE CHANGED!!!!");			
 			dataValidation(readFields());
-			// TODO: If ModulationType Changes readFields and DataValidation should be called too! 
 			combo = view.getSignalShape();
 			String command = (String) combo.getSelectedItem();			
 			if(command.equals(Globals.DC)){
@@ -100,9 +99,9 @@ public class HP33120aControl implements ActionListener, FocusListener{
 			}
 		}
 		if (event.getActionCommand().equals(HP33120aInterface.MODULATION_TYPE)){
-			System.out.println("HP33120a MODULATION TYPE CHANGED!!!!");
-			
+			System.out.println("HP33120a MODULATION TYPE CHANGED!!!!");			
 			// We should do data validation! 
+			dataValidation(readFields());
 			combo = view.getModType();
 			String command = (String) combo.getSelectedItem();
 			if(command.equals(Globals.AM)){
@@ -115,6 +114,10 @@ public class HP33120aControl implements ActionListener, FocusListener{
 				view.configForBurstMode();
 			}			
 		}
+		if(event.getActionCommand().equals(HP33120aInterface.MOD_WAVEFORM_SHAPE)){
+			dataValidation(readFields());
+		}
+		
 		if(event.getActionCommand().equals(HP33120aInterface.CONFIG)){
 			// Configuration Button has been pressed, we have to read all the fields
 			// create a request and send it to the server. We are going to use the CSV format
@@ -153,9 +156,7 @@ public class HP33120aControl implements ActionListener, FocusListener{
 		auxDataValidationMessage = "";
 		// Start reading signal fields
 		System.out.println(view.getTypeOfSignal().getSelectedItem());
-		hp33120a.setTypeOfSignal(view.getTypeOfSignal().getSelectedIndex());
-		
-		// TODO: We need a catalog to know what each number means
+		hp33120a.setTypeOfSignal(view.getTypeOfSignal().getSelectedIndex());		
 		hp33120a.setSignalShape(view.getSignalShape().getSelectedIndex());
 		hp33120a.setUnit(view.getUnit().getSelectedIndex());
 		try{
@@ -173,6 +174,7 @@ public class HP33120aControl implements ActionListener, FocusListener{
 			// We also read the modulation fields
 			hp33120a.setModType(view.getModType().getSelectedIndex());
 			hp33120a.setModWfmShape(view.getModWfmShape().getSelectedIndex());
+			hp33120a.setModFreq(Float.parseFloat(view.getModulatingFreq()));
 			hp33120a.setAmDepth(Integer.parseInt(view.getAmDepth()));
 			hp33120a.setDeviationFM(Float.parseFloat(view.getFmDeviation()));
 			hp33120a.setHopFrequency(Float.parseFloat(view.getHopFrequency()));

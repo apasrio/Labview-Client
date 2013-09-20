@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -8,14 +7,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
+
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -228,7 +226,7 @@ public class HP33120aView implements HP33120aInterface{
 				Globals.BURST_MODE}));
 		modConf.add(modType, "4, 4, fill, default");
 		// TODO: fix the next line
-		modType.setRenderer(new CustomListCellRenderer());
+		//modType.setRenderer(new CustomListCellRenderer());
 		// When this method works we can disable Modulations that are not supported by the device
 		
 		JLabel lblModWfmShape = new JLabel("Modulating wfm Shape:");
@@ -239,14 +237,15 @@ public class HP33120aView implements HP33120aInterface{
 		modWfmShape.setModel(new DefaultComboBoxModel<String>(new String[] {Globals.SINE,
 				Globals.SQUARE,
 				Globals.TRIANGLE,
-				"Up Ramp",
-				"Down  Ramp",
+				Globals.UP_RAMP,
+				Globals.DOWN_RAMP,
 				Globals.NOISE,
 				Globals.SINC,
 				Globals.NEG_RAMP,
 				Globals.EXP_RISE,
 				Globals.EXP_FALL}));
 		modConf.add(modWfmShape, "4, 6, fill, default");
+		modWfmShape.setActionCommand(MOD_WAVEFORM_SHAPE);
 		
 		JLabel lblModFreq = new JLabel("Modulating Frequency (Hz):");
 		modConf.add(lblModFreq, "2, 8, right, default");
@@ -382,6 +381,7 @@ public class HP33120aView implements HP33120aInterface{
 		offset.addFocusListener(wfmc);
 		dutyCycleSquare.addFocusListener(wfmc);
 		modType.addActionListener(wfmc);
+		modWfmShape.addActionListener(wfmc);
 		modulatingFreq.addFocusListener(wfmc);
 		amDepth.addFocusListener(wfmc);
 		fmDeviation.addFocusListener(wfmc);
@@ -477,7 +477,7 @@ public class HP33120aView implements HP33120aInterface{
 	}
 	
 	// TODO: Make it work right! 
-	class CustomListCellRenderer extends JLabel implements ListCellRenderer{
+	/*class CustomListCellRenderer extends JLabel implements ListCellRenderer{
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
@@ -491,7 +491,7 @@ public class HP33120aView implements HP33120aInterface{
 			}
 			return this;
 		}		
-	}
+	}*/
 	
 	@Override
 	public void configForSine() {

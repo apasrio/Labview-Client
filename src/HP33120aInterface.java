@@ -63,6 +63,7 @@ public interface HP33120aInterface {
 	static final String MODULATION_TYPE = "HP33120a_Modulation_Type";
 	static final String CONFIG = "HP33120a_Config";
 	static final String WAVEFORM_SHAPE = "HP33120a_Waveform_Shape";	
+	static final String MOD_WAVEFORM_SHAPE = "HP33120a_Mod_Waveform_Shape";
 	static final String AMPLITUDE ="HP33120a_Amplitude";
 	static final String OFFSET = "HP33120a_Offset";
 	static final String DUTY_CYCLE_SQUARE = "HP33120a_Duty_Cycle_Square";

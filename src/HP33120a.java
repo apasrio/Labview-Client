@@ -21,7 +21,7 @@ public class HP33120a {
 		 * 		4							Ramp
 		 * 		6							Pulse (Not Allowed)
 		 * 		7							Noise
-		 * 		8							Sinc
+		 * 		8							Sinc ------> Built-in Arb. Waveforms
 		 * 		9							Neg. Ramp
 		 * 		10							Exp. Rise
 		 * 		11							Exp. Fall
@@ -89,7 +89,7 @@ public class HP33120a {
 	}
 	
 	public boolean dataValidation(String dataValMessage){
-		// TODO: Ensure that read fields has the appropiate format
+		// TODO: Ensure that read fields has the appropriate format
 		
 		dataValidationFlag = false;
 		dataValidationMessage = dataValMessage;
@@ -104,7 +104,11 @@ public class HP33120a {
 		
 		if(typeOfSignal == 1){
 			amModulationValidation();
+			fmModulationValidation();
+			modulatingFrequency();
 			deviationFMValidation();
+			downRampValidation();
+			hopFrequencyValidation();
 			burstRateValidation();
 			burstPhaseValidation();
 			burstCountValidation();
@@ -133,8 +137,37 @@ public class HP33120a {
 				return;
 			}				
 		}
-		// TODO: Check Built-In Arbs way of working
+		
+		if(typeOfSignal == 1 && modType == 1){
+			// FM Modulation 
+			if(signalShape == 3 || signalShape == 4){
+				if(signalFreq < 0.01f || signalFreq > 100000){
+					dataValidationMessage += "Frequency must be between 0.1mHz and 100kHz\n";
+					dataValidationFlag = true;
+				}
+			} else {
+				if (signalFreq < 0.01f || signalFreq > 15000000){
+					dataValidationMessage += "Frequency must be between 0.1mHz and 15MHz\n";
+					dataValidationFlag = true;
+				}
+			}
+		}		
+		if(typeOfSignal == 1 && modType == 5){
+			// Burst Mode
+			if(signalShape == 3 || signalShape == 4){
+				if(signalFreq < 0.01f || signalFreq > 100000){
+					dataValidationMessage += "Frequency must be between 0.1mHz and 100kHz\n";
+					dataValidationFlag = true;
+				}
+			}else{
+				if(signalFreq < 0.01f || signalFreq > 5000000){
+				dataValidationMessage += "Frequency must be between 0.1mHz and 5MHz\n";
+				dataValidationFlag = true;
+				}
+			}
+		}
 	}
+	
 	
 	private boolean amplitudeValidation(){
 		boolean aux = false;
@@ -200,7 +233,6 @@ public class HP33120a {
 	}
 	
 	private void burstCountValidation(){
-		// TODO: Implement data Validation
 		if(typeOfSignal == 1 && modType == 5){
 			if (burstCount > 50000){
 				dataValidationMessage += "Burst Count must be lower than 50000 cycles\n";
@@ -252,13 +284,27 @@ public class HP33120a {
 		}
 	}
 	
+	private void downRampValidation(){
+		if(typeOfSignal == 1 && modWfmShape == 5){
+			dataValidationMessage += "Sorry! Down Ramp is not allowed by the device\n";
+			dataValidationFlag = true;
+		}
+	}
+	
+	
 	private void modulatingFrequency(){
-		if(typeOfSignal == 1){
-			// The value must be between 10mHz and 20KHz
-			if(modFreq < 0.01 || modFreq > 20000){
-				dataValidationMessage += "Modulating Frequency must be between 10mHz and 2kHz\n";
+		if(typeOfSignal == 1 && modType == 1){
+			// FM Modulation special case 
+			if(modFreq < 0.01 || modFreq > 10000){
+				dataValidationMessage += "Modulating Freq. must be between 10mHz and 10kHz\n";
 				dataValidationFlag = true;
 			}
+		} else if (typeOfSignal == 1){
+			// The value must be between 10mHz and 20KHz
+						if(modFreq < 0.01f || modFreq > 20000){
+							dataValidationMessage += "Modulating Freq. must be between 10mHz and 20kHz\n";
+							dataValidationFlag = true;
+						}
 		}
 	}
 	
@@ -272,19 +318,48 @@ public class HP33120a {
 			if(signalShape == 3 || signalShape == 4){
 				// Ramp or triangle signal
 				if(hopFrequency < 0.01 || hopFrequency > 100000){
-					dataValidationMessage += "Hop Frequency must be between 10mHz and 100kHz\n"; 
+					dataValidationMessage += "Hop Freq. must be between 10mHz and 100kHz\n"; 
 					dataValidationFlag = true;
 				}
 			} else if (signalShape >= 8 || signalShape <= 12){
 				if(hopFrequency < 0.01 || hopFrequency > 5000000){
-					dataValidationMessage += "Hop Frequency must be between 10mHz and 5MHz\n"; 
+					dataValidationMessage += "Hop Freq. must be between 10mHz and 5MHz\n"; 
 					dataValidationFlag = true;
 				}
 			} else if (signalShape == 1 || signalShape == 2){
 				if(hopFrequency < 0.01 || hopFrequency > 15000000){
-					dataValidationMessage += "Hop Frequency must be between 10mHz and 15MHz\n"; 
+					dataValidationMessage += "Hop Freq. must be between 10mHz and 15MHz\n"; 
 					dataValidationFlag = true;
 				}
+			}
+		}
+	}
+	private void fmModulationValidation(){		
+		if(typeOfSignal == 1 && modType == 1){
+			float result = signalFreq + deviationFM;
+			if((signalShape == 1 || signalShape == 2) && result > 15100000){
+				dataValidationMessage += "Carrier freq. + FM Deviation must be lower than 15.1MHz\n"; 
+				dataValidationFlag = true;
+			} else if ((signalShape == 3 || signalShape == 4) && result > 200000){
+				dataValidationMessage += "Carrier freq. + FM Deviation must be lower than 200kHz\n"; 
+				dataValidationFlag = true;
+			}else if (result > 5100000){
+				dataValidationMessage += "Carrier freq. + FM Deviation must be lower than 5.1MHz\n"; 
+				dataValidationFlag = true;
+			}			
+			if(signalFreq < deviationFM){
+				dataValidationMessage += "Carrier freq. must be greater than or equal to FM Deviation\n"; 
+				dataValidationFlag = true;
+			}
+			
+			// You cannot use noise function or dc volts as the carrier waveform
+			if(signalShape == 0){
+				dataValidationMessage += "Cannot use DC Volts as Carrier Waveform\n";
+				dataValidationFlag = true;
+			}
+			if(signalShape == 7){
+				dataValidationMessage += "Cannot use Noise as Carrier Waveform\n";
+				dataValidationFlag = true;
 			}
 		}
 	}
@@ -304,6 +379,16 @@ public class HP33120a {
 		if(typeOfSignal == 1 && modType == 0){
 			if(amDepth < 0 || amDepth > 120){
 				dataValidationMessage += "AM Depth must be an integer between 0% and 120%";
+				dataValidationFlag = true;
+			}
+			
+			// You cannot use noise function or dc volts as the carrier waveform
+			if(signalShape == 0){
+				dataValidationMessage += "Cannot use DC Volts as Carrier Waveform\n";
+				dataValidationFlag = true;
+			}
+			if(signalShape == 7){
+				dataValidationMessage += "Cannot use Noise as Carrier Waveform\n";
 				dataValidationFlag = true;
 			}
 		}
@@ -351,11 +436,7 @@ public class HP33120a {
 	}
 
 	public void setModWfmShape(int modWfmShape) {
-		if (modWfmShape > 5){
-			this.modWfmShape = modWfmShape + 1;
-		} else {
-			this.modWfmShape = modWfmShape;			
-		}
+			this.modWfmShape = modWfmShape + 1;		
 	}
 
 	public int getAmDepth() {
