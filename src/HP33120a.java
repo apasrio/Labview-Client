@@ -112,6 +112,8 @@ public class HP33120a {
 			burstRateValidation();
 			burstPhaseValidation();
 			burstCountValidation();
+			
+			 // TODO: Add a method because PWM and PM modulations are not allowed with this device
 		}
 		return dataValidationFlag;
 	}
