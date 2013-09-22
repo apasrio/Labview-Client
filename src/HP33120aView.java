@@ -585,7 +585,6 @@ public class HP33120aView implements HP33120aInterface{
 	}
 	@Override
 	public void configForAM() {
-		// TODO Auto-generated method stub
 		modulatingFreq.setEnabled(true);
 		amDepth.setEnabled(true);
 		fmDeviation.setEnabled(false);
@@ -593,6 +592,9 @@ public class HP33120aView implements HP33120aInterface{
 		burstPhase.setEnabled(false);
 		burstCount.setEnabled(false);
 		burstRate.setEnabled(false);
+		
+		// Choose as default carrier Sine
+		wfmShape.setSelectedIndex(1);
 	}
 	@Override
 	public void configForFM() {

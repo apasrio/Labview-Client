@@ -6,6 +6,8 @@ public class HP33120a {
 	private int dutyCycleSq;
 	private boolean dataValidationFlag;
 	
+	// Definition of validationFlags
+	
 	public HP33120a(){
 		/*
 		 *  Constructor to build a default instance of HP33120A Waveform Generator

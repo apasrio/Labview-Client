@@ -155,33 +155,159 @@ public class HP33120aControl implements ActionListener, FocusListener{
 		boolean formatError = false;
 		auxDataValidationMessage = "";
 		// Start reading signal fields
+		
 		System.out.println(view.getTypeOfSignal().getSelectedItem());
 		hp33120a.setTypeOfSignal(view.getTypeOfSignal().getSelectedIndex());		
 		hp33120a.setSignalShape(view.getSignalShape().getSelectedIndex());
 		hp33120a.setUnit(view.getUnit().getSelectedIndex());
-		try{
-			hp33120a.setSignalFreq(Float.parseFloat(view.getFrequency()));
-		} catch (NumberFormatException nfe){
-			auxDataValidationMessage += "Frequency must be a float\n";	
+		if(frequencyFormatValidation())
 			formatError = true;
-		}
-		//hp33120a.setSignalFreq(Float.parseFloat(view.getFrequency()));
-		hp33120a.setSignalAmp(Float.parseFloat(view.getAmplitude()));
-		hp33120a.setSignalOff(Float.parseFloat(view.getOffset()));
-		hp33120a.setDutyCycleSq(Integer.parseInt(view.getDutyCycleSquare()));
-		
+		if(amplitudeFormatValidation())
+			formatError = true;
+		if(offsetFormatValidation())
+			formatError = true;
+		if(dutyCycleFormatValidation())
+			formatError = true;		
 		if(combo.getSelectedItem().equals(AG33220aInterface.MODULATION)){
 			// We also read the modulation fields
 			hp33120a.setModType(view.getModType().getSelectedIndex());
 			hp33120a.setModWfmShape(view.getModWfmShape().getSelectedIndex());
-			hp33120a.setModFreq(Float.parseFloat(view.getModulatingFreq()));
-			hp33120a.setAmDepth(Integer.parseInt(view.getAmDepth()));
-			hp33120a.setDeviationFM(Float.parseFloat(view.getFmDeviation()));
-			hp33120a.setHopFrequency(Float.parseFloat(view.getHopFrequency()));
-			hp33120a.setBurstRate(Float.parseFloat(view.getBurstRate()));
-			hp33120a.setBurstCount(Integer.parseInt(view.getBurstCount()));
-			hp33120a.setBurstPhase(Integer.parseInt(view.getBurstPhase()));
+			if(modFrequencyFormatValidation())
+				formatError = true;			
+			if(amDepthFormatValidation())
+				formatError = true;
+			if(fmDeviationFormatValidation())
+				formatError = true;
+			if(hopFrequencyFormatValidation())
+				formatError = true;
+			if(burstRateFormatValidation())
+				formatError = true;
+			if(burstCountFormatValidation())
+				formatError = true;
+			if(burstPhaseFormatValidation())
+				formatError = true;
 		}
 		return formatError;
+	}
+	
+	private boolean frequencyFormatValidation(){
+		boolean flag = false;
+		try{
+			hp33120a.setSignalFreq(Float.parseFloat(view.getFrequency()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "Frequency must be a float\n";
+			flag = true;
+		}		
+		return flag;
+	}
+	
+	private boolean amplitudeFormatValidation(){
+		boolean flag = false;
+		try{
+			hp33120a.setSignalAmp(Float.parseFloat(view.getAmplitude()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "Amplitude must be a float\n";
+			flag = true;
+		}				
+		return flag;
+	}
+	
+	private boolean offsetFormatValidation(){
+		boolean flag = false;
+		try{
+			hp33120a.setSignalOff(Float.parseFloat(view.getOffset()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "Offset must be a float\n";
+			flag = true;
+		}				
+		return flag;
+	}
+	
+	private boolean dutyCycleFormatValidation(){
+		boolean flag = false;
+		try{
+			hp33120a.setDutyCycleSq(Integer.parseInt(view.getDutyCycleSquare()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "Duty Cycle must be an integer\n";
+			flag = true;
+		}				
+		return flag;
+	}
+	
+	private boolean modFrequencyFormatValidation(){
+		boolean flag = false;
+		try{
+			hp33120a.setModFreq(Float.parseFloat(view.getModulatingFreq()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "Modulating Frequency must be a float\n";
+			flag = true;
+		}				
+		return flag;
+	}
+	
+	private boolean amDepthFormatValidation(){
+		boolean flag = false;
+		try{
+			hp33120a.setAmDepth(Integer.parseInt(view.getAmDepth()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "AM Depth must be an integer\n";
+			flag = true;
+		}				
+		return flag;
+	}
+	
+	private boolean fmDeviationFormatValidation(){
+		boolean flag = false;
+		try{
+			hp33120a.setDeviationFM(Float.parseFloat(view.getFmDeviation()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "FM Deviation must be a float\n";
+			flag = true;
+		}				
+		return flag;
+	}
+	
+	private boolean hopFrequencyFormatValidation(){
+		boolean flag = false;
+		try{
+			hp33120a.setHopFrequency(Float.parseFloat(view.getHopFrequency()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "Hop Frequency must be a float\n";
+			flag = true;
+		}				
+		return flag;
+	}
+	
+	private boolean burstRateFormatValidation(){
+		boolean flag = false;
+		try{
+			hp33120a.setBurstRate(Float.parseFloat(view.getBurstRate()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "Burst Rate must be a float\n";
+			flag = true;
+		}				
+		return flag;
+	}
+	
+	private boolean burstCountFormatValidation(){
+		boolean flag = false;
+		try{
+			hp33120a.setBurstCount(Integer.parseInt(view.getBurstCount()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "Burst Count must be an integer\n";
+			flag = true;
+		}				
+		return flag;
+	}
+	
+	private boolean burstPhaseFormatValidation(){
+		boolean flag = false;
+		try{
+			hp33120a.setBurstPhase(Integer.parseInt(view.getBurstPhase()));
+		} catch (NumberFormatException nfe){
+			auxDataValidationMessage += "Burst Phase must be an integer\n";
+			flag = true;
+		}				
+		return flag;
 	}
 }
