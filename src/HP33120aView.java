@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -8,12 +7,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
+import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
+
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -26,9 +26,9 @@ public class HP33120aView implements HP33120aInterface{
 	private JPanel wfmGenPanel = new JPanel();	// Holds the HP33120A GUI and its components, it is raised in the main View
 	private JTextField frequency, amplitude, dutyCycleSquare, modulatingFreq, offset;
 	private JTextField amDepth, fmDeviation, hopFrequency, burstRate, burstCount, burstPhase;
-	private JComboBox typeOfSignal, modType, modWfmShape, wfmShape, unit;
+	private JComboBox<String> typeOfSignal, modType, modWfmShape, wfmShape, unit;
 	private JButton btnWfmConf;
-	private JLabel dataValidationMsg;
+	private JTextArea dataValidationMsg;
 	
 	public HP33120aView() {
 		wfmGenPanel.setLayout(new GridLayout(0, 2, 0, 0));
@@ -93,30 +93,42 @@ public class HP33120aView implements HP33120aInterface{
 		lblSignalConfiguration.setFont(new Font("Dialog", Font.BOLD, 14));
 		signalConf.add(lblSignalConfiguration, "2, 2");
 		
-		typeOfSignal = new JComboBox();
-		typeOfSignal.setModel(new DefaultComboBoxModel(new String[] {SIGNAL, MODULATION}));
+		typeOfSignal = new JComboBox<String>();
+		typeOfSignal.setModel(new DefaultComboBoxModel<String>(new String[] {Globals.SIGNAL, Globals.MODULATION}));
 		typeOfSignal.setActionCommand(TYPE_OF_SIGNAL);
 		signalConf.add(typeOfSignal, "4, 4, fill, center");
 		
 		JLabel wvfShapeLabel = new JLabel("Waveform Shape:");
 		signalConf.add(wvfShapeLabel, "2, 6, right, default");
 		
-		wfmShape = new JComboBox();
-		wfmShape.setModel(new DefaultComboBoxModel(new String[] {"DC", "Sine", "Square", "Triangle", "Ramp", "Pulse", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
-		signalConf.add(wfmShape, "4, 6, fill, default");
+		wfmShape = new JComboBox<String>();
+		wfmShape.setModel(new DefaultComboBoxModel<String>(new String[] {Globals.DC, 
+				Globals.SINE, 
+				Globals.SQUARE, 
+				Globals.TRIANGLE, 
+				Globals.RAMP, 
+				Globals.PULSE, 
+				Globals.NOISE,
+				Globals.SINC,
+				Globals.NEG_RAMP,
+				Globals.EXP_RISE,
+				Globals.EXP_FALL}));
+		wfmShape.setActionCommand(WAVEFORM_SHAPE);
+		signalConf.add(wfmShape, "4, 6, fill, default");		
 		
 		JLabel lblUnit = new JLabel("Unit:");
 		signalConf.add(lblUnit, "2, 8, right, default");
 		
-		unit = new JComboBox();
+		unit = new JComboBox<String>();
 		signalConf.add(unit, "4, 8, fill, default");
-		unit.setModel(new DefaultComboBoxModel(new String[] {VPP, VRMS, DB}));
+		unit.setModel(new DefaultComboBoxModel<String>(new String[] {Globals.VPP, Globals.VRMS, Globals.DB}));
 		
 		
 		JLabel lblFrequency = new JLabel("Frequency (Hz): ");
 		signalConf.add(lblFrequency, "2, 10, right, center");
 		
 		frequency = new JTextField();
+		frequency.setEnabled(false);
 		frequency.setText("1000");
 		frequency.setName(FREQUENCY);
 		signalConf.add(frequency, "4, 10, fill, default");
@@ -126,6 +138,7 @@ public class HP33120aView implements HP33120aInterface{
 		signalConf.add(lblAmplitude, "2, 12, right, center");
 		
 		amplitude = new JTextField();
+		amplitude.setEnabled(false);
 		amplitude.setText("1");
 		amplitude.setName(AMPLITUDE);
 		signalConf.add(amplitude, "4, 12, fill, default");
@@ -144,6 +157,7 @@ public class HP33120aView implements HP33120aInterface{
 		signalConf.add(lblDutyCycleSqr, "2, 16, right, default");
 		
 		dutyCycleSquare = new JTextField();
+		dutyCycleSquare.setEnabled(false);
 		dutyCycleSquare.setText("50");
 		dutyCycleSquare.setName(DUTY_CYCLE_SQUARE);
 		signalConf.add(dutyCycleSquare, "4, 16, fill, default");
@@ -153,7 +167,8 @@ public class HP33120aView implements HP33120aInterface{
 		btnWfmConf.setActionCommand(CONFIG);
 		signalConf.add(btnWfmConf, "4, 30");
 		
-		dataValidationMsg = new JLabel("");
+		dataValidationMsg = new JTextArea("");
+		dataValidationMsg.setBackground(UIManager.getColor("Label.background"));
 		dataValidationMsg.setForeground(Color.RED);
 		signalConf.add(dataValidationMsg, "2, 32, 5, 1, right, default");
 		
@@ -199,27 +214,44 @@ public class HP33120aView implements HP33120aInterface{
 		JLabel lblModulationType = new JLabel("Modulation Type:");
 		modConf.add(lblModulationType, "2, 4, right, default");
 		
-		modType = new JComboBox();
+		modType = new JComboBox<String>();
 		modType.setEnabled(false);
 		modType.setMaximumRowCount(4);
-		modType.setModel(new DefaultComboBoxModel(new String[] {"AM", "FM", "PWM", "PM", "FSK", "Burst Mode"}));
+		modType.setActionCommand(HP33120aInterface.MODULATION_TYPE);
+		modType.setModel(new DefaultComboBoxModel<String>(new String[] {Globals.AM,
+				Globals.FM,
+				Globals.PWM,
+				Globals.PM,
+				Globals.FSK,
+				Globals.BURST_MODE}));
 		modConf.add(modType, "4, 4, fill, default");
 		// TODO: fix the next line
-		// modType.setRenderer(new CustomListCellRenderer());
+		//modType.setRenderer(new CustomListCellRenderer());
+		// When this method works we can disable Modulations that are not supported by the device
 		
 		JLabel lblModWfmShape = new JLabel("Modulating wfm Shape:");
 		modConf.add(lblModWfmShape, "2, 6, right, default");
 		
-		modWfmShape = new JComboBox();
+		modWfmShape = new JComboBox<String>();
 		modWfmShape.setEnabled(false);
-		modWfmShape.setModel(new DefaultComboBoxModel(new String[] {"Sine", "Square", "Triangle", "Up Ramp", "Down  Ramp", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
+		modWfmShape.setModel(new DefaultComboBoxModel<String>(new String[] {Globals.SINE,
+				Globals.SQUARE,
+				Globals.TRIANGLE,
+				Globals.UP_RAMP,
+				Globals.DOWN_RAMP,
+				Globals.NOISE,
+				Globals.SINC,
+				Globals.NEG_RAMP,
+				Globals.EXP_RISE,
+				Globals.EXP_FALL}));
 		modConf.add(modWfmShape, "4, 6, fill, default");
+		modWfmShape.setActionCommand(MOD_WAVEFORM_SHAPE);
 		
 		JLabel lblModFreq = new JLabel("Modulating Frequency (Hz):");
 		modConf.add(lblModFreq, "2, 8, right, default");
 		
 		modulatingFreq = new JTextField();
-		modulatingFreq.setText("1000");
+		modulatingFreq.setText("100");
 		modulatingFreq.setName(MODULATING_FREQUENCY);
 		modulatingFreq.setEnabled(false);
 		modConf.add(modulatingFreq, "4, 8, fill, default");
@@ -229,7 +261,7 @@ public class HP33120aView implements HP33120aInterface{
 		modConf.add(lblAMDepth, "2, 10, right, default");
 		
 		amDepth = new JTextField();
-		amDepth.setText("50");
+		amDepth.setText("100");
 		amDepth.setEnabled(false);
 		amDepth.setName(AM_DEPTH);
 		modConf.add(amDepth, "4, 10, fill, default");
@@ -239,7 +271,7 @@ public class HP33120aView implements HP33120aInterface{
 		modConf.add(lblFMDeviation, "2, 12, right, default");
 		
 		fmDeviation = new JTextField();
-		fmDeviation.setText("50");
+		fmDeviation.setText("100");
 		fmDeviation.setEnabled(false);
 		fmDeviation.setName(FM_DEVIATION);
 		modConf.add(fmDeviation, "4, 12, fill, default");
@@ -249,7 +281,7 @@ public class HP33120aView implements HP33120aInterface{
 		modConf.add(lblHopFreq, "2, 14, right, default");
 		
 		hopFrequency = new JTextField();
-		hopFrequency.setText("500");
+		hopFrequency.setText("100");
 		hopFrequency.setEnabled(false);
 		hopFrequency.setName(HOP_FREQUENCY);
 		modConf.add(hopFrequency, "4, 14, fill, default");
@@ -341,12 +373,15 @@ public class HP33120aView implements HP33120aInterface{
 	@Override
 	public void setHP33120aControl(HP33120aControl wfmc) {
 		typeOfSignal.addActionListener(wfmc);
+		wfmShape.addActionListener(wfmc);
 		btnWfmConf.addActionListener(wfmc);
 		frequency.addFocusListener(wfmc);
 		amplitude.addFocusListener(wfmc);
 		unit.addActionListener(wfmc);
 		offset.addFocusListener(wfmc);
 		dutyCycleSquare.addFocusListener(wfmc);
+		modType.addActionListener(wfmc);
+		modWfmShape.addActionListener(wfmc);
 		modulatingFreq.addFocusListener(wfmc);
 		amDepth.addFocusListener(wfmc);
 		fmDeviation.addFocusListener(wfmc);
@@ -357,7 +392,7 @@ public class HP33120aView implements HP33120aInterface{
 	}
 
 	@Override
-	public JComboBox getTypeOfSignal() {
+	public JComboBox<String> getTypeOfSignal() {
 		return typeOfSignal;
 	}
 
@@ -367,17 +402,17 @@ public class HP33120aView implements HP33120aInterface{
 	}
 
 	@Override
-	public JComboBox getSignalShape() {
+	public JComboBox<String> getSignalShape() {
 		return wfmShape;
 	}
 
 	@Override
-	public JComboBox getModWfmShape() {
+	public JComboBox<String> getModWfmShape() {
 		return modWfmShape;
 	}
 
 	@Override
-	public JComboBox getModType() {
+	public JComboBox<String> getModType() {
 		return modType;
 	}	
 
@@ -437,12 +472,12 @@ public class HP33120aView implements HP33120aInterface{
 	}
 
 	@Override
-	public JComboBox getUnit() {
+	public JComboBox<String> getUnit() {
 		return unit;
 	}
 	
 	// TODO: Make it work right! 
-	class CustomListCellRenderer extends JLabel implements ListCellRenderer{
+	/*class CustomListCellRenderer extends JLabel implements ListCellRenderer{
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
@@ -450,8 +485,137 @@ public class HP33120aView implements HP33120aInterface{
 			if(index ==  2 || index == 3){
 				setEnabled(false);
 				setFocusable(false);
+			}else{
+				setEnabled(true);
+				setFocusable(true);
 			}
 			return this;
 		}		
+	}*/
+	
+	@Override
+	public void configForSine() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);		
 	}
+	@Override
+	public void configForSquare() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(true);			
+	}
+	@Override
+	public void configForTriangle() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);		
+	}
+	@Override
+	public void configForRamp() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);			
+	}
+	@Override
+	public void configForPulse() {
+		// TODO: Does the HP33120a the Pulse waveform shape? We have to disable this option!!!!
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);				
+	}
+	@Override
+	public void configForNoise() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);				
+	}
+	@Override
+	public void configForSinc() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);			
+	}
+	@Override
+	public void configForNegRamp() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);			
+	}
+	@Override
+	public void configForExpRise() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);		
+	}
+	@Override
+	public void configForExpFall() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);		
+	}
+	@Override
+	public void configForDC() {
+		amplitude.setEnabled(false);
+		frequency.setEnabled(false);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);
+	}
+	@Override
+	public void configForFSK() {
+		// TODO: Check if it is right! 
+		modulatingFreq.setEnabled(true);		
+		amDepth.setEnabled(false);
+		fmDeviation.setEnabled(false);
+		hopFrequency.setEnabled(true);
+		burstPhase.setEnabled(false);
+		burstCount.setEnabled(false);
+		burstRate.setEnabled(false);
+		
+	}
+	@Override
+	public void configForAM() {
+		modulatingFreq.setEnabled(true);
+		amDepth.setEnabled(true);
+		fmDeviation.setEnabled(false);
+		hopFrequency.setEnabled(false);
+		burstPhase.setEnabled(false);
+		burstCount.setEnabled(false);
+		burstRate.setEnabled(false);
+		
+		// Choose as default carrier Sine
+		wfmShape.setSelectedIndex(1);
+	}
+	@Override
+	public void configForFM() {
+		// TODO Auto-generated method stub
+		modulatingFreq.setEnabled(true);
+		amDepth.setEnabled(false);
+		fmDeviation.setEnabled(true);
+		hopFrequency.setEnabled(false);
+		burstPhase.setEnabled(false);
+		burstCount.setEnabled(false);
+		burstRate.setEnabled(false);
+	}
+	@Override
+	public void configForBurstMode() {
+		// TODO Auto-generated method stub
+		modulatingFreq.setEnabled(false);
+		amDepth.setEnabled(false);
+		fmDeviation.setEnabled(false);
+		hopFrequency.setEnabled(false);
+		burstPhase.setEnabled(true);
+		burstCount.setEnabled(true);
+		burstRate.setEnabled(true);
+	}	
 }
