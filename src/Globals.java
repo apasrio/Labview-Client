@@ -3,6 +3,10 @@
 	 */
 
 public class Globals {	
+	// Message Codes
+	static final int HP34401_QUERY_MESSAGE = 30;
+	
+	// Digital Multimeter Constants
 	
 	// Waveform Generators Constants
 	static final String DC = "DC";

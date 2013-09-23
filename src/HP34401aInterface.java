@@ -14,10 +14,14 @@ public interface HP34401aInterface {
 	public void configManualRange(boolean value);
 	public void setMeasure(String measure);
 	public void setHP34401aControl(HP34401aControl control); 	// Enable the ActionListeners
+	public void configExecutionButton(boolean status);			// Enable/disable configuration button
+	public void setDataValidationMessage(String message);
+	public void disableDataValidationLabel();
 	
 	// Definitions for ActionCommands
 	static final String AUTOZERO = "HP34401a_Autozero";
 	static final String AUTORANGE = "HP34401a_Autorange";
+	static final String RANGE = "HP34401a_Range";
 	static final String CONFIG = "HP34401a_Config";
 	
 	// Elements for the TriggerSource JComboBox

@@ -137,7 +137,6 @@ public class HP33120aControl implements ActionListener, FocusListener{
 	private void dataValidation(boolean formatError){
 		VALIDATION_FLAG = hp33120a.dataValidation(auxDataValidationMessage);
 		if(VALIDATION_FLAG || formatError){
-			// There is some error in the frequency
 			System.out.println("Called dataValidation()");
 			view.disableExecutionButton();
 			view.setDataValidationMessage(hp33120a.getDataValidationMessage());

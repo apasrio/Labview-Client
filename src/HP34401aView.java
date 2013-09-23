@@ -6,14 +6,17 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.border.EtchedBorder;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JToggleButton;
+import java.awt.Color;
+import javax.swing.UIManager;
 
 
 public class HP34401aView implements HP34401aInterface{
@@ -23,14 +26,11 @@ public class HP34401aView implements HP34401aInterface{
 	 */
 	
 	private JPanel dmmPanel = new JPanel();	// Holds the HP34401 GUI and its components, it is raised in the main View
-	private JComboBox function;
-	private JComboBox resolution;
-	private JComboBox triggerSource;
-	private JTextField manualRange;
-	private JTextField measure;
-	private JToggleButton btnAutozero;
-	private JToggleButton btnAutoRange;
+	private JComboBox function, resolution, triggerSource;
+	private JTextField manualRange, measure;
+	private JToggleButton btnAutozero, btnAutoRange;
 	private JButton configButton;
+	private JTextArea dataValidationMsg;
 	
 	public HP34401aView(){
 		dmmPanel.setLayout(new FormLayout(new ColumnSpec[] {
@@ -58,7 +58,7 @@ public class HP34401aView implements HP34401aInterface{
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -82,9 +82,7 @@ public class HP34401aView implements HP34401aInterface{
 				PERIOD,
 				CONTINUITY,
 				DIODE_CHECKING,
-				VDC_RATIO,
-				TEMPERATURE,
-				CAPACITANCE}));
+				VDC_RATIO}));
 		dmmPanel.add(function, "4, 4, fill, default");
 		
 		JLabel resolutionLabel = new JLabel("Resolution:");
@@ -107,27 +105,34 @@ public class HP34401aView implements HP34401aInterface{
 		manualRange = new JTextField();
 		dmmPanel.add(manualRange, "4, 10, fill, default");
 		manualRange.setColumns(10);
+		manualRange.setName(HP34401aInterface.RANGE);
+		
+		btnAutozero = new JToggleButton("Auto-Zero");
+		btnAutozero.setActionCommand(AUTOZERO);
+		dmmPanel.add(btnAutozero, "2, 12, fill, top");
+		
+		btnAutoRange = new JToggleButton("Auto-Range");
+		btnAutoRange.setActionCommand(AUTORANGE);
+		dmmPanel.add(btnAutoRange, "4, 12, fill, default");
 		
 		JLabel resultLabel = new JLabel("Measure: ");
-		dmmPanel.add(resultLabel, "2, 16, right, default");
+		dmmPanel.add(resultLabel, "2, 14, right, default");
 		
 		measure = new JTextField();
 		measure.setBorder(new EtchedBorder(EtchedBorder.RAISED, null, null));
 		measure.setEditable(false);
-		dmmPanel.add(measure, "4, 16, fill, default");
+		dmmPanel.add(measure, "4, 14, fill, default");
 		measure.setColumns(10);
-		
-		btnAutozero = new JToggleButton("Auto-Zero");
-		btnAutozero.setActionCommand(AUTOZERO);
-		dmmPanel.add(btnAutozero, "2, 22, fill, top");
-		
-		btnAutoRange = new JToggleButton("Auto-Range");
-		btnAutoRange.setActionCommand(AUTORANGE);
-		dmmPanel.add(btnAutoRange, "4, 22, fill, default");
 		
 		configButton = new JButton("Do it! ");
 		configButton.setActionCommand(CONFIG);
-		dmmPanel.add(configButton, "6, 22");
+		dmmPanel.add(configButton, "4, 16, fill, default");
+		
+		dataValidationMsg = new JTextArea();
+		dataValidationMsg.setBackground(UIManager.getColor("Label.background"));
+		dataValidationMsg.setForeground(Color.RED);
+		dataValidationMsg.setEditable(false);
+		dmmPanel.add(dataValidationMsg, "2, 18, 5, 1, center, center");
 		
 	
 	}
@@ -169,7 +174,7 @@ public class HP34401aView implements HP34401aInterface{
 		btnAutoRange.addActionListener(control);
 		configButton.addActionListener(control);
 	}
-
+	
 	@Override
 	public JToggleButton getAutoRange() {
 		return btnAutoRange;
@@ -183,5 +188,21 @@ public class HP34401aView implements HP34401aInterface{
 	@Override
 	public void configManualRange(boolean value) {
 		manualRange.setEditable(value);
+	}
+
+	@Override
+	public void configExecutionButton(boolean status) {
+		configButton.setEnabled(status);		
+	}
+
+	@Override
+	public void setDataValidationMessage(String message) {
+		dataValidationMsg.setVisible(true);
+		dataValidationMsg.setText(message);
+	}
+
+	@Override
+	public void disableDataValidationLabel() {
+		dataValidationMsg.setVisible(false);		
 	}
 }
