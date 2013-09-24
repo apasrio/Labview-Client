@@ -22,15 +22,15 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 
-public class View extends JFrame implements ViewInterface, AG33220aInterface {
+public class View{
 	
 		
 	static String SocketIp = "127.0.0.1";
 	static int SocketPort = 5020;
+	private JPanel mainView = new JPanel();
 	private JTextField msgToSend, frequency, amplitude, rampSymmetry, dutyCycleSquare, dutyCyclePulse, modulatingFreq;
 	private JTextField offset;
 	private JTextField amDepth, fmDeviation, hopFrequency, intDeviationPWM, phaseDeviationPM, burstRate, burstCount, burstPhase;
-	private JButton connectButton, disconnectButton, sendButton;
 	private JButton btnWfmConf;
 	private JComboBox typeOfSignal, modType, modWfmShape;
 	private JPanel modConfiguration;
@@ -44,13 +44,13 @@ public class View extends JFrame implements ViewInterface, AG33220aInterface {
 	 * Create the applet.
 	 */
 	public View(final TCPClient socketClient, HP33120a hp33120a, HP34401a hp34401a, AG33220a ag33220a) {
-		this.setSize(1280,960);
-		getContentPane().setLayout(new GridLayout(2, 0, 0, 0));
+		mainView.setSize(1280,960);
+		mainView.setLayout(new GridLayout(2, 0, 0, 0));
 		
 		loadIcons();
 		
 		JPanel topPanel = new JPanel();
-		getContentPane().add(topPanel);
+		mainView.add(topPanel);
 		topPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JTabbedPane waveformGenerators = new JTabbedPane(JTabbedPane.TOP);
@@ -371,7 +371,7 @@ public class View extends JFrame implements ViewInterface, AG33220aInterface {
 		
 		
 		JPanel bottomPanel = new JPanel();
-		getContentPane().add(bottomPanel);
+		mainView.add(bottomPanel);
 		bottomPanel.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JTabbedPane oscilloscopesPanel = new JTabbedPane(JTabbedPane.TOP);
@@ -380,29 +380,8 @@ public class View extends JFrame implements ViewInterface, AG33220aInterface {
 		JPanel hp_54602b = new JPanel();
 		oscilloscopesPanel.addTab("HP 54602B", null, hp_54602b, null);
 		hp_54602b.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		connectButton = new JButton("Connect");
-		connectButton.setActionCommand(CONNECT);
-		hp_54602b.add(connectButton);
-		
-		disconnectButton = new JButton("Disconnect");
-		disconnectButton.setActionCommand(DISCONNECT);
-		hp_54602b.add(disconnectButton);
-		
-		sendButton = new JButton("Send");
-		sendButton.setActionCommand(SEND);
-		hp_54602b.add(sendButton);
-		
-		JLabel lblNewLabel = new JLabel("To Send: ");
-		hp_54602b.add(lblNewLabel);
-		
-		msgToSend = new JTextField();
-		msgToSend.setToolTipText("Introduce Text To Send\r\n");
-		hp_54602b.add(msgToSend);
-		msgToSend.setColumns(50);
-		
-		this.setVisible(true);
-
+				
+		mainView.setVisible(true);
 	}
 	
 	private void loadIcons(){
@@ -413,186 +392,9 @@ public class View extends JFrame implements ViewInterface, AG33220aInterface {
 			System.out.println("Loaded Image");
 			this.warning_icon = new ImageIcon(imageURL, "Warning Icon");
 		}
-	}
-
-	@Override
-	public void setConfControl(ConfControl c) {
-		// Adding conf control
-		connectButton.addActionListener(c);
-		disconnectButton.addActionListener(c);
-		sendButton.addActionListener(c);
-	}
-
-	public String getMsgToSend() {
-		return msgToSend.getText();
-	}
-
-	@Override
-	public void setAG33220aControl(AG33220aControl wfmc) {
-		typeOfSignal.addActionListener(wfmc);
-		btnWfmConf.addActionListener(wfmc);
-		unit.addActionListener(wfmc);
-		frequency.addFocusListener(wfmc);
-		amplitude.addFocusListener(wfmc);
-		offset.addFocusListener(wfmc);
-		rampSymmetry.addFocusListener(wfmc);
-		dutyCycleSquare.addFocusListener(wfmc);
-		dutyCyclePulse.addFocusListener(wfmc);
-		modulatingFreq.addFocusListener(wfmc);
-		amDepth.addFocusListener(wfmc);
-		fmDeviation.addFocusListener(wfmc);
-		hopFrequency.addFocusListener(wfmc);
-		intDeviationPWM.addFocusListener(wfmc);
-		phaseDeviationPM.addFocusListener(wfmc);
-		burstRate.addFocusListener(wfmc);
-		burstCount.addFocusListener(wfmc);
-		burstPhase.addFocusListener(wfmc);
-	}
-
-	public JComboBox getTypeOfSignal() {
-		return typeOfSignal;
-	}
-
-	@Override
-	public void enableModulationButtons() {	
-		modType.setEnabled(true);
-		modWfmShape.setEnabled(true);
-		modulatingFreq.setEnabled(true);
-		amDepth.setEnabled(true);
-		fmDeviation.setEnabled(true);
-		hopFrequency.setEnabled(true);
-		intDeviationPWM.setEnabled(true);
-		phaseDeviationPM.setEnabled(true);
-		burstRate.setEnabled(true);
-		burstCount.setEnabled(true);
-		burstPhase.setEnabled(true);
-	}
-
-	@Override
-	public void disableModulationbuttons() {
-		modType.setEnabled(false);
-		modWfmShape.setEnabled(false);
-		modulatingFreq.setEnabled(false);
-		amDepth.setEnabled(false);
-		fmDeviation.setEnabled(false);
-		hopFrequency.setEnabled(false);
-		intDeviationPWM.setEnabled(false);
-		phaseDeviationPM.setEnabled(false);
-		burstRate.setEnabled(false);
-		burstCount.setEnabled(false);
-		burstPhase.setEnabled(false);
-	}
-
-	public String getFrequency() {
-		return frequency.getText();
-	}
-
-	public String getAmplitude() {
-		return amplitude.getText();
-	}
-
-	public String getRampSymmetry() {
-		return rampSymmetry.getText();
-	}
-
-	public String getDutyCycleSquare() {
-		return dutyCycleSquare.getText();
-	}
-
-	public String getDutyCyclePulse() {
-		return dutyCyclePulse.getText();
-	}
-
-	public String getModulatingFreq() {
-		return modulatingFreq.getText();
-	}
-
-	public String getAmDepth() {
-		return amDepth.getText();
-	}
-
-	public String getFmDeviation() {
-		return fmDeviation.getText();
-	}
-
-	public String getHopFrequency() {
-		return hopFrequency.getText();
-	}
-
-	public String getIntDeviationPWM() {
-		return intDeviationPWM.getText();
-	}
-
-	public String getPhaseDeviationPM() {
-		return phaseDeviationPM.getText();
-	}
-
-	public String getBurstRate() {
-		return burstRate.getText();
-	}
-
-	public String getBurstCount() {
-		return burstCount.getText();
-	}
-
-	public String getBurstPhase() {
-		return burstPhase.getText();
-	}
-
-	public JButton getConnectButton() {
-		return connectButton;
-	}
-
-	public JComboBox getModType() {
-		return modType;
-	}
-
-	public JComboBox getModWfmShape() {
-		return modWfmShape;
-	}
-
-	public JPanel getModConfiguration() {
-		return modConfiguration;
-	}
+	}			
 	
-	public JComboBox getSignalShape() {
-		return wvfShape;
-	}
-	
-	public String getOffset() {
-		return offset.getText();
-	}
-
-	@Override
-	public void disableExecutionButton() {
-		btnWfmConf.setEnabled(false);
-	}
-	
-	@Override
-	public void enableExecutionButton() {
-		btnWfmConf.setEnabled(true);
-	}
-
-	@Override
-	public void setDataValidationMessage(String validationMessage) {
-		dataValidationMsg.setText(validationMessage);
-		dataValidationMsg.setVisible(true);
-	}
-
-	@Override
-	public void disableDataValidationLabel() {
-		dataValidationMsg.setVisible(false);		
-	}
-
-	@Override
-	public JComboBox getUnit() {
-		return unit;
-	}
-
-	@Override
-	public JComponent getAG33220aPanel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+	public JComponent getMainView(){
+		return mainView;
+	}	
 }

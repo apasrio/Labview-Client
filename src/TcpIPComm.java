@@ -53,7 +53,7 @@ class TCPClient	{
 	/*
 	 * Method to establish communication with the server side. (Changing port system)
 	 */
-	public static void establishComm(String IP) throws IOException{	
+	public static int establishComm(String IP) throws IOException{	
 		int newPort;
 		String receivedHeader, receivedMessage;
 		receivedHeader = readHeader(inFromServer);
@@ -76,15 +76,15 @@ class TCPClient	{
 			if(receivedMessageType==4){
 				// Connection in good health
 				System.out.println("Connection established succesfully");
-				System.out.println(receivedMessage);
+				System.out.println(receivedMessage);				
 			} else if (receivedMessageType==5){
 				// There has been a problem with the server side
 				System.out.println("Error while connection stablishment");
 				System.out.println(receivedMessage);
-				// Sending response to close communication
-				
+				// Sending response to close communication				
 			}
 		}
+		return receivedMessageType;
 	}
 
 

@@ -3,8 +3,10 @@ public interface ViewInterface {
 	// Aquí colocaremos métodos para la vista
 	void setConfControl(ConfControl c); // Set the Configuration Controller (general issues)
 	
+	
 	// Getters and Setters needed
-	String getMsgToSend();
+	void setErrorMsg(String errorMsg);
+	void disableErrorLabel();
 	
 
 	// Constantes que definen las posibles operaciones
