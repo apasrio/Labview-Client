@@ -5,15 +5,15 @@ import java.io.IOException;
 
 public class ConfControl implements ActionListener{
 		
-	private ViewInterface vista;
+	private ViewInterface view;
 	private TCPClient tcpClient;
 	private Frame frame;
 	
 	static String SocketIp = "127.0.0.1";
 	static int SocketPort = 5020;
 	
-	public ConfControl(ViewInterface vista, TCPClient socketClient, Frame parent){
-		this.vista = vista;
+	public ConfControl(ViewInterface view, TCPClient socketClient, Frame parent){
+		this.view = view;
 		this.tcpClient = socketClient;
 		this.frame = parent;
 		System.out.println(socketClient);
@@ -33,14 +33,14 @@ public class ConfControl implements ActionListener{
 				connectionCode = -1;
 			}			
 			if(connectionCode == 4){
-				vista.disableErrorLabel();
+				view.disableErrorLabel();
 				frame.createMainView();
 			} else if (connectionCode == 5){
 				// Call a method to show the user that the system is busy
-				vista.setErrorMsg("Server is busy! Try again later!!");
+				view.setErrorMsg("Server is busy! Try again later!!");
 			} else if (connectionCode == -1){
 				// Call a method to show the user that there has been a problem with the connection
-				vista.setErrorMsg("Unknown Error! Try again later!!");
+				view.setErrorMsg("Unknown Error! Try again later!!");
 			}
 		}
 		/*

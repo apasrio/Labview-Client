@@ -1,13 +1,9 @@
 import java.awt.BorderLayout;
-import java.awt.Container;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 
 public class Frame extends JFrame{
-	private JTextField textField;
 	private TCPClient tcpClient;
 	private HP33120a hp33120a;
 	private HP34401a hp34401a;
