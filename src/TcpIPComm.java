@@ -26,9 +26,9 @@ class TCPClient	{
 	/*
 	 * Method to send a message to the server and wait for an answer
 	 */
-	public static void bidirectComm(String message, Integer messageType) throws Exception{
+	public static String[] bidirectComm(String message, Integer messageType) throws Exception{
 		// Building the Header with the lenght of the message to send
-		// Needed Variables
+		// Needed Variables		
 		String headerToSend, receivedHeader, receivedMessage ,headerToPad = "";
 		int messageLength;
 		
@@ -48,7 +48,9 @@ class TCPClient	{
 		decodeHeader(receivedHeader);		
 		receivedMessage = readMessage(receivedMessageLength, inFromServer);
 		
-		System.out.println("Message From the Server: " + receivedMessage );	
+		System.out.println("Message From the Server: " + receivedMessage );
+		String[] dataToProcess = new String[]{String.valueOf(receivedMessageType), receivedMessage};		
+		return dataToProcess;
 		}
 	/*
 	 * Method to establish communication with the server side. (Changing port system)

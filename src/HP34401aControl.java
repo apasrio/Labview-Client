@@ -48,15 +48,17 @@ public class HP34401aControl implements ActionListener, FocusListener{
 		}
 		if(event.getActionCommand().equals(HP34401aInterface.CONFIG)){
 			// Config button has been pressed
+			String[] receivedData = null;
 			System.out.println("Do it!! Button has been presed");	
 			readFields();
 			hp34401a.setFrame();
 			try {
-				TCPClient.bidirectComm(hp34401a.getFrame(), Globals.HP34401_QUERY_MESSAGE);
+				receivedData = TCPClient.bidirectComm(hp34401a.getFrame(), Globals.HP34401_QUERY_MESSAGE);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			decodeHP34401aResponse(receivedData);
 		}		
 	}
 	
@@ -95,5 +97,22 @@ public class HP34401aControl implements ActionListener, FocusListener{
 			flag = true;
 		}
 		return flag;
+	}
+	
+	// Method to decode HP34401A response
+	private void decodeHP34401aResponse(String[] receivedData){
+		int messageType = Integer.parseInt(receivedData[0]);
+		String receivedMeasure = receivedData[1];
+		switch(messageType){
+			case 31:
+				// Measuring success
+				// If it is needed to do some calculations with the measured value, method should be called here
+				view.setMeasure(receivedMeasure);
+				break;
+			case 33:
+				// Measuring failure
+				view.setMeasure(receivedMeasure);
+				break;			
+		}
 	}
 }
