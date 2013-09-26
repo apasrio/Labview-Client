@@ -34,6 +34,21 @@ public class ConfControl implements ActionListener{
 			}			
 			if(connectionCode == 4){
 				view.disableErrorLabel();
+				// First of all we need to check what devices are active at this very moment!
+				try {
+					String[] receivedData;
+					receivedData = TCPClient.bidirectComm("AVAILABLE_FIELD", Globals.AVAILABLE_DEVICES_QUERY);
+					// receivedData[1] contains the list with available devices sorted as follows: 
+					// AG33220A, HP33120A, HP34401A, HP54602B
+					receivedData = decodeAvailableDevicesQuery(receivedData[1]);
+					System.out.println("AG33220A is -> " + decodeDeviceFlag(Integer.parseInt(receivedData[0])));
+					System.out.println("HP33120A is -> " + decodeDeviceFlag(Integer.parseInt(receivedData[1])));
+					System.out.println("HP34401A is -> " + decodeDeviceFlag(Integer.parseInt(receivedData[2])));
+					System.out.println("HP54602B is -> " + decodeDeviceFlag(Integer.parseInt(receivedData[3])));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				frame.createMainView();
 			} else if (connectionCode == 5){
 				// Call a method to show the user that the system is busy
@@ -43,24 +58,18 @@ public class ConfControl implements ActionListener{
 				view.setErrorMsg("Unknown Error! Try again later!!");
 			}
 		}
-		/*
-		else if(event.getActionCommand().equals(ViewInterface.DISCONNECT)){
-			try {
-				TCPClient.bidirectComm("Closing socket!", 1);
-				TCPClient.close();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();				
-			}			
-		}
-		else if(event.getActionCommand().equals(ViewInterface.SEND)){
-			String msgToSend = vista.getMsgToSend();
-			System.out.println("This is the message that is going to be sent: "+ msgToSend);
-			try{
-				TCPClient.bidirectComm(msgToSend, 0);
-			} catch (Exception e){
-				e.printStackTrace();
-			}
-		}*/
 	}	
+	
+	private String[] decodeAvailableDevicesQuery(String receivedMessage){
+		String[] decodedQuery;
+		decodedQuery = receivedMessage.split(",");
+		return decodedQuery;
+	}
+	
+	private boolean decodeDeviceFlag(int deviceFlag){
+		if(deviceFlag == 1){
+			return true;
+		} else
+			return false;
+	}
 }

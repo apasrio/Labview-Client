@@ -3,9 +3,11 @@
 	 */
 
 public class Globals {	
+	
 	// Message Codes
 	static final int HP34401_QUERY_MESSAGE = 30;
-	
+	static final int AVAILABLE_DEVICES_QUERY = 6;
+	static final int AVAILABLE_DEVICES_RESPONSE = 7;
 	// Digital Multimeter Constants
 	
 	// Waveform Generators Constants
