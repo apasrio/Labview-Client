@@ -32,7 +32,7 @@ public class HP34401aView implements HP34401aInterface{
 	private JButton configButton;
 	private JTextArea dataValidationMsg;
 	
-	public HP34401aView(){
+	public HP34401aView(int availableDevice){
 		dmmPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
@@ -132,9 +132,7 @@ public class HP34401aView implements HP34401aInterface{
 		dataValidationMsg.setBackground(UIManager.getColor("Label.background"));
 		dataValidationMsg.setForeground(Color.RED);
 		dataValidationMsg.setEditable(false);
-		dmmPanel.add(dataValidationMsg, "2, 18, 5, 1, center, center");
-		
-	
+		dmmPanel.add(dataValidationMsg, "2, 18, 5, 1, center, center");	
 	}
 	
 	// get the HP34401 GUI and its components for display

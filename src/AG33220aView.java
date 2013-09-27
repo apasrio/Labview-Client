@@ -31,7 +31,7 @@ public class AG33220aView implements AG33220aInterface{
 	private JLabel dataValidationMsg;
 	
 	
-	public AG33220aView(){
+	public AG33220aView(int availableDevice){
 		
 		agilent_33220a.setLayout(new GridLayout(0, 2, 0, 0));
 		

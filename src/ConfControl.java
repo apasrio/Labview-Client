@@ -41,15 +41,16 @@ public class ConfControl implements ActionListener{
 					// receivedData[1] contains the list with available devices sorted as follows: 
 					// AG33220A, HP33120A, HP34401A, HP54602B
 					receivedData = decodeAvailableDevicesQuery(receivedData[1]);
-					System.out.println("AG33220A is -> " + decodeDeviceFlag(Integer.parseInt(receivedData[0])));
-					System.out.println("HP33120A is -> " + decodeDeviceFlag(Integer.parseInt(receivedData[1])));
-					System.out.println("HP34401A is -> " + decodeDeviceFlag(Integer.parseInt(receivedData[2])));
-					System.out.println("HP54602B is -> " + decodeDeviceFlag(Integer.parseInt(receivedData[3])));
+					System.out.println("AG33220A is -> " + receivedData[0]);
+					System.out.println("HP33120A is -> " + receivedData[1]);
+					System.out.println("HP34401A is -> " + receivedData[2]);
+					System.out.println("HP54602B is -> " + receivedData[3]);			
+
+					frame.createMainView(receivedData);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				frame.createMainView();
 			} else if (connectionCode == 5){
 				// Call a method to show the user that the system is busy
 				view.setErrorMsg("Server is busy! Try again later!!");
@@ -64,12 +65,5 @@ public class ConfControl implements ActionListener{
 		String[] decodedQuery;
 		decodedQuery = receivedMessage.split(",");
 		return decodedQuery;
-	}
-	
-	private boolean decodeDeviceFlag(int deviceFlag){
-		if(deviceFlag == 1){
-			return true;
-		} else
-			return false;
-	}
+	}	
 }

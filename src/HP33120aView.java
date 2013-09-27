@@ -30,7 +30,7 @@ public class HP33120aView implements HP33120aInterface{
 	private JButton btnWfmConf;
 	private JTextArea dataValidationMsg;
 	
-	public HP33120aView() {
+	public HP33120aView(int availableDevice) {
 		wfmGenPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		JPanel signalConf = new JPanel();

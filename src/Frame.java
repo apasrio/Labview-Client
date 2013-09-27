@@ -29,8 +29,8 @@ public class Frame extends JFrame{
 		this.setVisible(true);
 	}	
 	
-	public void createMainView(){
-		view = new View(tcpClient, hp33120a, hp34401a, ag33220a);
+	public void createMainView(String[] receivedData){
+		view = new View(tcpClient, hp33120a, hp34401a, ag33220a, receivedData);
 		getContentPane().removeAll();
 		getContentPane().add(view.getMainView());
 		getContentPane().revalidate();
