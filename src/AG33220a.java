@@ -326,6 +326,50 @@ public class AG33220a {
 			}
 		}
 	}
+	
+	private void modulatingFrequency(){
+		if(typeOfSignal == 1 && modType == 1){
+			// FM Modulation special case 
+			// TODO: Check if FM is a special case
+			if(modFreq < 0.01 || modFreq > 10000){
+				dataValidationMessage += "Modulating Freq. must be between 10mHz and 10kHz\n";
+				dataValidationFlag = true;
+			}
+		} else if (typeOfSignal == 1){
+			// The value must be between 10mHz and 20KHz
+						if(modFreq < 0.002f || modFreq > 20000){
+							dataValidationMessage += "Modulating Freq. must be between 2mHz and 20kHz\n";
+							dataValidationFlag = true;
+						}
+		}
+	}
+	
+	private void hopFrequencyValidation(){
+		// 1uHz to 20MHz (200 KHz for ramp and triangle, 6MHz for built-in arbs)
+		/**
+		 * For the carrier waveform you can select a sine, square, triangle, ramp, or arbitrary waveform! 
+		 * CHECK IT!!  THIS IS FOR FSK Modulation
+		 */
+		if(typeOfSignal == 1 && modType == 4){
+			if(signalShape == 3 || signalShape == 4){
+				// Ramp or triangle signal
+				if(hopFrequency < 0.000001f || hopFrequency > 200000){
+					dataValidationMessage += "Hop Freq. must be between 1uHz and 200kHz\n"; 
+					dataValidationFlag = true;
+				}
+			} else if (signalShape >= 8 || signalShape <= 12){
+				if(hopFrequency < 0.000001f || hopFrequency > 6000000){
+					dataValidationMessage += "Hop Freq. must be between 1uHz and 6MHz\n"; 
+					dataValidationFlag = true;
+				}
+			} else if (signalShape == 1 || signalShape == 2){
+				if(hopFrequency < 0.000001f || hopFrequency > 20000000){
+					dataValidationMessage += "Hop Freq. must be between 1uHz and 20MHz\n"; 
+					dataValidationFlag = true;
+				}
+			}
+		}
+	}
 
 	public void setSignalShape(int signalShape) {
 		this.signalShape = signalShape;
