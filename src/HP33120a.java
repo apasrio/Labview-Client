@@ -141,6 +141,7 @@ public class HP33120a {
 				return;
 			}				
 		}
+		// TODO: Check data validation for Built-in Waveforms! 
 		
 		if(typeOfSignal == 1 && modType == 1){
 			// FM Modulation 
