@@ -27,7 +27,7 @@ public class AG33220aView implements AG33220aInterface{
 	private JButton btnWfmConf;
 	private JComboBox typeOfSignal, modType, modWfmShape, unit;
 	private JPanel modConfiguration;
-	private JComboBox wvfShape;
+	private JComboBox wfmShape;
 	private JLabel dataValidationMsg;
 	
 	
@@ -103,9 +103,9 @@ public class AG33220aView implements AG33220aInterface{
 		JLabel wvfShapeLabel = new JLabel("Waveform Shape:");
 		signalConfiguration.add(wvfShapeLabel, "2, 6, right, default");
 		
-		wvfShape = new JComboBox();
-		wvfShape.setModel(new DefaultComboBoxModel(new String[] {"DC", "Sine", "Square", "Triangle", "Ramp", "Pulse", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
-		signalConfiguration.add(wvfShape, "4, 6, fill, default");
+		wfmShape = new JComboBox();
+		wfmShape.setModel(new DefaultComboBoxModel(new String[] {"DC", "Sine", "Square", "Triangle", "Ramp", "Pulse", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
+		signalConfiguration.add(wfmShape, "4, 6, fill, default");
 		
 		JLabel lblUnit = new JLabel("Unit:");
 		signalConfiguration.add(lblUnit, "2, 8, right, default");
@@ -397,7 +397,7 @@ public class AG33220aView implements AG33220aInterface{
 
 	@Override
 	public JComboBox getSignalShape() {
-		return wvfShape;
+		return wfmShape;
 	}
 
 	@Override
@@ -513,7 +513,17 @@ public class AG33220aView implements AG33220aInterface{
 
 	@Override
 	public void disableDevice() {
-		// TODO: disable all the text fields and buttons because this device is not working right now
+		typeOfSignal.setEnabled(false);
+		wfmShape.setEnabled(false);
+		unit.setEnabled(false);
+		frequency.setEnabled(false);
+		amplitude.setEnabled(false);
+		offset.setEnabled(false);
+		rampSymmetry.setEnabled(false);
+		dutyCycleSquare.setEnabled(false);
+		dutyCyclePulse.setEnabled(false);
+		disableModulationbuttons();
+		disableExecutionButton();
 		
 	}
 

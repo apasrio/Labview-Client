@@ -209,7 +209,13 @@ public class HP34401aView implements HP34401aInterface{
 	}
 
 	@Override
-	public void disableDevice() {
-		// TODO: disable all the text fields and buttons because this device is not working right now 		
+	public void disableDevice() {	
+		function.setEnabled(false);
+		resolution.setEnabled(false);
+		triggerSource.setEnabled(false);
+		manualRange.setEnabled(false);
+		btnAutozero.setEnabled(false);
+		btnAutoRange.setEnabled(false);
+		configExecutionButton(false);		
 	}
 }

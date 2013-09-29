@@ -623,6 +623,14 @@ public class HP33120aView implements HP33120aInterface{
 	}
 	@Override
 	public void disableDevice() {
-		// TODO: disable all the text fields and buttons because this device is not working right now		
+		typeOfSignal.setEnabled(false);
+		wfmShape.setEnabled(false);
+		unit.setEnabled(false);
+		frequency.setEnabled(false);
+		amplitude.setEnabled(false);
+		offset.setEnabled(false);
+		dutyCycleSquare.setEnabled(false);
+		disableModulationbuttons();
+		disableExecutionButton();
 	}	
 }
