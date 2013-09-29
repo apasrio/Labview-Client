@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.DefaultComboBoxModel;
@@ -9,14 +10,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-import java.awt.Color;
-import javax.swing.UIManager;
 
 
 public class HP34401aView implements HP34401aInterface{
@@ -133,6 +133,10 @@ public class HP34401aView implements HP34401aInterface{
 		dataValidationMsg.setForeground(Color.RED);
 		dataValidationMsg.setEditable(false);
 		dmmPanel.add(dataValidationMsg, "2, 18, 5, 1, center, center");	
+		
+		if(availableDevice == 0){
+			disableDevice();
+		}
 	}
 	
 	// get the HP34401 GUI and its components for display
@@ -202,5 +206,10 @@ public class HP34401aView implements HP34401aInterface{
 	@Override
 	public void disableDataValidationLabel() {
 		dataValidationMsg.setVisible(false);		
+	}
+
+	@Override
+	public void disableDevice() {
+		// TODO: disable all the text fields and buttons because this device is not working right now 		
 	}
 }

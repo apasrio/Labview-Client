@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -29,8 +30,8 @@ public class Frame extends JFrame{
 		this.setVisible(true);
 	}	
 	
-	public void createMainView(String[] receivedData){
-		view = new View(tcpClient, hp33120a, hp34401a, ag33220a, receivedData);
+	public void createMainView(String[] activeDevicesFlags){
+		view = new View(tcpClient, hp33120a, hp34401a, ag33220a, activeDevicesFlags);
 		getContentPane().removeAll();
 		getContentPane().add(view.getMainView());
 		getContentPane().revalidate();

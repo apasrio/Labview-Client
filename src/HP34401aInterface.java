@@ -17,6 +17,7 @@ public interface HP34401aInterface {
 	public void configExecutionButton(boolean status);			// Enable/disable configuration button
 	public void setDataValidationMessage(String message);
 	public void disableDataValidationLabel();
+	public void disableDevice(); 
 	
 	// Definitions for ActionCommands
 	static final String AUTOZERO = "HP34401a_Autozero";

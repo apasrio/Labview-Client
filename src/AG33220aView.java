@@ -322,6 +322,10 @@ public class AG33220aView implements AG33220aInterface{
 		burstPhase.setName(BURST_PHASE);
 		modConfiguration.add(burstPhase, "4, 24, fill, default");
 		burstPhase.setColumns(10);
+		
+		if(availableDevice == 0){
+			disableDevice();
+		}
 	}
 
 	@Override
@@ -505,6 +509,12 @@ public class AG33220aView implements AG33220aInterface{
 	@Override
 	public JComponent getAG33220aPanel() {
 		return agilent_33220a;
+	}
+
+	@Override
+	public void disableDevice() {
+		// TODO: disable all the text fields and buttons because this device is not working right now
+		
 	}
 
 }

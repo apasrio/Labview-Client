@@ -1,8 +1,6 @@
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 
 public interface AG33220aInterface {
@@ -38,6 +36,7 @@ public interface AG33220aInterface {
 	
 	public void setDataValidationMessage(String validationMessage);
 	public void disableDataValidationLabel();
+	public void disableDevice();
 	
 	static final int QUERY_MESSAGE_TYPE = 20;
 	

@@ -14,7 +14,6 @@ import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 
-
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -317,6 +316,10 @@ public class HP33120aView implements HP33120aInterface{
 		modConf.add(burstPhase, "4, 20, fill, default");
 		burstPhase.setColumns(10);
 		
+		if(availableDevice == 0){
+			disableDevice();
+		}
+		
 	}
 	// get the HP34401 GUI and its components for display
 	public JComponent getHP33120aPanel(){
@@ -617,5 +620,9 @@ public class HP33120aView implements HP33120aInterface{
 		burstPhase.setEnabled(true);
 		burstCount.setEnabled(true);
 		burstRate.setEnabled(true);
+	}
+	@Override
+	public void disableDevice() {
+		// TODO: disable all the text fields and buttons because this device is not working right now		
 	}	
 }

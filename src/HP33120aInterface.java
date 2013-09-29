@@ -1,7 +1,6 @@
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 
 public interface HP33120aInterface {
@@ -33,6 +32,7 @@ public interface HP33120aInterface {
 	
 	public void setDataValidationMessage(String validationMessage);
 	public void disableDataValidationLabel();
+	public void disableDevice();
 	
 	// Methods to enable/disable buttons 
 	public void configForDC();
