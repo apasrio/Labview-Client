@@ -74,9 +74,10 @@ public class View{
 		JTabbedPane oscilloscopesPanel = new JTabbedPane(JTabbedPane.TOP);
 		bottomPanel.add(oscilloscopesPanel);
 		
-		JPanel hp_54602b = new JPanel();
-		oscilloscopesPanel.addTab("HP 54602B", null, hp_54602b, null);
-		hp_54602b.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		int hp54602bFlag = Integer.parseInt(availableDevices[3]);
+		HP54602bView hp54602bView = new HP54602bView(hp54602bFlag);
+		oscilloscopesPanel.addTab("HP 54602B", null, hp54602bView.getHP54602bPanel(), null);
+		
 				
 		mainView.setVisible(true);
 	}	

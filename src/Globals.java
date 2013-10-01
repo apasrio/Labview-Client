@@ -36,4 +36,11 @@ public class Globals {
 	static final String MODULATION = "Modulation";
 	static final String SIGNAL = "Simple Signal";
 	static final String FREQUENCY = "Frequency";
+	
+	
+	// HP54602B Strings and constants
+	static final String VAVERAGE = "Vaverage";
+	static final String VMAX = "Vmax";
+	static final String VMIN = "Vmin";
+	static final String VTOP = "Vtop";
 }
