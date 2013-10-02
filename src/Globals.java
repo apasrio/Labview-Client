@@ -43,4 +43,18 @@ public class Globals {
 	static final String VMAX = "Vmax";
 	static final String VMIN = "Vmin";
 	static final String VTOP = "Vtop";
+	static final String VBASE = "Vbase";
+	static final String PERIOD = "Perdiod";
+	static final String DUTY_CYCLE = "Duty Cycle";
+	static final String POSITIVE_WIDTH = "Positive Width";
+	static final String NEGATIVE_WIDTH = "Negative Width";
+	static final String RISE_TIME = "Rise Time";
+	static final String FALL_TIME = "Fall time";
+	static final String AC = "AC";
+	static final String GROUND = "GROUND";
+	static final String X = "1X";
+	static final String XX = "10X";
+	static final String XXX = "100X";
+	static final String CHANNEL1 = "Channel 1";
+	static final String CHANNEL2 = "Channel 2";
 }

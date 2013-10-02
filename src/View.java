@@ -16,8 +16,8 @@ public class View{
 	/**
 	 * Create the applet.
 	 */
-	public View(final TCPClient socketClient, HP33120a hp33120a, HP34401a hp34401a, AG33220a ag33220a, String[] availableDevices) {
-		
+	public View(final TCPClient socketClient, HP33120a hp33120a, HP34401a hp34401a, AG33220a ag33220a, HP54602b hp54602b,String[] availableDevices) {
+		// TODO: Check if a refactor is needed -> Maybe we can initialize models here instead of in Programa
 		/* availableDevices is a string array with the next format 
 		 * -> AG33220aFlag, HP32120aFlag, HP34401aFlag, HP54602bFlag
 		 * The flag is going to be given to the proper View Constructor
@@ -74,10 +74,14 @@ public class View{
 		JTabbedPane oscilloscopesPanel = new JTabbedPane(JTabbedPane.TOP);
 		bottomPanel.add(oscilloscopesPanel);
 		
+		// Start defining HP54602b Components
 		int hp54602bFlag = Integer.parseInt(availableDevices[3]);
 		HP54602bView hp54602bView = new HP54602bView(hp54602bFlag);
 		oscilloscopesPanel.addTab("HP 54602B", null, hp54602bView.getHP54602bPanel(), null);
-		
+		if(hp54602bFlag == 1){
+			HP54602bControl hp54602bControl = new HP54602bControl(hp54602bView, socketClient, hp54602b);
+			hp54602bView.setHP54602bControl(hp54602bControl);
+		}
 				
 		mainView.setVisible(true);
 	}	

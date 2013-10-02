@@ -2,26 +2,37 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
-import javax.swing.JToggleButton;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
+
 import com.jgoodies.forms.factories.FormFactory;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.UIManager;
 
 
 public class HP54602bView implements HP54602bInterface{
 	private JPanel hp54602bPanel = new JPanel();	// Holds the HP54602B GUI and its components, it is raised in the main View
-	private JTextField rangeCh1;
-	private JTextField positionCh1;
-	private JTextField rangeCh2;
-	private JTextField positionCh2;
+	private JTextField rangeCh1, positionCh1, rangeCh2, positionCh2;
+	private JTextField rangeTime, triggerlevel;
+	private JTextField textField;
+	private JComboBox<String> triggerSource, probeCh2, probeCh1, couplingCh2, couplingCh1;
+	private JComboBox<String> functionCh2, functionCh1;
+	private JToggleButton btnCh1, btnCh2, btnCh2BW, btnCh1BW;
+	private JToggleButton autoSet, slopeButton;
+	private JButton configButton;
+	private JTextArea dataValidationMsg;
+	
 	public HP54602bView(int availableDevice){
 		hp54602bPanel.setSize(1280, 480);
 		GridBagLayout gbl_hp54602bPanel = new GridBagLayout();
@@ -82,20 +93,40 @@ public class HP54602bView implements HP54602bInterface{
 		JLabel lblCh1 = new JLabel("Channel 1:");
 		channelPanel.add(lblCh1, "2, 4");
 		
-		JToggleButton btnCh1 = new JToggleButton("CH 1");
+		btnCh1 = new JToggleButton("CH 1");
 		channelPanel.add(btnCh1, "4, 4");
 		
-		JToggleButton btnCh1BW = new JToggleButton("CH 1 BW Limit");
+		btnCh1BW = new JToggleButton("CH 1 BW Limit");
 		channelPanel.add(btnCh1BW, "6, 4");
 		
-		JComboBox comboBox = new JComboBox();
-		channelPanel.add(comboBox, "8, 4, fill, default");
+		functionCh1 = new JComboBox<String>();
+		functionCh1.setModel(new DefaultComboBoxModel<String>(new String[]{
+			Globals.VPP,
+			Globals.VAVERAGE,
+			Globals.VRMS,
+			Globals.VMAX,
+			Globals.VMIN,
+			Globals.VTOP,
+			Globals.VBASE,
+			Globals.FREQUENCY,
+			Globals.PERIOD,
+			Globals.DUTY_CYCLE,
+			Globals.POSITIVE_WIDTH,
+			Globals.NEGATIVE_WIDTH,
+			Globals.RISE_TIME,
+			Globals.FALL_TIME
+		}));
+		channelPanel.add(functionCh1, "8, 4, fill, default");
 		
-		JComboBox comboBox_2 = new JComboBox();
-		channelPanel.add(comboBox_2, "10, 4, fill, default");
+		couplingCh1 = new JComboBox<String>();
+		couplingCh1.setModel(new DefaultComboBoxModel<String>(new String[]{
+			Globals.DC,	Globals.AC, Globals.GROUND }));
+		channelPanel.add(couplingCh1, "10, 4, fill, default");
 		
-		JComboBox comboBox_4 = new JComboBox();
-		channelPanel.add(comboBox_4, "12, 4, fill, default");
+		probeCh1 = new JComboBox<String>();
+		probeCh1.setModel(new DefaultComboBoxModel<String>(new String[] {
+			Globals.X, Globals.XX, Globals.XXX }));
+		channelPanel.add(probeCh1, "12, 4, fill, default");
 		
 		rangeCh1 = new JTextField();
 		channelPanel.add(rangeCh1, "14, 4, fill, default");
@@ -108,20 +139,40 @@ public class HP54602bView implements HP54602bInterface{
 		JLabel lblCh2 = new JLabel("Channel 2:");
 		channelPanel.add(lblCh2, "2, 6");
 		
-		JToggleButton btnCh2 = new JToggleButton("CH 2");
+		btnCh2 = new JToggleButton("CH 2");
 		channelPanel.add(btnCh2, "4, 6");
 		
-		JToggleButton btnCh2BW = new JToggleButton("CH 2 BW Limit");
+		btnCh2BW = new JToggleButton("CH 2 BW Limit");
 		channelPanel.add(btnCh2BW, "6, 6");
 		
-		JComboBox comboBox_1 = new JComboBox();
-		channelPanel.add(comboBox_1, "8, 6, fill, default");
+		functionCh2 = new JComboBox<String>();
+		functionCh2.setModel(new DefaultComboBoxModel<String>(new String[]{
+				Globals.VPP,
+				Globals.VAVERAGE,
+				Globals.VRMS,
+				Globals.VMAX,
+				Globals.VMIN,
+				Globals.VTOP,
+				Globals.VBASE,
+				Globals.FREQUENCY,
+				Globals.PERIOD,
+				Globals.DUTY_CYCLE,
+				Globals.POSITIVE_WIDTH,
+				Globals.NEGATIVE_WIDTH,
+				Globals.RISE_TIME,
+				Globals.FALL_TIME
+			}));
+		channelPanel.add(functionCh2, "8, 6, fill, default");
 		
-		JComboBox comboBox_3 = new JComboBox();
-		channelPanel.add(comboBox_3, "10, 6, fill, default");
+		couplingCh2 = new JComboBox<String>();
+		couplingCh2.setModel(new DefaultComboBoxModel<String>(new String[]{
+				Globals.DC,	Globals.AC, Globals.GROUND }));
+		channelPanel.add(couplingCh2, "10, 6, fill, default");
 		
-		JComboBox comboBox_5 = new JComboBox();
-		channelPanel.add(comboBox_5, "12, 6, fill, default");
+		probeCh2 = new JComboBox<String>();
+		probeCh2.setModel(new DefaultComboBoxModel<String>(new String[] {
+				Globals.X, Globals.XX, Globals.XXX }));
+		channelPanel.add(probeCh2, "12, 6, fill, default");
 		
 		rangeCh2 = new JTextField();
 		channelPanel.add(rangeCh2, "14, 6, fill, default");
@@ -141,6 +192,14 @@ public class HP54602bView implements HP54602bInterface{
 		hp54602bPanel.add(configPanel, gbc_configPanel);
 		configPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
@@ -148,13 +207,52 @@ public class HP54602bView implements HP54602bInterface{
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
 		
-		JToggleButton autoSet = new JToggleButton("autoSet");
+		autoSet = new JToggleButton("AUTOSET");
 		configPanel.add(autoSet, "2, 2");
 		
-		JToggleButton slopeButton = new JToggleButton("Negative Slope");
+		slopeButton = new JToggleButton("Negative Slope");
 		configPanel.add(slopeButton, "4, 2");
+		
+		JLabel lblRangeTime = new JLabel("Range:");
+		configPanel.add(lblRangeTime, "6, 2, right, default");
+		
+		rangeTime = new JTextField();
+		configPanel.add(rangeTime, "8, 2, fill, default");
+		rangeTime.setColumns(10);
+		
+		JLabel lblDelay = new JLabel("Delay:");
+		configPanel.add(lblDelay, "10, 2, right, default");
+		
+		textField = new JTextField();
+		configPanel.add(textField, "12, 2, fill, default");
+		textField.setColumns(10);
+		
+		JLabel lblTrigger = new JLabel("Trigger src:");
+		configPanel.add(lblTrigger, "2, 4, right, default");
+		
+		triggerSource = new JComboBox<String>();
+		triggerSource.setModel(new DefaultComboBoxModel<String>(new String[] {
+			Globals.CHANNEL1, Globals.CHANNEL2 }));
+		configPanel.add(triggerSource, "4, 4, fill, default");
+		
+		JLabel lblTriggerLevel = new JLabel("Trigger Level:");
+		configPanel.add(lblTriggerLevel, "6, 4, right, default");
+		
+		triggerlevel = new JTextField();
+		configPanel.add(triggerlevel, "8, 4, fill, default");
+		triggerlevel.setColumns(10);
+		
+		configButton = new JButton("Do it!");
+		configButton.setActionCommand(CONFIG);
+		configPanel.add(configButton, "12, 4");
+		
+		dataValidationMsg = new JTextArea();
+		dataValidationMsg.setBackground(UIManager.getColor("Label.background"));
+		configPanel.add(dataValidationMsg, "2, 6, 11, 1, fill, fill");
 		
 		JPanel displayPanel = new JPanel();
 		displayPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -165,17 +263,64 @@ public class HP54602bView implements HP54602bInterface{
 		gbc_displayPanel.gridy = 1;
 		hp54602bPanel.add(displayPanel, gbc_displayPanel);
 		
+		if(availableDevice == 0){
+			disableDevice();
+		}
 	}
 	
 	
 	@Override
 	public void configExecutionButton(boolean status) {
-		// TODO Auto-generated method stub		
+		configButton.setEnabled(status);
 	}
 
 
 	@Override
 	public JComponent getHP54602bPanel() {		
 		return hp54602bPanel;
+	}
+
+
+	@Override
+	public void disableDevice() {
+		rangeCh1.setEnabled(false);
+		rangeCh2.setEnabled(false);
+		rangeTime.setEnabled(false);
+		positionCh1.setEnabled(false);
+		positionCh2.setEnabled(false);
+		triggerlevel.setEnabled(false);
+		triggerSource.setEnabled(false);
+		probeCh1.setEnabled(false);
+		probeCh2.setEnabled(false);
+		couplingCh1.setEnabled(false);
+		couplingCh2.setEnabled(false);
+		functionCh1.setEnabled(false);
+		functionCh2.setEnabled(false);
+		btnCh1.setEnabled(false);
+		btnCh2.setEnabled(false);
+		btnCh1BW.setEnabled(false);
+		btnCh2BW.setEnabled(false);
+		autoSet.setEnabled(false);
+		slopeButton.setEnabled(false);
+		configButton.setEnabled(false);
+	}
+
+
+	@Override
+	public void setDataValidationMessage(String Message) {
+		dataValidationMsg.setText(Message);
+		dataValidationMsg.setVisible(true);
+	}
+
+
+	@Override
+	public void disableDataValidationMessage() {
+		dataValidationMsg.setVisible(false);
+	}
+
+
+	@Override
+	public void setHP54602bControl(HP54602bControl control) {
+		configButton.addActionListener(control);		
 	}
 }
