@@ -20,4 +20,9 @@ public class HP54602bControl implements ActionListener{
 			System.out.println("Do it! Button has been pressed!");
 		}
 	}
+	
+	private boolean readFields(){
+		boolean formatError = false;
+		return false;
+	}
 }

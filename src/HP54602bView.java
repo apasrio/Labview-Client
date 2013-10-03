@@ -25,7 +25,7 @@ public class HP54602bView implements HP54602bInterface{
 	private JPanel hp54602bPanel = new JPanel();	// Holds the HP54602B GUI and its components, it is raised in the main View
 	private JTextField rangeCh1, positionCh1, rangeCh2, positionCh2;
 	private JTextField rangeTime, triggerlevel;
-	private JTextField textField;
+	private JTextField delay;
 	private JComboBox<String> triggerSource, probeCh2, probeCh1, couplingCh2, couplingCh1;
 	private JComboBox<String> functionCh2, functionCh1;
 	private JToggleButton btnCh1, btnCh2, btnCh2BW, btnCh1BW;
@@ -227,9 +227,9 @@ public class HP54602bView implements HP54602bInterface{
 		JLabel lblDelay = new JLabel("Delay:");
 		configPanel.add(lblDelay, "10, 2, right, default");
 		
-		textField = new JTextField();
-		configPanel.add(textField, "12, 2, fill, default");
-		textField.setColumns(10);
+		delay = new JTextField();
+		configPanel.add(delay, "12, 2, fill, default");
+		delay.setColumns(10);
 		
 		JLabel lblTrigger = new JLabel("Trigger src:");
 		configPanel.add(lblTrigger, "2, 4, right, default");
@@ -322,5 +322,115 @@ public class HP54602bView implements HP54602bInterface{
 	@Override
 	public void setHP54602bControl(HP54602bControl control) {
 		configButton.addActionListener(control);		
+	}
+
+
+	public JPanel getHp54602bPanel() {
+		return hp54602bPanel;
+	}
+
+
+	public JTextField getRangeCh1() {
+		return rangeCh1;
+	}
+
+
+	public JTextField getPositionCh1() {
+		return positionCh1;
+	}
+
+
+	public JTextField getRangeCh2() {
+		return rangeCh2;
+	}
+
+
+	public JTextField getPositionCh2() {
+		return positionCh2;
+	}
+
+
+	public JTextField getRangeTime() {
+		return rangeTime;
+	}
+
+
+	public JTextField getTriggerlevel() {
+		return triggerlevel;
+	}
+
+
+	public JTextField getTextField() {
+		return delay;
+	}
+
+
+	public JComboBox<String> getTriggerSource() {
+		return triggerSource;
+	}
+
+
+	public JComboBox<String> getProbeCh2() {
+		return probeCh2;
+	}
+
+
+	public JComboBox<String> getProbeCh1() {
+		return probeCh1;
+	}
+
+
+	public JComboBox<String> getCouplingCh2() {
+		return couplingCh2;
+	}
+
+
+	public JComboBox<String> getCouplingCh1() {
+		return couplingCh1;
+	}
+
+
+	public JComboBox<String> getFunctionCh2() {
+		return functionCh2;
+	}
+
+
+	public JComboBox<String> getFunctionCh1() {
+		return functionCh1;
+	}
+
+
+	public JToggleButton getBtnCh1() {
+		return btnCh1;
+	}
+
+
+	public JToggleButton getBtnCh2() {
+		return btnCh2;
+	}
+
+
+	public JToggleButton getBtnCh2BW() {
+		return btnCh2BW;
+	}
+
+
+	public JToggleButton getBtnCh1BW() {
+		return btnCh1BW;
+	}
+
+
+	public JToggleButton getAutoSet() {
+		return autoSet;
+	}
+
+
+	public JToggleButton getSlopeButton() {
+		return slopeButton;
+	}
+
+
+	public JButton getConfigButton() {
+		return configButton;
 	}
 }
