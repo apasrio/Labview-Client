@@ -21,7 +21,7 @@ public interface HP54602bInterface {
 	public JTextField getPositionCh2();
 	public JTextField getRangeTime();
 	public JTextField getTriggerlevel();
-	public JTextField getTextField();
+	public JTextField getTimeDelay();
 	public JComboBox<String> getTriggerSource();
 	public JComboBox<String> getProbeCh2(); 
 	public JComboBox<String> getProbeCh1();

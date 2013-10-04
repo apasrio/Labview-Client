@@ -61,29 +61,47 @@ public class HP54602b {
 				+ "," + String.valueOf(triggerLevel);		
 	}
 
-	public void setCh1(int ch1) {
-		this.ch1 = ch1;
+	public void setCh1(boolean ch1) {
+		if (ch1)
+			this.ch1 = 1;
+		else
+			this.ch1 = 0;
 	}
 
-	public void setCh2(int ch2) {
-		this.ch2 = ch2;
+	public void setCh2(boolean ch2) {
+		if(ch2)
+			this.ch2 = 1;
+		else
+			this.ch2 = 0;
 	}
 
-	public void setCh1BW(int ch1bw) {
-		ch1BW = ch1bw;
+	public void setCh1BW(boolean ch1BW) {
+		if(ch1BW)
+			this.ch1BW = 1;
+		else
+			this.ch1BW = 0;
 	}
 
-	public void setCh2BW(int ch2bw) {
-		ch2BW = ch2bw;
+	public void setCh2BW(boolean ch2BW) {
+		if(ch2BW)
+			this.ch2BW = 1;
+		else
+			this.ch2BW = 0;
 	}
 
-	public void setAutoset(int autoset) {
-		this.autoset = autoset;
+	public void setAutoset(boolean autoset) {
+		if(autoset)
+			this.autoset = 1;
+		else
+			this.autoset = 0;
 	}
 
-	public void setPositiveNegativeSlope(int positiveNegativeSlope) {
-		this.positiveNegativeSlope = positiveNegativeSlope;
-	}
+	public void setPositiveNegativeSlope(boolean positiveNegativeSlope) {
+		if(positiveNegativeSlope)
+			this.positiveNegativeSlope = 1;
+		else
+			this.positiveNegativeSlope = 0;
+		}
 
 	public void setCh1Function(int ch1Function) {
 		this.ch1Function = ch1Function;
@@ -139,5 +157,9 @@ public class HP54602b {
 
 	public void setTriggerLevel(float triggerLevel) {
 		this.triggerLevel = triggerLevel;
+	}
+
+	public String getFrame() {
+		return frame;
 	}
 }

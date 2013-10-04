@@ -360,7 +360,7 @@ public class HP54602bView implements HP54602bInterface{
 	}
 
 
-	public JTextField getTextField() {
+	public JTextField getTimeDelay() {
 		return delay;
 	}
 
