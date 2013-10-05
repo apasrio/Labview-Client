@@ -130,11 +130,13 @@ public class HP54602bView implements HP54602bInterface{
 		channelPanel.add(probeCh1, "12, 4, fill, default");
 		
 		rangeCh1 = new JTextField();
+		rangeCh1.setText("1");
 		channelPanel.add(rangeCh1, "14, 4, fill, default");
 		rangeCh1.setName(CH1_RANGE);
 		rangeCh1.setColumns(10);
 		
 		positionCh1 = new JTextField();
+		positionCh1.setText("0");
 		channelPanel.add(positionCh1, "16, 4, fill, default");
 		positionCh1.setName(CH1_POS);
 		positionCh1.setColumns(10);
@@ -178,11 +180,13 @@ public class HP54602bView implements HP54602bInterface{
 		channelPanel.add(probeCh2, "12, 6, fill, default");
 		
 		rangeCh2 = new JTextField();
+		rangeCh2.setText("1");
 		channelPanel.add(rangeCh2, "14, 6, fill, default");
 		rangeCh2.setName(CH2_RANGE);
 		rangeCh2.setColumns(10);
 		
 		positionCh2 = new JTextField();
+		positionCh2.setText("0");
 		channelPanel.add(positionCh2, "16, 6, fill, default");
 		positionCh2.setName(CH2_POS);
 		positionCh2.setColumns(10);
@@ -226,6 +230,7 @@ public class HP54602bView implements HP54602bInterface{
 		configPanel.add(lblRangeTime, "6, 2, right, default");
 		
 		rangeTime = new JTextField();
+		rangeTime.setText("1");
 		configPanel.add(rangeTime, "8, 2, fill, default");
 		rangeTime.setName(TIME_RANGE);
 		rangeTime.setColumns(10);
@@ -234,6 +239,7 @@ public class HP54602bView implements HP54602bInterface{
 		configPanel.add(lblDelay, "10, 2, right, default");
 		
 		delay = new JTextField();
+		delay.setText("1");
 		configPanel.add(delay, "12, 2, fill, default");
 		delay.setName(TIME_DELAY);
 		delay.setColumns(10);
@@ -250,6 +256,7 @@ public class HP54602bView implements HP54602bInterface{
 		configPanel.add(lblTriggerLevel, "6, 4, right, default");
 		
 		triggerLevel = new JTextField();
+		triggerLevel.setText("0");
 		configPanel.add(triggerLevel, "8, 4, fill, default");
 		triggerLevel.setName(TRIGGER_LEVEL);
 		triggerLevel.setColumns(10);
