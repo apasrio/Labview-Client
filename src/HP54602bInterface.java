@@ -39,4 +39,11 @@ public interface HP54602bInterface {
 	
 	// Elements for action commands
 	static final String CONFIG = "HP54602b_Config";
+	static final String CH1_POS = "HP54602b_CH1_Pos";
+	static final String CH1_RANGE = "HP54602b_CH1_Range";
+	static final String CH2_POS = "HP54602b_CH2_Pos";
+	static final String CH2_RANGE = "HP54602b_CH2_Range";
+	static final String TIME_RANGE = "HP54602b_Time_Range";
+	static final String TIME_DELAY = "HP54602b_Time_Delay";
+	static final String TRIGGER_LEVEL = "HP54602b_Triger_Level";
 }

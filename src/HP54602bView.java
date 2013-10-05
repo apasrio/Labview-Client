@@ -19,12 +19,13 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.UIManager;
+import java.awt.Color;
 
 
 public class HP54602bView implements HP54602bInterface{
 	private JPanel hp54602bPanel = new JPanel();	// Holds the HP54602B GUI and its components, it is raised in the main View
 	private JTextField rangeCh1, positionCh1, rangeCh2, positionCh2;
-	private JTextField rangeTime, triggerlevel;
+	private JTextField rangeTime, triggerLevel;
 	private JTextField delay;
 	private JComboBox<String> triggerSource, probeCh2, probeCh1, couplingCh2, couplingCh1;
 	private JComboBox<String> functionCh2, functionCh1;
@@ -130,10 +131,12 @@ public class HP54602bView implements HP54602bInterface{
 		
 		rangeCh1 = new JTextField();
 		channelPanel.add(rangeCh1, "14, 4, fill, default");
+		rangeCh1.setName(CH1_RANGE);
 		rangeCh1.setColumns(10);
 		
 		positionCh1 = new JTextField();
 		channelPanel.add(positionCh1, "16, 4, fill, default");
+		positionCh1.setName(CH1_POS);
 		positionCh1.setColumns(10);
 		
 		JLabel lblCh2 = new JLabel("Channel 2:");
@@ -176,10 +179,12 @@ public class HP54602bView implements HP54602bInterface{
 		
 		rangeCh2 = new JTextField();
 		channelPanel.add(rangeCh2, "14, 6, fill, default");
+		rangeCh2.setName(CH2_RANGE);
 		rangeCh2.setColumns(10);
 		
 		positionCh2 = new JTextField();
 		channelPanel.add(positionCh2, "16, 6, fill, default");
+		positionCh2.setName(CH2_POS);
 		positionCh2.setColumns(10);
 		
 		JPanel configPanel = new JPanel();
@@ -222,6 +227,7 @@ public class HP54602bView implements HP54602bInterface{
 		
 		rangeTime = new JTextField();
 		configPanel.add(rangeTime, "8, 2, fill, default");
+		rangeTime.setName(TIME_RANGE);
 		rangeTime.setColumns(10);
 		
 		JLabel lblDelay = new JLabel("Delay:");
@@ -229,6 +235,7 @@ public class HP54602bView implements HP54602bInterface{
 		
 		delay = new JTextField();
 		configPanel.add(delay, "12, 2, fill, default");
+		delay.setName(TIME_DELAY);
 		delay.setColumns(10);
 		
 		JLabel lblTrigger = new JLabel("Trigger src:");
@@ -242,15 +249,17 @@ public class HP54602bView implements HP54602bInterface{
 		JLabel lblTriggerLevel = new JLabel("Trigger Level:");
 		configPanel.add(lblTriggerLevel, "6, 4, right, default");
 		
-		triggerlevel = new JTextField();
-		configPanel.add(triggerlevel, "8, 4, fill, default");
-		triggerlevel.setColumns(10);
+		triggerLevel = new JTextField();
+		configPanel.add(triggerLevel, "8, 4, fill, default");
+		triggerLevel.setName(TRIGGER_LEVEL);
+		triggerLevel.setColumns(10);
 		
 		configButton = new JButton("Do it!");
 		configButton.setActionCommand(CONFIG);
 		configPanel.add(configButton, "12, 4");
 		
 		dataValidationMsg = new JTextArea();
+		dataValidationMsg.setForeground(Color.RED);
 		dataValidationMsg.setBackground(UIManager.getColor("Label.background"));
 		configPanel.add(dataValidationMsg, "2, 6, 11, 1, fill, fill");
 		
@@ -288,7 +297,7 @@ public class HP54602bView implements HP54602bInterface{
 		rangeTime.setEnabled(false);
 		positionCh1.setEnabled(false);
 		positionCh2.setEnabled(false);
-		triggerlevel.setEnabled(false);
+		triggerLevel.setEnabled(false);
 		triggerSource.setEnabled(false);
 		probeCh1.setEnabled(false);
 		probeCh2.setEnabled(false);
@@ -321,7 +330,14 @@ public class HP54602bView implements HP54602bInterface{
 
 	@Override
 	public void setHP54602bControl(HP54602bControl control) {
-		configButton.addActionListener(control);		
+		configButton.addActionListener(control);
+		rangeCh2.addFocusListener(control);
+		rangeCh1.addFocusListener(control);
+		positionCh2.addFocusListener(control);
+		positionCh1.addFocusListener(control);
+		rangeTime.addFocusListener(control);
+		triggerLevel.addFocusListener(control);
+		delay.addFocusListener(control);
 	}
 
 
@@ -356,7 +372,7 @@ public class HP54602bView implements HP54602bInterface{
 
 
 	public JTextField getTriggerlevel() {
-		return triggerlevel;
+		return triggerLevel;
 	}
 
 

@@ -1,8 +1,12 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
+import javax.swing.text.JTextComponent;
 
 
-public class HP54602bControl implements ActionListener{
+public class HP54602bControl implements ActionListener, FocusListener{
 	private TCPClient tcpClient;
 	private HP54602bInterface view;
 	private HP54602b hp54602b;
@@ -25,7 +29,28 @@ public class HP54602bControl implements ActionListener{
 		}
 	}
 	
+	@Override
+	public void focusGained(FocusEvent arg0) {
+		// Nothing to do! 
+	}
+
+	@Override
+	public void focusLost(FocusEvent event) {
+		final JTextComponent c = (JTextComponent) event.getSource();
+		String name = c.getName();
+		if(name.equals(HP54602bInterface.CH1_POS) || 
+				name.equals(HP54602bInterface.CH1_RANGE) ||
+				name.equals(HP54602bInterface.CH2_POS) ||
+				name.equals(HP54602bInterface.CH2_RANGE) ||
+				name.equals(HP54602bInterface.TIME_DELAY) ||
+				name.equals(HP54602bInterface.TIME_RANGE) ||
+				name.equals(HP54602bInterface.TRIGGER_LEVEL)){
+			dataValidation(readFields());
+		}
+	}
+	
 	private boolean readFields(){
+		auxDataValidationMessage = "";
 		boolean formatError = false;
 		hp54602b.setAutoset(view.getAutoSet().isSelected());
 		hp54602b.setCh1(view.getBtnCh1().isSelected());
@@ -55,6 +80,16 @@ public class HP54602bControl implements ActionListener{
 		if(triggerDataValidation())
 			formatError = true;
 		return formatError;
+	}
+	
+	private void dataValidation(boolean formatError){
+		if(formatError){
+			view.configExecutionButton(false);
+			view.setDataValidationMessage(auxDataValidationMessage);
+		} else {
+			view.configExecutionButton(true);
+			view.disableDataValidationMessage();
+		}
 	}
 	
 	private boolean ch1RangeDataValidation(){
@@ -132,5 +167,5 @@ public class HP54602bControl implements ActionListener{
 			auxDataValidationMessage += "Trigger level must be a float";
 		}
 		return flag;
-	}
+	}	
 }
