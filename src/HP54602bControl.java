@@ -2,6 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.IOException;
 
 import javax.swing.text.JTextComponent;
 
@@ -22,10 +23,17 @@ public class HP54602bControl implements ActionListener, FocusListener{
 	public void actionPerformed(ActionEvent event) {
 		System.out.println("HP54602B has triggered an event");
 		if(event.getActionCommand().equals(HP54602bInterface.CONFIG)){
+			String[] receivedData = null;
 			System.out.println("Do it! Button has been pressed!");
 			readFields();
 			hp54602b.setFrame();
 			System.out.println(hp54602b.getFrame());
+			try{
+				receivedData = TCPClient.bidirectComm(hp54602b.getFrame(), Globals.HP54602_QUERY_MESSAGE);
+			} catch (Exception e){
+				// TODO: Handle exception
+			}
+			decodeHP54602bResponse(receivedData);
 		}
 	}
 	
@@ -168,4 +176,20 @@ public class HP54602bControl implements ActionListener, FocusListener{
 		}
 		return flag;
 	}	
+	
+	// Method to decode HP54602b response
+		private void decodeHP54602bResponse(String[] receivedData){
+			int messageType = Integer.parseInt(receivedData[0]);			
+			switch(messageType){
+				case 41:
+					// Measuring success
+					// If it is needed to do some calculations with the measured value, method should be called here
+					System.out.println("Everything was ok!");
+					break;
+				case 43:
+					// Measuring failure
+					System.out.println("Something was wrong!!");
+					break;			
+			}
+		}
 }
