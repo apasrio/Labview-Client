@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,15 +12,22 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.UIManager;
-import java.awt.Color;
 
 
 public class HP54602bView implements HP54602bInterface{
@@ -36,7 +44,8 @@ public class HP54602bView implements HP54602bInterface{
 	private JTextField function1Measure;
 	private JLabel lblFunction1;
 	private JLabel lblFunction2;
-	private JTextField textField;
+	private JTextField function2Measure;
+	private ChartPanel chartPanel;
 	
 	public HP54602bView(int availableDevice){
 		hp54602bPanel.setSize(1280, 480);
@@ -286,12 +295,38 @@ public class HP54602bView implements HP54602bInterface{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
 		
 		lblFunction1 = new JLabel("Function 1:");
 		displayPanel.add(lblFunction1, "2, 2, right, default");
@@ -303,13 +338,37 @@ public class HP54602bView implements HP54602bInterface{
 		lblFunction2 = new JLabel("Function 2:");
 		displayPanel.add(lblFunction2, "2, 4, right, default");
 		
-		textField = new JTextField();
-		displayPanel.add(textField, "4, 4, center, default");
-		textField.setColumns(10);
+		function2Measure = new JTextField();
+		displayPanel.add(function2Measure, "4, 4, center, default");
+		function2Measure.setColumns(10);
+		
+		
 		
 		if(availableDevice == 0){
 			disableDevice();
 		}
+		XYSeries series = new XYSeries("XYGraph");
+		series.add(1,1);
+		series.add(1,2);
+		series.add(2,1);
+		series.add(3,9);
+		series.add(4,10);
+		
+		XYSeriesCollection dataset = new XYSeriesCollection();
+		dataset.addSeries(series);
+		
+		//Generate the graph		
+		JFreeChart objChart = ChartFactory.createXYLineChart("Oscilloscope - HP54602B",
+				"Time - ms",
+				"Voltage - mv",
+				dataset,
+				PlotOrientation.VERTICAL,
+				true,
+				true,
+				false);
+				
+		chartPanel = new ChartPanel(objChart);
+		displayPanel.add(chartPanel, "6, 2, 1, 27, fill, fill");		
 	}
 	
 	
@@ -483,5 +542,5 @@ public class HP54602bView implements HP54602bInterface{
 
 	public JButton getConfigButton() {
 		return configButton;
-	}
+	}	
 }
