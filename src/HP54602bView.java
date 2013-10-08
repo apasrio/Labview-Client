@@ -33,6 +33,10 @@ public class HP54602bView implements HP54602bInterface{
 	private JToggleButton autoSet, slopeButton;
 	private JButton configButton;
 	private JTextArea dataValidationMsg;
+	private JTextField function1Measure;
+	private JLabel lblFunction1;
+	private JLabel lblFunction2;
+	private JTextField textField;
 	
 	public HP54602bView(int availableDevice){
 		hp54602bPanel.setSize(1280, 480);
@@ -278,6 +282,30 @@ public class HP54602bView implements HP54602bInterface{
 		gbc_displayPanel.gridx = 0;
 		gbc_displayPanel.gridy = 1;
 		hp54602bPanel.add(displayPanel, gbc_displayPanel);
+		displayPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		lblFunction1 = new JLabel("Function 1:");
+		displayPanel.add(lblFunction1, "2, 2, right, default");
+		
+		function1Measure = new JTextField();
+		displayPanel.add(function1Measure, "4, 2, center, default");
+		function1Measure.setColumns(10);
+		
+		lblFunction2 = new JLabel("Function 2:");
+		displayPanel.add(lblFunction2, "2, 4, right, default");
+		
+		textField = new JTextField();
+		displayPanel.add(textField, "4, 4, center, default");
+		textField.setColumns(10);
 		
 		if(availableDevice == 0){
 			disableDevice();
