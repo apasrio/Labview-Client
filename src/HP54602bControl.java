@@ -2,9 +2,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.io.IOException;
 
 import javax.swing.text.JTextComponent;
+
+import org.jfree.data.xy.XYSeries;
 
 
 public class HP54602bControl implements ActionListener, FocusListener{
@@ -178,18 +179,56 @@ public class HP54602bControl implements ActionListener, FocusListener{
 	}	
 	
 	// Method to decode HP54602b response
-		private void decodeHP54602bResponse(String[] receivedData){
-			int messageType = Integer.parseInt(receivedData[0]);			
-			switch(messageType){
-				case 41:
-					// Measuring success
-					// If it is needed to do some calculations with the measured value, method should be called here
-					System.out.println("Everything was ok!");
-					break;
-				case 43:
-					// Measuring failure
-					System.out.println("Something was wrong!!");
-					break;			
-			}
+	private void decodeHP54602bResponse(String[] receivedData){
+		int messageType = Integer.parseInt(receivedData[0]);			
+		switch(messageType){
+		case 41:
+			// Measuring success
+			// If it is needed to do some calculations with the measured value, method should be called here
+			System.out.println("Everything was ok!");
+			decodeOkResponse(receivedData[1]);
+			break;
+		case 43:
+			// Measuring failure
+			System.out.println("Something was wrong!!");
+			break;			
 		}
+	}
+	
+	private void decodeOkResponse(String receivedOkMessage){
+		String[] decodedResponse;
+		decodedResponse = receivedOkMessage.split(",");
+		view.setFunc1MeasuredValue(decodedResponse[0]);
+		view.setFunc2MeasuredValue(decodedResponse[1]);	
+		int trace1Points = Integer.parseInt(decodedResponse[2]);
+		int trace2Points = Integer.parseInt(decodedResponse[3]);
+		System.out.println("Trace 1: " + decodedResponse[2]);
+		System.out.println("Trace 2: " + decodedResponse[3]);
+		if(trace1Points > 0){
+			// We need to draw trace 1
+			view.setXYSeries(processTrace1(decodedResponse[4], decodedResponse[5], decodedResponse[6]));
+		}
+		if(trace2Points > 0){
+			// We need to draw trace 2
+			
+		}
+	}
+	
+	private XYSeries processTrace1(String t_0, String dtime, String trace){
+		int i;
+		XYSeries series = new XYSeries("Channel 1");
+		Double t0 = Double.parseDouble(t_0);
+		Double dt = Double.parseDouble(dtime);
+		System.out.println(t0);
+		System.out.println(dt);
+		System.out.println("TRACE 1: " + trace);
+		String[] decodedTrace = trace.split(";");
+		for(i=0;i<decodedTrace.length;i++){
+			// We need to add data to XYSeries
+			// t0 is the initial time value and dt is a differential time value
+			series.add(Double.parseDouble(decodedTrace[i]), (t0 + dt*i));
+		}
+		System.out.println(decodedTrace.length);
+		return series;
+	}
 }

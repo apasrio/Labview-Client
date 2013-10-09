@@ -46,6 +46,10 @@ public class HP54602bView implements HP54602bInterface{
 	private JLabel lblFunction2;
 	private JTextField function2Measure;
 	private ChartPanel chartPanel;
+	private XYSeries series = new XYSeries("XYGraph");
+	private XYSeriesCollection dataset = new XYSeriesCollection();
+	private JFreeChart objChart;
+	private JPanel displayPanel;
 	
 	public HP54602bView(int availableDevice){
 		hp54602bPanel.setSize(1280, 480);
@@ -283,7 +287,7 @@ public class HP54602bView implements HP54602bInterface{
 		dataValidationMsg.setBackground(UIManager.getColor("Label.background"));
 		configPanel.add(dataValidationMsg, "2, 6, 11, 1, fill, fill");
 		
-		JPanel displayPanel = new JPanel();
+		displayPanel = new JPanel();
 		displayPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		GridBagConstraints gbc_displayPanel = new GridBagConstraints();
 		gbc_displayPanel.gridwidth = 2;
@@ -347,18 +351,11 @@ public class HP54602bView implements HP54602bInterface{
 		if(availableDevice == 0){
 			disableDevice();
 		}
-		XYSeries series = new XYSeries("XYGraph");
-		series.add(1,1);
-		series.add(1,2);
-		series.add(2,1);
-		series.add(3,9);
-		series.add(4,10);
 		
-		XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series);
 		
 		//Generate the graph		
-		JFreeChart objChart = ChartFactory.createXYLineChart("Oscilloscope - HP54602B",
+		objChart = ChartFactory.createXYLineChart("Oscilloscope - HP54602B",
 				"Time - ms",
 				"Voltage - mv",
 				dataset,
@@ -542,5 +539,37 @@ public class HP54602bView implements HP54602bInterface{
 
 	public JButton getConfigButton() {
 		return configButton;
+	}
+
+
+	@Override
+	public void setFunc1MeasuredValue(String measuredValue) {
+		function1Measure.setText(measuredValue);		
+	}
+
+
+	@Override
+	public void setFunc2MeasuredValue(String measuredValue) {
+		function2Measure.setText(measuredValue);
+	}
+
+
+	@Override
+	public void setXYSeries(XYSeries trace1) {
+		series = trace1;		
+		dataset.addSeries(series);
+		
+		//Generate the graph		
+		objChart = ChartFactory.createXYLineChart("Oscilloscope - HP54602B",
+				"Time - ms",
+				"Voltage - mv",
+				dataset,
+				PlotOrientation.VERTICAL,
+				true,
+				true,
+				false);
+				
+		chartPanel = new ChartPanel(objChart);
+		displayPanel.add(chartPanel, "6, 2, 1, 27, fill, fill");
 	}	
 }

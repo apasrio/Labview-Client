@@ -4,6 +4,8 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
+import org.jfree.data.xy.XYSeries;
+
 
 public interface HP54602bInterface {
 	public void configExecutionButton(boolean status);			// Enable/disable configuration button
@@ -12,7 +14,10 @@ public interface HP54602bInterface {
 	public void disableDataValidationMessage();	
 	
 	public JComponent getHP54602bPanel();	
-	public void setDataValidationMessage(String Message);	
+	public void setDataValidationMessage(String Message);
+	public void setFunc1MeasuredValue(String measuredValue);
+	public void setFunc2MeasuredValue(String measuredValue);
+	public void setXYSeries(XYSeries trace1);
 	
 	// Getters
 	public JTextField getRangeCh1();
