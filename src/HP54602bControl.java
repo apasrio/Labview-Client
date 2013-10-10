@@ -185,12 +185,15 @@ public class HP54602bControl implements ActionListener, FocusListener{
 		case 41:
 			// Measuring success
 			// If it is needed to do some calculations with the measured value, method should be called here
+			view.disableDataValidationMessage();
 			System.out.println("Everything was ok!");
 			decodeOkResponse(receivedData[1]);
 			break;
 		case 43:
 			// Measuring failure
 			System.out.println("Something was wrong!!");
+			System.out.println(receivedData[1]);
+			view.setDataValidationMessage("Error Server: " + receivedData[1]);
 			break;			
 		}
 	}
