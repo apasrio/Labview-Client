@@ -17,7 +17,7 @@ public interface HP54602bInterface {
 	public void setDataValidationMessage(String Message);
 	public void setFunc1MeasuredValue(String measuredValue);
 	public void setFunc2MeasuredValue(String measuredValue);
-	public void setXYSeries(XYSeries trace1);
+	public void setXYSeries(XYSeries trace1, XYSeries trace2);
 	
 	// Getters
 	public JTextField getRangeCh1();

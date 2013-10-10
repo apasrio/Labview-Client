@@ -46,7 +46,8 @@ public class HP54602bView implements HP54602bInterface{
 	private JLabel lblFunction2;
 	private JTextField function2Measure;
 	private ChartPanel chartPanel;
-	private XYSeries series = new XYSeries("XYGraph");
+	private XYSeries channel_1 = new XYSeries("Channel 1");
+	private XYSeries channel_2 = new XYSeries("Channel 2");
 	private XYSeriesCollection dataset = new XYSeriesCollection();
 	private JFreeChart objChart;
 	private JPanel displayPanel;
@@ -352,8 +353,8 @@ public class HP54602bView implements HP54602bInterface{
 			disableDevice();
 		}
 		
-		dataset.addSeries(series);
-		
+		dataset.addSeries(channel_1);
+		dataset.addSeries(channel_2);
 		//Generate the graph		
 		objChart = ChartFactory.createXYLineChart("Oscilloscope - HP54602B",
 				"Time - ms",
@@ -555,14 +556,20 @@ public class HP54602bView implements HP54602bInterface{
 
 
 	@Override
-	public void setXYSeries(XYSeries trace1) {
-		series = trace1;		
-		dataset.addSeries(series);
-		
+	public void setXYSeries(XYSeries trace1, XYSeries trace2) {
+		dataset.removeAllSeries();
+		if(trace1 != null){
+			channel_1 = trace1;
+			dataset.addSeries(channel_1);
+		}			
+		if(trace2 != null){
+			channel_2 = trace2;
+			dataset.addSeries(trace2);
+		}		
 		//Generate the graph		
 		objChart = ChartFactory.createXYLineChart("Oscilloscope - HP54602B",
-				"Time - ms",
-				"Voltage - mv",
+				"Time - seconds",
+				"Voltage - volts",
 				dataset,
 				PlotOrientation.VERTICAL,
 				true,

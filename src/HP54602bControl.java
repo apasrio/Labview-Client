@@ -197,6 +197,8 @@ public class HP54602bControl implements ActionListener, FocusListener{
 	
 	private void decodeOkResponse(String receivedOkMessage){
 		String[] decodedResponse;
+		XYSeries trace1 = null;
+		XYSeries trace2 = null;
 		decodedResponse = receivedOkMessage.split(",");
 		view.setFunc1MeasuredValue(decodedResponse[0]);
 		view.setFunc2MeasuredValue(decodedResponse[1]);	
@@ -206,12 +208,13 @@ public class HP54602bControl implements ActionListener, FocusListener{
 		System.out.println("Trace 2: " + decodedResponse[3]);
 		if(trace1Points > 0){
 			// We need to draw trace 1
-			view.setXYSeries(processTrace1(decodedResponse[4], decodedResponse[5], decodedResponse[6]));
+			trace1 = processTrace1(decodedResponse[4], decodedResponse[5], decodedResponse[6]);
 		}
 		if(trace2Points > 0){
 			// We need to draw trace 2
-			
+			trace2 = processTrace2(decodedResponse[7],decodedResponse[8],decodedResponse[9]);
 		}
+		view.setXYSeries(trace1, trace2);
 	}
 	
 	private XYSeries processTrace1(String t_0, String dtime, String trace){
@@ -226,9 +229,21 @@ public class HP54602bControl implements ActionListener, FocusListener{
 		for(i=0;i<decodedTrace.length;i++){
 			// We need to add data to XYSeries
 			// t0 is the initial time value and dt is a differential time value
-			series.add(Double.parseDouble(decodedTrace[i]), (t0 + dt*i));
+			series.add((t0 + dt*i), Double.parseDouble(decodedTrace[i]));
 		}
-		System.out.println(decodedTrace.length);
+		return series;
+	}
+	
+	private XYSeries processTrace2(String t_0, String dtime, String trace){
+		XYSeries series = new XYSeries ("Channel 2");
+		int i;
+		Double t0 = Double.parseDouble(t_0);
+		Double dt = Double.parseDouble(dtime);
+		System.out.println("Trace 2: " + trace);
+		String[] decodedTrace = trace.split(";");
+		for(i=0;i<decodedTrace.length;i++){
+			series.add((t0 + dt*i), Double.parseDouble(decodedTrace[i]));
+		}
 		return series;
 	}
 }
