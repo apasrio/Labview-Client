@@ -17,6 +17,11 @@ public interface HP54602bInterface {
 	public void setDataValidationMessage(String Message);
 	public void setFunc1MeasuredValue(String measuredValue);
 	public void setFunc2MeasuredValue(String measuredValue);
+	public boolean isCh1Selected();
+	public boolean isCh2Selected();
+	public void setCh1(boolean status);
+	public void setCh2(boolean status);
+	public void setGeneralFields(boolean status);
 	public void setXYSeries(XYSeries trace1, XYSeries trace2);
 	
 	// Getters
@@ -44,6 +49,8 @@ public interface HP54602bInterface {
 	
 	// Elements for action commands
 	static final String CONFIG = "HP54602b_Config";
+	static final String CH1_CONFIG = "HP54602b_CH1_Conf";
+	static final String CH2_CONFIG = "HP54602b_CH2_Conf";
 	static final String CH1_POS = "HP54602b_CH1_Pos";
 	static final String CH1_RANGE = "HP54602b_CH1_Range";
 	static final String CH2_POS = "HP54602b_CH2_Pos";

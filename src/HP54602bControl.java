@@ -35,6 +35,30 @@ public class HP54602bControl implements ActionListener, FocusListener{
 				// TODO: Handle exception
 			}
 			decodeHP54602bResponse(receivedData);
+		}else if (event.getActionCommand().equals(HP54602bInterface.CH1_CONFIG)){
+			if(view.isCh1Selected()){
+				view.setCh1(true);
+				if(!view.isCh2Selected()){
+					view.setGeneralFields(true);
+				}
+			} else {
+				view.setCh1(false);
+				if(!view.isCh2Selected()){
+					view.setGeneralFields(false);
+				}
+			}
+		}else if(event.getActionCommand().equals(HP54602bInterface.CH2_CONFIG)){
+			if(view.isCh2Selected()){
+				view.setCh2(true);
+				if(!view.isCh1Selected()){
+					view.setGeneralFields(true);
+				}
+			} else {
+				view.setCh2(false);
+				if(!view.isCh1Selected()){
+					view.setGeneralFields(false);
+				}
+			}
 		}
 	}
 	

@@ -114,6 +114,7 @@ public class HP54602bView implements HP54602bInterface{
 		
 		btnCh1 = new JToggleButton("CH 1");
 		channelPanel.add(btnCh1, "4, 4");
+		btnCh1.setActionCommand(HP54602bInterface.CH1_CONFIG);
 		
 		btnCh1BW = new JToggleButton("CH 1 BW Limit");
 		channelPanel.add(btnCh1BW, "6, 4");
@@ -164,6 +165,7 @@ public class HP54602bView implements HP54602bInterface{
 		
 		btnCh2 = new JToggleButton("CH 2");
 		channelPanel.add(btnCh2, "4, 6");
+		btnCh2.setActionCommand(HP54602bInterface.CH2_CONFIG);
 		
 		btnCh2BW = new JToggleButton("CH 2 BW Limit");
 		channelPanel.add(btnCh2BW, "6, 6");
@@ -351,6 +353,10 @@ public class HP54602bView implements HP54602bInterface{
 		
 		if(availableDevice == 0){
 			disableDevice();
+		} else {
+			setCh1(false);
+			setCh2(false);
+			setGeneralFields(false);
 		}
 		
 		dataset.addSeries(channel_1);
@@ -405,6 +411,39 @@ public class HP54602bView implements HP54602bInterface{
 		slopeButton.setEnabled(false);
 		configButton.setEnabled(false);
 	}
+	
+	@Override
+	public void setCh1(boolean status) {
+		rangeCh1.setEnabled(status);
+		positionCh1.setEnabled(status);
+		probeCh1.setEnabled(status);
+		couplingCh1.setEnabled(status);
+		functionCh1.setEnabled(status);
+		btnCh1BW.setEnabled(status);
+	}
+
+
+	@Override
+	public void setCh2(boolean status) {
+		rangeCh2.setEnabled(status);		
+		positionCh2.setEnabled(status);		
+		probeCh2.setEnabled(status);
+		couplingCh2.setEnabled(status);
+		functionCh2.setEnabled(status);
+		btnCh2BW.setEnabled(status);
+				
+	}	
+	
+	@Override
+	public void setGeneralFields(boolean status) {
+		autoSet.setEnabled(status);
+		slopeButton.setEnabled(status);
+		configButton.setEnabled(status);
+		triggerLevel.setEnabled(status);
+		triggerSource.setEnabled(status);
+		rangeTime.setEnabled(status);
+		delay.setEnabled(status);
+	}	
 
 
 	@Override
@@ -425,6 +464,8 @@ public class HP54602bView implements HP54602bInterface{
 		configButton.addActionListener(control);
 		rangeCh2.addFocusListener(control);
 		rangeCh1.addFocusListener(control);
+		btnCh1.addActionListener(control);
+		btnCh2.addActionListener(control);
 		positionCh2.addFocusListener(control);
 		positionCh1.addFocusListener(control);
 		rangeTime.addFocusListener(control);
@@ -578,5 +619,18 @@ public class HP54602bView implements HP54602bInterface{
 				
 		chartPanel = new ChartPanel(objChart);
 		displayPanel.add(chartPanel, "6, 2, 1, 27, fill, fill");
-	}	
+	}
+
+
+	@Override
+	public boolean isCh1Selected() {
+		return btnCh1.isSelected();
+	}
+
+
+	@Override
+	public boolean isCh2Selected() {		
+		return btnCh2.isSelected();
+	}
+	
 }
