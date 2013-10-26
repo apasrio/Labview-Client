@@ -84,6 +84,8 @@ public class View{
 		}
 				
 		mainView.setVisible(true);
+		SocketTimer socketTimer = new SocketTimer((Frame) mainView.getParent());
+		socketTimer.setTimer();
 	}	
 	
 	public JComponent getMainView(){
