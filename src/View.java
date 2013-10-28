@@ -1,4 +1,3 @@
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JComponent;
@@ -6,11 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 
-public class View{
-	
+public class View{	
 		
-	static String SocketIp = "127.0.0.1";
-	static int SocketPort = 5020;
 	private JPanel mainView = new JPanel();
 	
 	/**

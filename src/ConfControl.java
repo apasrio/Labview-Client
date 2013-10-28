@@ -9,7 +9,6 @@ public class ConfControl implements ActionListener{
 	private TCPClient tcpClient;
 	private Frame frame;
 	
-	static String SocketIp = "127.0.0.1";
 	static int SocketPort = 5020;
 	
 	public ConfControl(ViewInterface view, TCPClient socketClient, Frame parent){
@@ -26,8 +25,8 @@ public class ConfControl implements ActionListener{
 		if(event.getActionCommand().equals(ViewInterface.CONNECT)){
 			// Metodo para establecer conexión
 			try {
-				tcpClient = new TCPClient(SocketIp, SocketPort);				
-				connectionCode = TCPClient.establishComm(SocketIp);
+				tcpClient = new TCPClient(Globals.IP, SocketPort);				
+				connectionCode = TCPClient.establishComm(Globals.IP);
 			} catch (IOException e) {
 				e.printStackTrace();
 				connectionCode = -1;

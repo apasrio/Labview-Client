@@ -14,6 +14,9 @@ public class Globals {
 	// Timer Constant in milliseconds
 	static final int TIME = 10000;
 	
+	// Server IP
+	static final String IP = "";
+	
 	
 	// Digital Multimeter Constants
 	
