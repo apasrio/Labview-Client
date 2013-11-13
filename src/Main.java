@@ -3,7 +3,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 
-public class Programa extends JFrame{	
+public class Main extends JFrame{	
 
 	public static void main(String[] args) {
 		// Initialize the model and Socket
