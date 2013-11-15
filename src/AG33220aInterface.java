@@ -40,7 +40,21 @@ public interface AG33220aInterface {
 	
 	static final int QUERY_MESSAGE_TYPE = 20;
 	
+	// Methods to enable/disable buttons 
+	public void configForDC();
+	public void configForSine();
+	public void configForSquare();
+	public void configForTriangle();
+	public void configForRamp();
+	public void configForPulse();
+	public void configForNoise();
+	public void configForSinc();
+	public void configForNegRamp();
+	public void configForExpRise();
+	public void configForExpFall();
+	
 	static final String VPP = "Vpp";
+	static final String WAVEFORM_SHAPE = "AG33220A_Waveform_Shape";	
 	static final String VRMS = "Vrms";
 	static final String DB = "dB";		
 	static final String TYPE_OF_SIGNAL = "Type of Signal";

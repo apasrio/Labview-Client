@@ -50,8 +50,34 @@ public class AG33220aControl implements ActionListener, FocusListener{
 				e.printStackTrace();
 			}
 			}
-		if(event.getActionCommand().equals(AG33220aInterface.FREQUENCY)){
-			System.out.println("A system has lost its focus! ");
+		if(event.getActionCommand().equals(AG33220aInterface.WAVEFORM_SHAPE)){
+			System.out.println("HP33120a WAVEFORMSHAPE CHANGED!!!!");			
+			// dataValidation(readFields());
+			combo = view.getSignalShape();
+			String command = (String) combo.getSelectedItem();			
+			if(command.equals(Globals.DC)){
+				view.configForDC();
+			}else if (command.equals(Globals.SINE)){
+				view.configForSine();
+			}else if (command.equals(Globals.SQUARE)){
+				view.configForSquare();
+			}else if (command.equals(Globals.TRIANGLE)){
+				view.configForTriangle();
+			}else if (command.equals(Globals.RAMP)){
+				view.configForRamp();
+			}else if (command.equals(Globals.PULSE)){
+				view.configForPulse();
+			}else if (command.equals(Globals.NOISE)){
+				view.configForNoise();
+			}else if (command.equals(Globals.SINC)){
+				view.configForSinc();
+			}else if (command.equals(Globals.NEG_RAMP)){
+				view.configForNegRamp();
+			}else if (command.equals(Globals.EXP_RISE)){
+				view.configForExpRise();
+			}else if (command.equals(Globals.EXP_FALL)){
+				view.configForExpFall();
+			}
 		}
 	}
 	

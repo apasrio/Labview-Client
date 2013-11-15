@@ -105,6 +105,7 @@ public class AG33220aView implements AG33220aInterface{
 		
 		wfmShape = new JComboBox();
 		wfmShape.setModel(new DefaultComboBoxModel(new String[] {"DC", "Sine", "Square", "Triangle", "Ramp", "Pulse", "Noise", "Sinc", "Neg. Ramp", "Exp. Rise", "Exp. Fall"}));
+		wfmShape.setActionCommand(AG33220aInterface.WAVEFORM_SHAPE);
 		signalConfiguration.add(wfmShape, "4, 6, fill, default");
 		
 		JLabel lblUnit = new JLabel("Unit:");
@@ -372,6 +373,7 @@ public class AG33220aView implements AG33220aInterface{
 	public void setAG33220aControl(AG33220aControl wfmc) {
 		typeOfSignal.addActionListener(wfmc);
 		btnWfmConf.addActionListener(wfmc);
+		wfmShape.addActionListener(wfmc);
 		unit.addActionListener(wfmc);
 		frequency.addFocusListener(wfmc);
 		amplitude.addFocusListener(wfmc);
@@ -527,4 +529,113 @@ public class AG33220aView implements AG33220aInterface{
 		
 	}
 
+	@Override
+	public void configForDC() {
+		amplitude.setEnabled(false);
+		frequency.setEnabled(false);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);
+		rampSymmetry.setEnabled(false);
+		dutyCyclePulse.setEnabled(false);		
+	}
+
+	@Override
+	public void configForSine() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);
+		rampSymmetry.setEnabled(false);
+		dutyCyclePulse.setEnabled(false);
+	}
+
+	@Override
+	public void configForSquare() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(true);
+		rampSymmetry.setEnabled(false);
+		dutyCyclePulse.setEnabled(false);
+	}
+
+	@Override
+	public void configForTriangle() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);
+		rampSymmetry.setEnabled(false);
+		dutyCyclePulse.setEnabled(false);		
+	}
+
+	@Override
+	public void configForRamp() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);
+		rampSymmetry.setEnabled(true);
+		dutyCyclePulse.setEnabled(false);			
+	}
+
+	@Override
+	public void configForPulse() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);
+		rampSymmetry.setEnabled(false);
+		dutyCyclePulse.setEnabled(true);				
+	}
+
+	@Override
+	public void configForNoise() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);
+		rampSymmetry.setEnabled(false);
+		dutyCyclePulse.setEnabled(false);		
+	}
+
+	@Override
+	public void configForSinc() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);
+		rampSymmetry.setEnabled(true);
+		dutyCyclePulse.setEnabled(false);		
+	}
+
+	@Override
+	public void configForNegRamp() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);
+		rampSymmetry.setEnabled(true);
+		dutyCyclePulse.setEnabled(false);		
+	}
+
+	@Override
+	public void configForExpRise() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);
+		rampSymmetry.setEnabled(true);
+		dutyCyclePulse.setEnabled(false);		
+	}
+
+	@Override
+	public void configForExpFall() {
+		amplitude.setEnabled(true);
+		frequency.setEnabled(true);
+		offset.setEnabled(true);
+		dutyCycleSquare.setEnabled(false);
+		rampSymmetry.setEnabled(true);
+		dutyCyclePulse.setEnabled(false);		
+	}
 }
