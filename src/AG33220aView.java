@@ -184,7 +184,7 @@ public class AG33220aView implements AG33220aInterface{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(80dlu;default)"),},
+				ColumnSpec.decode("max(80dlu;default):grow"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,

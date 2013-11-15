@@ -3,6 +3,14 @@ import java.awt.GridLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class View{	
@@ -24,10 +32,16 @@ public class View{
 				
 		JPanel topPanel = new JPanel();
 		mainView.add(topPanel);
-		topPanel.setLayout(new GridLayout(0, 2, 0, 0));
+		topPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("426px:grow"),
+				ColumnSpec.decode("426px:grow"),
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				RowSpec.decode("480px"),}));
 		
 		JTabbedPane waveformGenerators = new JTabbedPane(JTabbedPane.TOP);
-		topPanel.add(waveformGenerators);
+		topPanel.add(waveformGenerators, "2, 1, fill, fill");
 				
 		
 		// Start defining AG33220a Components
@@ -51,12 +65,28 @@ public class View{
 			
 		
 		JTabbedPane digitalMultimeters = new JTabbedPane(JTabbedPane.TOP);
-		topPanel.add(digitalMultimeters);		
+		topPanel.add(digitalMultimeters, "3, 1, fill, fill");		
 		
 		// Start defining HP34401a Components 
 		int hp34401aFlag = Integer.parseInt(availableDevices[2]);
 		HP34401aView hp34401aView = new HP34401aView(hp34401aFlag);
 		digitalMultimeters.addTab("HP34401A", null, hp34401aView.getHP34401aPanel(), null);
+		
+		JPanel controlPanel = new JPanel();
+		topPanel.add(controlPanel, "4, 1, fill, fill");
+		
+		JButton btnDisconnectButton = new JButton("Disconnect!");
+		btnDisconnectButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					TCPClient.bidirectComm("EmptyMessage", Globals.CLOSE_CONNECTION);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		controlPanel.add(btnDisconnectButton);
 		if(hp34401aFlag == 1){
 			HP34401aControl hp34401aControl = new HP34401aControl(hp34401aView,socketClient, hp34401a);
 			hp34401aView.setHP34401aControl(hp34401aControl);
