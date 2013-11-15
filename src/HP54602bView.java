@@ -363,8 +363,8 @@ public class HP54602bView implements HP54602bInterface{
 		dataset.addSeries(channel_2);
 		//Generate the graph		
 		objChart = ChartFactory.createXYLineChart("Oscilloscope - HP54602B",
-				"Time - ms",
-				"Voltage - mv",
+				"Time - Seconds",
+				"Voltage - Volts",
 				dataset,
 				PlotOrientation.VERTICAL,
 				true,

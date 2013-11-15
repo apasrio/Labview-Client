@@ -12,7 +12,7 @@ public class Globals {
 	static final int AVAILABLE_DEVICES_RESPONSE = 7;
 	
 	// Timer Constant in milliseconds
-	static final int TIME = 10000;
+	static final int TIME = 100000000;
 	
 	// Server IP
 	static final String IP = "";
