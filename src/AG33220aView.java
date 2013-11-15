@@ -327,6 +327,7 @@ public class AG33220aView implements AG33220aInterface{
 		if(availableDevice == 0){
 			disableDevice();
 		}
+		configForDC();
 	}
 
 	@Override
