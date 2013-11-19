@@ -20,6 +20,7 @@ public class View{
 		
 	private JPanel mainView = new JPanel();
 	private JTextField fromTextField;
+	private JTextArea bodyTextArea;
 	
 	/**
 	 * Create the applet.
@@ -33,6 +34,7 @@ public class View{
 					
 		mainView.setSize(1280,960);
 		mainView.setLayout(new GridLayout(2, 0, 0, 0));
+		
 				
 		JPanel topPanel = new JPanel();
 		mainView.add(topPanel);
@@ -144,10 +146,16 @@ public class View{
 		JLabel lblResults = new JLabel("Results:");
 		controlPanel.add(lblResults, "1, 8, center, default");
 		
-		JTextArea bodyTextArea = new JTextArea();
+		bodyTextArea = new JTextArea();
 		controlPanel.add(bodyTextArea, "1, 10, 2, 26, fill, fill");
 		
 		JButton btnSubmit = new JButton("Submit!");
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				EmailUtility email = new EmailUtility();
+				email.sendEmail(fromTextField.getText(), bodyTextArea.getText());
+			}
+		});
 		controlPanel.add(btnSubmit, "1, 38, 2, 1, center, default");
 		if(hp34401aFlag == 1){
 			HP34401aControl hp34401aControl = new HP34401aControl(hp34401aView,socketClient, hp34401a);
