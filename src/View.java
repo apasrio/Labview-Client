@@ -11,11 +11,15 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 
 public class View{	
 		
 	private JPanel mainView = new JPanel();
+	private JTextField fromTextField;
 	
 	/**
 	 * Create the applet.
@@ -36,7 +40,7 @@ public class View{
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("426px:grow"),
 				ColumnSpec.decode("426px:grow"),
-				ColumnSpec.decode("default:grow"),},
+				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				RowSpec.decode("480px"),}));
 		
@@ -86,7 +90,65 @@ public class View{
 				}
 			}
 		});
-		controlPanel.add(btnDisconnectButton);
+		controlPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("59px:grow"),
+				ColumnSpec.decode("89px"),},
+			new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC,
+				RowSpec.decode("23px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
+		controlPanel.add(btnDisconnectButton, "1, 2, 2, 1, center, top");
+		
+		JLabel lblFrom = new JLabel("From:");
+		controlPanel.add(lblFrom, "1, 4, center, default");
+		
+		fromTextField = new JTextField();
+		controlPanel.add(fromTextField, "1, 6, 2, 1, fill, default");
+		fromTextField.setColumns(10);
+		
+		JLabel lblResults = new JLabel("Results:");
+		controlPanel.add(lblResults, "1, 8, center, default");
+		
+		JTextArea bodyTextArea = new JTextArea();
+		controlPanel.add(bodyTextArea, "1, 10, 2, 26, fill, fill");
+		
+		JButton btnSubmit = new JButton("Submit!");
+		controlPanel.add(btnSubmit, "1, 38, 2, 1, center, default");
 		if(hp34401aFlag == 1){
 			HP34401aControl hp34401aControl = new HP34401aControl(hp34401aView,socketClient, hp34401a);
 			hp34401aView.setHP34401aControl(hp34401aControl);
