@@ -324,10 +324,11 @@ public class AG33220aView implements AG33220aInterface{
 		modConfiguration.add(burstPhase, "4, 24, fill, default");
 		burstPhase.setColumns(10);
 		
+		configForDC();
+		
 		if(availableDevice == 0){
 			disableDevice();
-		}
-		configForDC();
+		}	
 	}
 
 	@Override

@@ -24,6 +24,7 @@ public class Frame extends JFrame{
 		this.hp54602b = hp54602b;
 		
 		JPanel panel = new JPanel();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int) screenSize.getWidth();

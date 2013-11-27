@@ -93,6 +93,7 @@ public class View{
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					TCPClient.bidirectComm("EmptyMessage", Globals.CLOSE_CONNECTION);
+					System.exit(0);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

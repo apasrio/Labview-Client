@@ -318,8 +318,7 @@ public class HP33120aView implements HP33120aInterface{
 		
 		if(availableDevice == 0){
 			disableDevice();
-		}
-		
+		}		
 	}
 	// get the HP34401 GUI and its components for display
 	public JComponent getHP33120aPanel(){
