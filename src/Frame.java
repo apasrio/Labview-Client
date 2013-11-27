@@ -1,4 +1,6 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,6 +24,12 @@ public class Frame extends JFrame{
 		this.hp54602b = hp54602b;
 		
 		JPanel panel = new JPanel();
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int width = (int) screenSize.getWidth();
+		int height = (int)screenSize.getHeight();
+					
+		panel.setSize(width,height);
 		
 		welcomeWindow = new WelcomeWindow();
 		getContentPane().add(panel, BorderLayout.CENTER);		

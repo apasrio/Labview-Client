@@ -1,19 +1,22 @@
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
 
 public class View{	
@@ -31,8 +34,12 @@ public class View{
 		 * -> AG33220aFlag, HP32120aFlag, HP34401aFlag, HP54602bFlag
 		 * The flag is going to be given to the proper View Constructor
 		 */
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int width = (int) screenSize.getWidth();
+		int height = (int)screenSize.getHeight();
 					
-		mainView.setSize(1280,960);
+		mainView.setSize(width,height);
 		mainView.setLayout(new GridLayout(2, 0, 0, 0));
 		
 				
@@ -147,16 +154,18 @@ public class View{
 		controlPanel.add(lblResults, "1, 8, center, default");
 		
 		bodyTextArea = new JTextArea();
-		controlPanel.add(bodyTextArea, "1, 10, 2, 26, fill, fill");
+		controlPanel.add(bodyTextArea, "1, 10, 2, 15, fill, fill");
 		
 		JButton btnSubmit = new JButton("Submit!");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				EmailUtility email = new EmailUtility();
 				email.sendEmail(fromTextField.getText(), bodyTextArea.getText());
+				JOptionPane.showMessageDialog(mainView,
+                        "Email properly Sent!!", "Email properly Sent!!" ,JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
-		controlPanel.add(btnSubmit, "1, 38, 2, 1, center, default");
+		controlPanel.add(btnSubmit, "1, 26, 2, 1, center, default");
 		if(hp34401aFlag == 1){
 			HP34401aControl hp34401aControl = new HP34401aControl(hp34401aView,socketClient, hp34401a);
 			hp34401aView.setHP34401aControl(hp34401aControl);

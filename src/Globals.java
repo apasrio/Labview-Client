@@ -12,10 +12,10 @@ public class Globals {
 	static final int AVAILABLE_DEVICES_RESPONSE = 7;
 	
 	// Timer Constant in milliseconds
-	static final int TIME = 100000000;
+	static final int TIME = 1800000; // 30 min
 	
 	// Server IP
-	static final String IP = "";
+	static final String IP = "157.88.128.100";
 	
 	
 	// Digital Multimeter Constants
